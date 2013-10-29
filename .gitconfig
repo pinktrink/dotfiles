@@ -1,0 +1,25 @@
+[push]
+	default = simple
+[merge]
+	tool = opendiff
+	conflictstyle = diff3
+[diff]
+	tool = opendiff
+[help]
+	autocorrect = 1
+[color]
+	ui = true
+[column]
+	ui = auto
+[grep]
+	lineNumber = true
+[difftool]
+	prompt = false
+[mergetool]
+	prompt = false
+[core]
+	excludesfile = ~/.gitignore_global
+[commit]
+	template = ~/.git_commit_template
+[include]
+	path = ~/.gituser

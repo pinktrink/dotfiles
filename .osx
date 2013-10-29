@@ -1,0 +1,132 @@
+#!/bin/bash
+
+plist='/usr/libexec/PlistBuddy -c'
+
+fndrplst=~/Library/Preferences/com.apple.finder.plist
+
+# Always show scrollbars
+# defaults write -g AppleShowScrollBars -string Always
+
+# Expand save panel by default
+defaults write -g NSNavPanelExpandedStateForSaveMode -bool true
+
+# Expand print panel by default
+defaults write -g PMPrintingExpandedStateForPrint -bool true
+
+# Automatically quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+# Disable asking about opening untrusted applications
+defaults write com.appleLaunchServices LSQuarantine -bool false
+
+# Bottom right corner click to right clicK
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
+defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
+
+# Enable control tabbing
+defaults write -g AppleKeyboardUIMode -int 3
+
+# Enable ctrl + scroll to zoom
+defaults write com.apple.universalaccess closeViewScrollWheeltoggle -bool true
+defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+
+# Enable key repeat
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Fast keyboard repeat
+defaults write -g KeyRepeat -int 0
+
+# Illuminate keyboard backlight in low light
+defaults write com.apple.BezelServices kDim -bool true
+
+# Dim off keyboard backlight after 5 seconds
+defaults write com.apple.BezelServices kDimTime -int 5
+
+# Disable autocorrect
+defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+
+# No shadow in screenshots
+defaults write com.apple.screencapture disable-shadow -bool true
+
+# Enable font antialiasing
+defaults write -g AppleFontSmoothing -int 2
+
+# Show path bar in Finder
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Allow text selection in Quick Look
+defaults write com.apple.finder QLEnableTextSelection -bool true
+
+# Show full path as Finder window title
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+
+# Search current folder by default
+defaults write com.apple.finder FXDefaultSearchScope -string SCcf
+
+# Disable the worning for changing a file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Don't create .DS_Store on network drives
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+# Remove sprint loading delay
+defaults write -g com.apple.springing.delay -float 0
+
+# Display items in Finder as columns
+defaults write com.apple.finder FXPreferredViewStyle -string clmv
+
+# Empty trash securely
+defaults write com.apple.finder EmptyTrashSecurely -bool true
+
+# AirDrop over other interfaces than just wireless
+defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+
+# Don't rearrange spaces
+defaults write com.apple.dock mru-spaces -bool false
+
+# Enable Twitter debug mode
+defaults write com.twitter.twitter-mac DebugMode -bool true
+
+# Enable quitting Finder
+defaults write com.apple.finder QuitMenuItem -bool true
+
+# Show all filename extensions in Finder
+defaults write -g AppleShowAllExtensions -bool true
+
+# Enable grid snapping for icons
+$plist "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" $fndrplst
+$plist "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" $fndrplst
+$plist "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" $fndrplst
+
+# Tiny-ass Dock icons
+defaults write com.apple.dock tilesize -int 14
+
+# Magnify those tiny-ass icons when I roll over them
+defaults write com.apple.dock magnification -int 1
+defaults write com.apple.dock largesize -float 52.78473
+
+# Enable list view for stacks
+defaults write com.apple.dock use-new-list-stack -bool true
+
+# Enable the Disk Utility debug menu
+defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
+
+# Enable the Safari debug menu
+defaults write com.apple.Safari IncludeInternalDebugMenu -int 1
+
+# Change the highlight color to Bubblegum
+defaults write -g AppleHighlightColor -string "1.000000 0.400000 1.000000"
+
+# Only show open apps in Dock
+defaults write com.apple.dock persistent-apps -array
+
+# Do show an applications list in Dock
+defaults write com.apple.dock persistent-others -array
+defaults write com.apple.dock persistent-others -array-add '{tile-data={arrangement=1; displayas=0; file-data={_CFURLString="file:///Applications/"; _CFURLStringType=15; _CFURLAliasData=<00000000 00940003 00010000 cb69ed6f 0000482b 00000000 00000002 04c70d78 0000cdc1 84210000 00000920 fffe0000 00000000 0000ffff ffff0001 0000000e 001a000c 00410070 0070006c 00690063 00610074 0069006f 006e0073 000f001a 000c004d 00610063 0069006e 0074006f 00730068 00200048 00440012 000c4170 706c6963 6174696f 6e730013 00012f00 ffff0000>;}; file-label="Applications"; file-type=2; preferreditemsize=-1; showas=0;}; tile-type="directory-tile";}'
+
+killall Dock Finder Twitter > /dev/null 2>&1
+
+/Applications/Twitter.app/Contents/MacOS/Twitter > /dev/null 2>&1 &
+
