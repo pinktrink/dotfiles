@@ -23,3 +23,10 @@ set foldlevel=1
 
 " Turn on line numbers
 set nu
+
+" Turn on the ruler
+set ruler
+
+" Highlight trailing whitespace
+highlight WhitespaceEOL ctermbg=red guibg=red
+call matchadd('WhitespaceEOL', '\s\+$')
