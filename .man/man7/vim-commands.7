@@ -1,0 +1,105 @@
+.\" Manpage for vim commands.
+.\" Contact vivek@nixcraft.net.in to correct errors or typos.
+.TH vim-commands 7 "30 Oct 2013" "1.0" "vim commands man page"
+
+.SH MOTIONS
+
+.SS Quantitative
+
+.TP
+.B \fI#\fP
+Let \fI#\fP be any number other than \fB0\fP. This will an action to be done
+\fI#\fP times.
+
+.TP
+.B 0
+The beginning of the line.
+
+.TP
+.B ^
+The beginning of the line after leading whitespace.
+
+.TP
+.B $
+The end of the line.
+
+.TP
+.B G
+The end of the file.
+
+.TP
+.B gg
+The beginning of the file.
+
+.TP
+.B w
+The end of the word plus trailing whitespace.
+
+.TP
+.B e
+The end of the word without trailing whitespace.
+
+.TP
+.B b
+The beginning of the word.
+
+.SH NORMAL MODE COMMANDS
+
+.SS Normal Commands
+
+.TP
+.B a
+Enter insert mode and append text to the cursor's current position.
+
+.TP
+.B A
+Enter insert mode and append text at the end of the current line.
+
+.TP
+.B i
+Enter insert mode and insert text at the cursor's current position.
+
+.TP
+.B I
+Enter insert mode and insert text and the beginning of the line after leading
+whitespace.
+
+.TP
+.B gI
+Enter insert mode and insert text at the very beginning of the line.
+
+.TP
+.B o
+Enter insert mode, create a new line below the current line, and insert text on
+that line.
+
+.TP
+.B O
+Enter insert mode, create a new line above the current line, and insert text on
+that line.
+
+.SS Ex Commands
+
+.TP
+.B :q[uit]
+Quit vim. If there are changes to the buffer, an error will be thrown. Append
+with \fB!\fP to quit regardless of whether or not there are changes.
+
+.TP
+.B :w[rite]
+Write changes to the buffer. Append with
+.B !
+to force an overwrite.
+
+.TP
+.B :wq
+Write changes to the buffer and quit. Append with \fB!\fP to force an overwrite
+and quit.
+
+.TP
+.B :se[t]
+Set a configuration option for the current vim session. Append the option with a
+\fB?\fP to get the current value.
+
+.SH AUTHOR
+Eric Kever (eric@erickever.com)
