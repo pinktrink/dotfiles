@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Attempt to correct mistyped dirs
 shopt -s cdspell
 
