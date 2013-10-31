@@ -38,3 +38,5 @@ export MANPATH=$MANPATH:$HOME/.man
 
 # Make sure anything installed by Brew takes precedence over defaults
 export PATH=/usr/local/bin:$PATH
+
+source $HOME/.bash_alias
