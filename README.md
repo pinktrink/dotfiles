@@ -26,7 +26,7 @@ Sourced by `.bash_profile`, contains useful aliases and functions, including:
 * function `gh-clone <username> <repo_name_without_.git>`: Allows you to easily clone a GitHub repository.
 * function `bb-clone <username> <repo_name_without_.git>`: Allows you to easily clone a BitBucket repository.
 * function `m`: For Django, it runs manage.py from either the project or app level.
-* function `d`: Stores a list of directories in `~/.dlist`, which you can switch to easily with `d <dir_number>`. You can add directories using `d +`, and remove using `d -`. Use `d help` for more information.
+* function `d`: Stores a list of directories in `~/.dlist`, which you can switch to easily with `d <dir_number>`. You can add directories with `d +`, remove with `d -`, and display the list with `d`. Run `d ?` for more information.
 
 ##.git_commit_template
 
