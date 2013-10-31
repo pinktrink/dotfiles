@@ -3,8 +3,8 @@
 # Attempt to correct mistyped dirs
 shopt -s cdspell
 
-# Attempt to expand mistyped dirs (Does not exist?)
-# shopt -s dirspell
+# Attempt to expand mistyped dirs
+shopt -s dirspell
 
 # Do not attempt to show possibilities for empty lines
 shopt -s no_empty_cmd_completion
