@@ -1,0 +1,170 @@
+#!/bin/bash
+
+# This file sets up the base system, installing apps, etc.
+
+sudo true
+
+logfile=$HOME/.setuplog
+tmpapp=/tmp/tmpapp
+
+brew_taps=(
+)
+
+brew_apps=(
+)
+
+osx_apps=(
+    'Adium' 'http://downloads.sourceforge.net/project/adium/Adium_1.5.8.dmg' '-' '-' '-'
+    'SIMBL' 'http://www.culater.net/dl/files/SIMBL-0.9.9.zip' 'check_simbl' 'get_simbl' 'install_simbl'
+)
+
+function do_status () {
+    if [[ $? = 0 ]]; then
+        echo OK
+    else
+        echo 'Failed!'
+
+        exit 1
+    fi
+}
+
+function check_simbl () {
+    return [[ $(ls '/Library/Application\ Support' | grep SIMBL) ]] || [[ ls '~/Library/Application\ Support' | grep SIMBL) ]]
+}
+
+function get_simbl () {
+    curl -L -o /tmp/tmpdl http://www.culater.net/dl/files/SIMBL-0.9.9.zip
+
+    do_status
+
+    echo -n "Unzipping SIMBL..."
+
+    unzip -d /tmp/tmpunzip /tmp/tmpdl
+
+    do_status
+}
+
+function install_simbl () {
+    echo -n "Running Installer..."
+
+    sudo installer -pkg /tmp/tmpunzip/SIMBL-0.9.9/SIMBL-0.9.9.pkg -target /
+
+    do_status
+
+    rm -rf /tmp/tmpunzip
+    rm -rf /tmp/tmpdl
+}
+
+function install_app () {
+    app_name=$1
+    app_url=$2
+    app_check=$3
+    app_retrieve=$4
+    app_install=$5
+
+    echo -n "Retrieving $app_name..."
+
+    echo 'true'
+
+    if ( [[ $($app_check) = '-' ]] && [[ $(ls /Applications | grep "$app_name\\.app") ]] ) || [[ $($app_check) ]]; then
+        echo 'true again'
+        if [[ $app_retrieve != '-' ]]; then
+            curl -L -o "$tmpapp" "$app_url" >> "$logfile" 2>&1
+
+            do_status
+
+            echo -n "Mounting image..."
+
+            volume=$(hdiutil mount "$tmpapp" | tail -n 1 | sed -E 's/.+(\/Volumes\/.+)/\1/')
+
+            do_status
+        else
+            echo $app_retrieve
+
+            do_status
+        fi
+
+        echo -n "Installing $app_name..."
+
+        if [[ $app_install = '-' ]]; then
+            app=$(ls "$volume" | grep \\.app$)
+
+            if ! [[ $(ls /Applications | grep "$app") ]]; then
+                cp -R "$volume/$app" /Applications >> "$logfile" 2>&1
+
+                do_status
+            else
+                echo 'Already Installed'
+            fi
+        else
+            $app_install >> "$logfile" 2>&1
+
+            do_status
+        fi
+
+        hdiutil unmount $volume >> "$logfile" 2>&1
+
+        rm -rf "$tmpapp" >> "$logfile" 2>&1
+    else
+        echo "Already Installed"
+    fi
+}
+
+if ! [[ $(which brew) ]]; then
+    echo -n "Installing homebrew..."
+
+    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)" >> "$logfile" 2>&1
+
+    do_status
+fi
+
+iter=0
+while [[ "${brew_taps[iter]}" ]]; do
+    if ! [[ $(brew tap | grep ${brew_taps[iter]}) ]]; then
+        echo -n "Tapping ${brew_taps[iter]}..."
+
+        brew tap "${brew_taps[iter]}" >> "$logfile" 2>&1
+
+        do_status
+    fi
+
+    iter=$(( $iter + 1 ))
+done
+
+iter=0
+while [[ "${brew_apps[iter]}" ]]; do
+    if ! [[ $(brew which ${brew_apps[iter]}) ]]; then
+        echo -n "Installing ${brew_apps[iter]}..."
+
+        brew install "${brew_apps[iter]}" >> "$logfile" 2>&1
+
+        do_status
+    fi
+
+    iter=$(( $iter + 1 ))
+done
+
+iter=0
+while [[ "${osx_apps[iter]}" ]]; do
+    app_name=${osx_apps[iter]}
+
+    iter=$(( $iter + 1 ))
+
+    app_url=${osx_apps[iter]}
+
+    iter=$(( $iter + 1 ))
+
+    app_check=${osx_apps[iter]}
+
+    iter=$(( $iter + 1 ))
+
+    app_retrieve=${osx_apps[iter]}
+
+    iter=$(( $iter + 1 ))
+
+    app_install=${osx_apps[iter]}
+
+    iter=$(( $iter + 1 ))
+
+    install_app "$app_name" "$app_url" "$app_check" "$app_retrieve" "$app_install"
+done;
