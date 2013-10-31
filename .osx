@@ -105,6 +105,9 @@ $plist "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
 # Set default Terminal theme to Pro
 defaults write com.apple.Terminal "Startup Window Settings" -string Pro
 
+# Set default Terminal shell
+defaults write com.apple.Terminal Shell -string /usr/local/bin/bash
+
 # Tiny-ass Dock icons
 defaults write com.apple.dock tilesize -int 14
 
