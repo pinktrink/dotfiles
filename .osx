@@ -2,7 +2,8 @@
 
 plist='/usr/libexec/PlistBuddy -c'
 
-fndrplst=~/Library/Preferences/com.apple.finder.plist
+finderplist=~/Library/Preferences/com.apple.finder.plist
+termplist=~/Library/Preferences/com.apple.terminal.plist
 
 # Always show scrollbars
 # defaults write -g AppleShowScrollBars -string Always
@@ -96,9 +97,34 @@ defaults write com.apple.finder QuitMenuItem -bool true
 defaults write -g AppleShowAllExtensions -bool true
 
 # Enable grid snapping for icons
-$plist "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" $fndrplst
-$plist "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" $fndrplst
-$plist "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" $fndrplst
+$plist "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" $finderplist
+$plist "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
+$plist "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
+
+# Set default Terminal theme to Pro
+defaults write com.apple.Terminal "Startup Window Settings" -string Pro
+
+# Add Terminal maps for ctrl+Up and ctrl+Down
+$plist "Set :Window\ Settings:Basic:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Basic:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Grass:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Grass:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Homebrew:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Homebrew:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Man\ Page:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Man\ Page:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Novel:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Novel:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Ocean:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Ocean:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Pro:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Pro:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Red\ Sands:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Red\ Sands:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Silver\ Aerogel:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Silver\ Aerogel:keyMapBoundKeys:^F701 \033[5B" $termplist
+$plist "Set :Window\ Settings:Solid\ Colors:keyMapBoundKeys:^F700 \033[5A" $termplist
+$plist "Set :Window\ Settings:Solid\ Colors:keyMapBoundKeys:^F701 \033[5B" $termplist
 
 # Tiny-ass Dock icons
 defaults write com.apple.dock tilesize -int 14
