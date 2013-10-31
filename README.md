@@ -4,7 +4,7 @@ This is a simple repo containing my dotfiles. Most are commented, so you can jum
 
 ##.man
 
-A folder containing miscillaneous manpages which I can refer to. Currently, the following exist:
+A folder containing miscillaneous manpages which I can refer to. Via the `MANPATH` environment variable in `.bash_profile`, they are easily viewable via `man <manpage_name>` Currently, the following exist:
 
 * `vim-commands`: Lists various vim commands
 
@@ -20,7 +20,12 @@ Standard shell configuration. It enables some options in bash and exports some e
 
 ##.bash_alias
 
-Sourced by `.bash_profile`, contains useful aliases.
+Sourced by `.bash_profile`, contains useful aliases, including:
+
+* `chrome`: Run Chrome from the command line so you can pass flags if necessary.
+* `gh-clone <username> <repo_name_without_.git>`: Allows you to easily clone a GitHub repository.
+* `bb-clone <username> <repo_name_without_.git>`: Allows you to easily clone a BitBucket repository.
+* `m`: For Django, it runs manage.py from either the project or app level.
 
 ##.git_commit_template
 
