@@ -4,32 +4,14 @@
 
 .SH MOTIONS
 
-.SS Quantitative
+.SS Quantative
 
 .TP
 .B \fI#\fP
-Let \fI#\fP be any number other than \fB0\fP. This will an action to be done
-\fI#\fP times.
+Let \fI#\fP be any number other than \fB0\fP. This will cause an action to be
+performed \fI#\fP times.
 
-.TP
-.B 0
-The beginning of the line.
-
-.TP
-.B ^
-The beginning of the line after leading whitespace.
-
-.TP
-.B $
-The end of the line.
-
-.TP
-.B G
-The end of the file.
-
-.TP
-.B gg
-The beginning of the file.
+.SS Words
 
 .TP
 .B w
@@ -43,9 +25,51 @@ The end of the word without trailing whitespace.
 .B b
 The beginning of the word.
 
-.SH NORMAL MODE COMMANDS
+.SS Lines
 
-.SS Normal Commands
+.TP
+.B 0
+The beginning of the line.
+
+.TP
+.B ^
+The beginning of the line after leading whitespace.
+
+.TP
+.B $
+The end of the line.
+
+.SS Files
+
+.TP
+.B G
+The end of the file.
+
+.TP
+.B gg
+The beginning of the file.
+
+.SS Explanation
+
+.P
+Non-quantative motions can be preceded by a quantative motion. Commands can also
+be preceded by either a quantative motion, or a combination of a quantative
+motion and a non-quantative motion:
+
+.TP
+.B 3ra
+Replaces the character under the cursor plus the next two characters with 'a'.
+
+.TP
+.B d3w
+Deletes from the cursor to the end of the current word plus the next two words.
+
+.SH NORMAL MODE
+
+Normal mode is the standard mode in vim, allowing you to enter normal commands
+or ex commands, and manipulate text with these commands.
+
+.SS Commands to Enter Insert Mode
 
 .TP
 .B a
@@ -70,13 +94,19 @@ Enter insert mode and insert text at the very beginning of the line.
 
 .TP
 .B o
-Enter insert mode, create a new line below the current line, and insert text on
-that line.
+Create a new line below the current line, and enter insert mode on that line.
 
 .TP
 .B O
-Enter insert mode, create a new line above the current line, and insert text on
-that line.
+Create a new line above the current line, and enter insert mode on that line.
+
+.TP
+.B s
+Delete the character under the cursor and enter insert mode.
+
+.TP
+.B S
+Delete the line and enter insert mode.
 
 .SS Ex Commands
 
