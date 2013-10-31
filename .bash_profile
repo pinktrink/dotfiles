@@ -35,3 +35,6 @@ export HISTCONTROL=ignoredups
 
 # Update the manpath for custom man commands.
 export MANPATH=$MANPATH:$HOME/.man
+
+# Make sure anything installed by Brew takes precedence over defaults
+export PATH=/usr/local/bin:$PATH
