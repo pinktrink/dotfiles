@@ -1,3 +1,11 @@
+" If you're using Terminal, go ahead and install SIMBL and MouseTerm, then go
+" into Terminal > Preferences > Settings > Keyboard, then add the following
+" mappings (Press the escape key to get \033):
+"     Ctrl + Cursor Up: \033[5A
+"     Ctrl + Cursor Down: \033[5B
+"     Ctrl + Cursor Right: \033[5C
+"     Ctrl + Cursor Left: \033[5D
+
 set nocompatible
 
 " Load Pathogen
@@ -39,7 +47,7 @@ set directory=$HOME/.swp
 " Set the updatetime to 250 instead of 4000 (for gitgutter)
 set updatetime=1000
 
-" I'd love to scroll (install SIMBL and MouseTerm first if using Terminal)
+" I'd love to scroll and click
 set mouse=a
 set ttymouse=xterm2
 
@@ -52,10 +60,6 @@ set winwidth=999
 " Fix arrow key maps
 map <ESC>[5C <C-Right>
 map <ESC>[5D <C-Left>
-
-" In order for these two to work you need to add a keymap in Terminal's
-" preferences for \033[5A for Ctrl+Cursor Up and \033[5B for Ctrl+Cursor Down
-" This is done automatically in my .osx
 map <ESC>[5A <C-Up>
 map <ESC>[5B <C-Down>
 
