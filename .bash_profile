@@ -44,4 +44,11 @@ export PATH=/usr/local/bin:$PATH
 # Add ~/.cmd to PATH so that I can use custom commands
 export PATH=$HOME/.cmd:$PATH
 
+# Do not truncate the history
+export HISTFILESIZE=
+export HISTSIZE=
+
+# Add a timestamp to the history
+export HISTTIMEFORMAT='%D %r :: '
+
 source $HOME/.bash_alias
