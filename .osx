@@ -1,9 +1,10 @@
 #!/bin/bash
 
+#This file sets up a bunch of preferences
+
 plist='/usr/libexec/PlistBuddy -c'
 
 finderplist=~/Library/Preferences/com.apple.finder.plist
-termplist=~/Library/Preferences/com.apple.terminal.plist
 
 # Always show scrollbars
 # defaults write -g AppleShowScrollBars -string Always
@@ -104,28 +105,6 @@ $plist "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
 # Set default Terminal theme to Pro
 defaults write com.apple.Terminal "Startup Window Settings" -string Pro
 
-# Add Terminal maps for ctrl+Up and ctrl+Down
-$plist "Set :Window\ Settings:Basic:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Basic:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Grass:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Grass:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Homebrew:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Homebrew:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Man\ Page:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Man\ Page:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Novel:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Novel:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Ocean:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Ocean:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Pro:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Pro:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Red\ Sands:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Red\ Sands:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Silver\ Aerogel:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Silver\ Aerogel:keyMapBoundKeys:^F701 \033[5B" $termplist
-$plist "Set :Window\ Settings:Solid\ Colors:keyMapBoundKeys:^F700 \033[5A" $termplist
-$plist "Set :Window\ Settings:Solid\ Colors:keyMapBoundKeys:^F701 \033[5B" $termplist
-
 # Tiny-ass Dock icons
 defaults write com.apple.dock tilesize -int 14
 
@@ -152,7 +131,16 @@ defaults write com.apple.dock persistent-apps -array
 defaults write com.apple.dock persistent-others -array
 defaults write com.apple.dock persistent-others -array-add '{tile-data={arrangement=1; displayas=0; file-data={_CFURLString="file:///Applications/"; _CFURLStringType=15; _CFURLAliasData=<00000000 00940003 00010000 cb69ed6f 0000482b 00000000 00000002 04c70d78 0000cdc1 84210000 00000920 fffe0000 00000000 0000ffff ffff0001 0000000e 001a000c 00410070 0070006c 00690063 00610074 0069006f 006e0073 000f001a 000c004d 00610063 0069006e 0074006f 00730068 00200048 00440012 000c4170 706c6963 6174696f 6e730013 00012f00 ffff0000>;}; file-label="Applications"; file-type=2; preferreditemsize=-1; showas=0;}; tile-type="directory-tile";}'
 
-killall Dock Finder Twitter > /dev/null 2>&1
+tokill=(Dock Finder Twitter "Disk Utility" Safari Terminal)
 
-/Applications/Twitter.app/Contents/MacOS/Twitter > /dev/null 2>&1 &
+# Only kill/reopen apps that are currently open
+iter=0
+while [[ ! -z "${tokill[iter]}" ]]; do
+    if [[ $(pgrep ${tokill[iter]}) ]]; then
+        killall "${tokill[iter]}"
 
+        open -a "${tokill[iter]}"
+    fi
+
+    iter=$(( $iter + 1 ))
+done
