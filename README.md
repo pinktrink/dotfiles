@@ -20,12 +20,13 @@ Standard shell configuration. It enables some options in bash and exports some e
 
 ##.bash_alias
 
-Sourced by `.bash_profile`, contains useful aliases, including:
+Sourced by `.bash_profile`, contains useful aliases and functions, including:
 
-* `chrome`: Run Chrome from the command line so you can pass flags if necessary.
-* `gh-clone <username> <repo_name_without_.git>`: Allows you to easily clone a GitHub repository.
-* `bb-clone <username> <repo_name_without_.git>`: Allows you to easily clone a BitBucket repository.
-* `m`: For Django, it runs manage.py from either the project or app level.
+* alias `chrome`: Run Chrome from the command line so you can pass flags if necessary.
+* function `gh-clone <username> <repo_name_without_.git>`: Allows you to easily clone a GitHub repository.
+* function `bb-clone <username> <repo_name_without_.git>`: Allows you to easily clone a BitBucket repository.
+* function `m`: For Django, it runs manage.py from either the project or app level.
+* function `d`: Stores a list of directories in `~/.dlist`, which you can switch to easily with `d <dir_number>`. You can add directories using `d +`, and remove using `d -`. Use `d help` for more information.
 
 ##.git_commit_template
 

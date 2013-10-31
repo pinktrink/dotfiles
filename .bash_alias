@@ -5,24 +5,36 @@ alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
 # Easily clone GitHub repos: gh-clone <user> <repo> [<clone-path>]
 function gh-clone(){
-	git clone "git@github.com:$1/$2.git" $3
+    git clone "git@github.com:$1/$2.git" $3
 }
 
 # Easily clone BitBucket repos: bb-clone <user> <repo> [<clone-path>]
 function bb-clone(){
-	git clone "git@bitbucket.com:$1/$2.git" $3
+    git clone "git@bitbucket.com:$1/$2.git" $3
 }
 
 # For Django: run manage.py in either the project or app level
 function m(){
-	if [ -e manage.py ]; then
-		python manage.py "$@"
-	else
-		if [ -e ../manage.py ]; then
-			python ../manage.py "$@"
-		else
-			echo "Cannot find manage.py."
-		fi
-	fi
+    if [ -e manage.py ]; then
+        python manage.py "$@"
+    else
+        if [ -e ../manage.py ]; then
+            python ../manage.py "$@"
+        else
+            echo "Cannot find manage.py."
+        fi
+    fi
 }
 
+# For keeping a list of directories for quick switching
+function d(){
+    if [[ $1 != '' ]] && [[ $1 != '+' ]] && [[ $1 != '-' ]] && [ $1 -eq $1 ] 2>/dev/null; then
+        dr=$(python $HOME/.cmd/pyd.py $@)
+
+        echo $dr
+
+        cd "$dr"
+    else
+        python $HOME/.cmd/pyd.py $@
+    fi
+}

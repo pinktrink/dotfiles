@@ -41,4 +41,7 @@ export MANPATH=$MANPATH:$HOME/.man
 # Make sure anything installed by Brew takes precedence over defaults
 export PATH=/usr/local/bin:$PATH
 
+# Add ~/.cmd to PATH so that I can use custom commands
+export PATH=$HOME/.cmd:$PATH
+
 source $HOME/.bash_alias
