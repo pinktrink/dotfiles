@@ -18,6 +18,9 @@ shopt -s cmdhist
 # Fancier globbing support
 shopt -s extglob
 
+# Append history rather than overwriting it
+shopt -s histappend
+
 # Allow for ** to match multiple levels of directories
 [[ $BASH_VERSION = 4* ]] && shopt -s globstar
 
