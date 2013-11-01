@@ -1,0 +1,32 @@
+# Cycle completions instead of listing with tab or ctrl+right
+TAB: menu-complete
+"\e[5C": menu-complete
+
+# Shift+tab or ctrl+left to go backwards
+"\e[Z": menu-complete-backward
+"\e[5D": menu-complete-backward
+
+# Keep the old-style completion with ctrl+down
+"\e[5B": complete
+
+# No need to press ctrl+down twice
+set show-all-if-ambiguous on
+
+# Ignore case with completions
+set completion-ignore-case on
+
+# Trailing slash on symlinks to directories
+set mark-symlinked-directories on
+
+# Consider text past the cursor when autocompleting
+set skip-completed-text on
+
+# Consider existing text when going through the history via up or down
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Visible bell, quit making noise
+set bell-stype visible
+
+# Show hidden files in completion
+set match-hidden-files

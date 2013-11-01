@@ -24,9 +24,6 @@ shopt -s histappend
 # Allow for ** to match multiple levels of directories
 [[ $BASH_VERSION = 4* ]] && shopt -s globstar
 
-# Any time a command has a nonzero exit status, print it
-trap 'echo "Exit Status: $?"' ERR
-
 # Color is nice
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
@@ -55,3 +52,4 @@ export HISTSIZE=
 export HISTTIMEFORMAT='%D %r :: '
 
 source $HOME/.bash_alias
+source $HOME/.bash_prompt

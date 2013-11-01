@@ -32,10 +32,13 @@ set nofoldenable
 set foldlevel=1
 
 " Turn on line numbers
-set nu
+set number
 
 " Turn on the ruler
 set ruler
+
+" Highlight the current line
+aset cursorline
 
 " Highlight trailing whitespace
 highlight WhitespaceEOL ctermbg=red guibg=red

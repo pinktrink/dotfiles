@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+norm=0
+bold=1
+dim=2
+
+lred=91
+lgreen=92
+
+end="\e[0m"
+
+function get_color () {
+    ret="\e["
+
+    if [ $1 ]; then
+        ret=$ret$1
+
+        if [ $2 ]; then
+            ret=$ret';'$2
+
+            if [ $3 ]; then
+                ret=$ret';'$3
+            fi
+        fi
+    else
+        ret=$ret'0'
+    fi
+
+    echo $ret'm'
+}
+
+function echo_bad_exit () {
+    le=$?
+
+    if [[ $le = 0 ]]; then
+        echo -e "$(get_color $norm $lgreen)$le$end"
+    else
+        echo -e "$(get_color $bold $lred)$le$end"
+    fi
+}
+
+function in_home () {
+    echo $(pwd | grep -c ^$HOME)
+}
+
+function is_git_repo () {
+    git status > /dev/null 2>&1
+
+    return $?
+}
+
+function echo_git_stats () {
+    echo -e ""
+}
+
+function preprompt () {
+    echo $(echo_bad_exit) $(echo_git_stats)
+
+    if [[ $(in_home) = 1 ]]; then
+        export PS1="\h:$(get_color $bold $lgreen)[$end\W$(get_color $bold $lgreen)]$end \u\$ "
+    else
+        export PS1="\h:$(get_color $bold $lred)[$end\W$(get_color $bold $lred)]$end \u\$ "
+    fi
+}
+
+export PROMPT_COMMAND=preprompt
