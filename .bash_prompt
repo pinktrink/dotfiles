@@ -6,7 +6,7 @@ blink=5
 
 lred=91
 lgreen=92
-lorgange=208
+lyellow=93
 
 end="\e[0m"
 endps="\[$end\]"
@@ -39,14 +39,20 @@ function echo_bad_exit () {
     le=$?
 
     if [[ $le = 0 ]]; then
-        echo -e "$(get_color $norm $lgreen)$le$end"
+        echo -e "$(get_color $dim $lgreen)$le$end"
     else
-        echo -e "$(get_color $bold $lred)$le$end"
+        echo -e "$(get_color $norm $lred)$le$end"
     fi
 }
 
 function in_home () {
     echo $(pwd | grep -c ^$HOME)
+}
+
+function get_repo_type () {
+    if [ "$(is_git_repo)" ]; then
+        echo 'git'
+    fi
 }
 
 function is_git_repo () {
@@ -77,12 +83,12 @@ function echo_git_stats () {
         [ "$del" ] || del=0
         [ "$gss" ] || gss=0
 
-        fccolor=$(get_color $norm $lgreen)
+        fccolor=$(get_color $bold $lgreen)
 
         if [[ "$fch" = 4 ]]; then
-            fccolor=$(get_color $norm $lorange)
+            fccolor=$(get_color $bold $lyellow)
         elif [[ "$fch" -gt 4 ]]; then
-            fccolor=$(get_color $norm $lred)
+            fccolor=$(get_color $bold $lred)
         fi
 
         if [ $(( $fch + $ins + $del )) -ne 0 ]; then
@@ -93,8 +99,70 @@ function echo_git_stats () {
     fi
 }
 
+function git_repo_branch () {
+    git rev-parse --abbrev-ref --symbolic-full-name @{u}
+}
+
+function git_repo_behind_count () {
+    git log HEAD..$(git_repo_branch) --oneline | wc -l | sed -E 's/ +([0-9]+)$/\1/'
+}
+
+function git_repo_forward_count () {
+    git log $(git_repo_branch)..HEAD --oneline | wc -l | sed -E 's/ +([0-9]+)$/\1/'
+}
+
+function echo_git_repo_stats () {
+    behind=$(git_repo_behind_count)
+    forward=$(git_repo_forward_count)
+    branch=$(git_repo_branch)
+    merge=''
+    conflict=''
+    statestring=''
+
+    if [[ $(( $behind + $forward )) = 0 ]]; then
+        statestring=$(get_color $norm $lgreen)0$end
+    else
+        statestring="$(get_color $norm $lgreen)+$forward$end $(get_color $norm $lred)-$behind$end"
+
+        if [[ $behind != 0 ]] && [[ $forward != 0 ]]; then
+            statestring=$statestring" $(get_color $norm $lyellow)"'(merge)'$end
+            merge=1
+        fi
+
+        stashed=$(git stash | grep 'No local changes to save')
+        git merge --no-ff $branch > /dev/null 2>&1
+
+        if [[ $? != 0 ]]; then
+            stagestring=stagestring" $(get_color $bold $lred)"'(conflict)'$end
+            conflict=1
+        fi
+
+        git reset --merge > /dev/null 2>&1
+
+        if [ $stashed ]; then
+            git stash pop
+        fi
+    fi
+
+    if [[ $conflict = 1 ]]; then
+        branch=$(get_color $bold $lred)$branch$end
+    elif [[ $merge = 1 ]]; then
+        branch=$(get_color $bold $lyellow)$branch$end
+    fi
+
+    echo -e "$branch [$statestring]"
+}
+
+function get_repo_info () {
+    case "$(get_repo_type)" in
+        "git")
+            echo $(get_repo_type) $(echo_git_stats) $(echo_git_repo_stats)
+        ;;
+    esac
+}
+
 function preprompt () {
-    echo $(echo_bad_exit) $(echo_git_stats)
+    echo $(echo_bad_exit) $(get_repo_info)
 
     if [[ $(in_home) = 1 ]]; then
         export PS1="\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
