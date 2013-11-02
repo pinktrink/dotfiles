@@ -54,15 +54,15 @@ function is_git_repo () {
 }
 
 function git_get_filechanges () {
-    echo $(git diff --shortstat  | sed -E 's/^.+([0-9]+) f.+$/\1/' | grep file)
+    echo $(git diff --shortstat | grep file | sed -E 's/^.+([0-9]+) f.+$/\1/')
 }
 
 function git_get_insertions () {
-    echo $(git diff --shortstat | sed -E 's/^.+ ([0-9]+) i.+$/\1/' | grep insertions)
+    echo $(git diff --shortstat | grep insertion | sed -E 's/^.+ ([0-9]+) i.+$/\1/')
 }
 
 function git_get_deletions () {
-    echo $(git diff --shortstat | sed -E 's/^.+ ([0-9]+) d.+$/\1/' | grep deletions)
+    echo $(git diff --shortstat | grep deletion | sed -E 's/^.+ ([0-9]+) d.+$/\1/')
 }
 
 function echo_git_stats () {
@@ -71,6 +71,11 @@ function echo_git_stats () {
         ins=$(git_get_insertions)
         del=$(git_get_deletions)
         gss=$(git diff --shortstat | sed -e 's/^ *//g' -e 's/ *$//g')
+
+        [ "$fch" ] || fch=0
+        [ "$ins" ] || ins=0
+        [ "$del" ] || del=0
+        [ "$gss" ] || gss=0
 
         export fch
         export ins
