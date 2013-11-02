@@ -6,6 +6,7 @@ blink=5
 
 lred=91
 lgreen=92
+lorgange=208
 
 end="\e[0m"
 endps="\[$end\]"
@@ -49,13 +50,41 @@ function in_home () {
 }
 
 function is_git_repo () {
-    git status > /dev/null 2>&1
+    git status 2> /dev/null
+}
 
-    return $?
+function git_get_filechanges () {
+    echo $(git diff --shortstat | sed -E 's/^.+([0-9]+) f.+$/\1/')
+}
+
+function git_get_insertions () {
+    echo $(git diff --shortstat | sed -E 's/^.+ ([0-9]+) i.+$/\1/')
+}
+
+function git_get_deletions () {
+    echo $(git diff --shortstat | sed -E 's/^.+ ([0-9]+) d.+$/\1/')
 }
 
 function echo_git_stats () {
-    echo -e ""
+    if [ "$(is_git_repo)" ]; then
+        fch=$(git_get_filechanges)
+        ins=$(git_get_insertions)
+        del=$(git_get_deletions)
+
+        fccolor=$(get_color $norm $lgreen)
+
+        if [ $fch -eq 4 ]; then
+            fccolor=$(get_color $norm $lorange)
+        elif [ $fch -gt 4 ]; then
+            fccolor=$(get_color $norm $lred)
+        fi
+
+        if [ $(( $fch + $ins + $del )) -ne 0 ]; then
+            echo -e "[$fccolor$fch$end $(get_color $norm $lgreen)+$ins$end $(get_color $norm $lred)-$del$end]"
+        else
+            echo -e "[$(get_color $norm lgreen)0$end]"
+        fi
+    fi
 }
 
 function preprompt () {
