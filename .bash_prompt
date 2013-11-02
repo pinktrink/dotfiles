@@ -2,6 +2,7 @@
 norm=0
 bold=1
 dim=2
+blink=5
 
 lred=91
 lgreen=92
@@ -61,9 +62,15 @@ function preprompt () {
     echo $(echo_bad_exit) $(echo_git_stats)
 
     if [[ $(in_home) = 1 ]]; then
-        export PS1="\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps \u\$ "
+        export PS1="\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
     else
-        export PS1="\h:$(get_color_ps $bold $lred)[$endps\W$(get_color_ps $bold $lred)]$endps \u\$ "
+        export PS1="\h:$(get_color_ps $bold $lred)[$endps\w$(get_color_ps $bold $lred)]$endps "
+    fi
+
+    if [[ $(id -u) = 0 ]]; then
+        export PS1=$PS1$(get_color_ps $blink $lred)'\u'$endps$(get_color_ps $bold $lred)'\$'$endps' '
+    else
+        export PS1=$PS1$(get_color_ps $norm $lgreen)'\u'$endps$(get_color_ps $bold $lgreen)'\$'$endps' '
     fi
 }
 

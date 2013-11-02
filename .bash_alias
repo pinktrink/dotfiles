@@ -2,6 +2,7 @@
 
 # Just a nice little alias so I can open chrome with switches easily
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias su='su -'
 
 # Easily clone GitHub repos: gh-clone <user> <repo> [<clone-path>]
 function gh-clone(){
