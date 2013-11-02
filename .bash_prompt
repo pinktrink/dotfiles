@@ -73,9 +73,9 @@ function echo_git_stats () {
 
         fccolor=$(get_color $norm $lgreen)
 
-        if [ "$fch" -eq 4 ]; then
+        if [[ "$fch" = 4 ]]; then
             fccolor=$(get_color $norm $lorange)
-        elif [ "$fch" -gt 4 ]; then
+        elif [[ "$fch" -gt 4 ]]; then
             fccolor=$(get_color $norm $lred)
         fi
 
