@@ -67,14 +67,19 @@ function git_get_deletions () {
 
 function echo_git_stats () {
     if [ "$(is_git_repo)" ]; then
-        export fch=$(git_get_filechanges)
-        export ins=$(git_get_insertions)
-        export del=$(git_get_deletions)
-        export gss=$(git diff --shortstat | sed -e 's/^ *//g' -e 's/ *$//g')
+        fch=$(git_get_filechanges)
+        ins=$(git_get_insertions)
+        del=$(git_get_deletions)
+        gss=$(git diff --shortstat | sed -e 's/^ *//g' -e 's/ *$//g')
 
         [[ "$fch" = "$gss" ]] || [ "$fch" ] || fch=0
         [[ "$ins" = "$gss" ]] || [ "$ins" ] || ins=0
         [[ "$del" = "$gss" ]] || [ "$del" ] || del=0
+
+        export fch
+        export ins
+        export del
+        export gss
 
         fccolor=$(get_color $norm $lgreen)
 
