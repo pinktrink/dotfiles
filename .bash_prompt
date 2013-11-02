@@ -54,7 +54,7 @@ function is_git_repo () {
 }
 
 function git_get_filechanges () {
-    echo $(git diff --shortstat | sed -E 's/^.+([0-9]+) f.+$/\1/')
+    echo $(git diff --shortstat  | sed -E 's/^.+([0-9]+) f.+$/\1/')
 }
 
 function git_get_insertions () {
@@ -70,6 +70,11 @@ function echo_git_stats () {
         fch=$(git_get_filechanges)
         ins=$(git_get_insertions)
         del=$(git_get_deletions)
+        gss=$(git diff --shortstat | sed -e 's/^ *//g' -e 's/ *$//g')
+
+        [[ "$fch" = "$gss" ]] || [ "$fch" ] || fch=0
+        [[ "$ins" = "$gss" ]] || [ "$ins" ] || ins=0
+        [[ "$del" = "$gss" ]] || [ "$del" ] || del=0
 
         fccolor=$(get_color $norm $lgreen)
 
