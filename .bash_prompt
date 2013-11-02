@@ -72,9 +72,9 @@ function echo_git_stats () {
         del=$(git_get_deletions)
         gss=$(git diff --shortstat | sed -e 's/^ *//g' -e 's/ *$//g')
 
-        [[ "$fch" = "$gss" ]] || ! [ "$fch" ] || fch=0
-        [[ "$ins" = "$gss" ]] || ! [ "$ins" ] || ins=0
-        [[ "$del" = "$gss" ]] || ! [ "$del" ] || del=0
+        [[ "$fch" != "$gss" ]] || ! [ "$fch" ] || fch=0
+        [[ "$ins" != "$gss" ]] || ! [ "$ins" ] || ins=0
+        [[ "$del" != "$gss" ]] || ! [ "$del" ] || del=0
 
         export fch
         export ins
