@@ -77,11 +77,6 @@ function echo_git_stats () {
         [ "$del" ] || del=0
         [ "$gss" ] || gss=0
 
-        export fch
-        export ins
-        export del
-        export gss
-
         fccolor=$(get_color $norm $lgreen)
 
         if [[ "$fch" = 4 ]]; then
