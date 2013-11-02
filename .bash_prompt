@@ -72,6 +72,11 @@ function echo_git_stats () {
         del=$(git_get_deletions)
         gss=$(git diff --shortstat | sed -e 's/^ *//g' -e 's/ *$//g')
 
+        export fch
+        export ins
+        export del
+        export gss
+
         fccolor=$(get_color $norm $lgreen)
 
         if [[ "$fch" = 4 ]]; then
