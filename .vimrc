@@ -31,6 +31,8 @@ set foldnestmax=12
 set nofoldenable
 set foldlevel=1
 
+set backspace=indent,eol,start
+
 " Turn on line numbers
 set number
 
@@ -38,7 +40,7 @@ set number
 set ruler
 
 " Highlight the current line
-aset cursorline
+set cursorline
 
 " Highlight trailing whitespace
 highlight WhitespaceEOL ctermbg=red guibg=red

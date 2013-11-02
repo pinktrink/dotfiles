@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 norm=0
 bold=1
 dim=2
@@ -8,6 +7,7 @@ lred=91
 lgreen=92
 
 end="\e[0m"
+endps="\[$end\]"
 
 function get_color () {
     ret="\e["
@@ -27,6 +27,10 @@ function get_color () {
     fi
 
     echo $ret'm'
+}
+
+function get_color_ps () {
+    echo "\[$(get_color $1 $2 $3)\]"
 }
 
 function echo_bad_exit () {
@@ -57,9 +61,9 @@ function preprompt () {
     echo $(echo_bad_exit) $(echo_git_stats)
 
     if [[ $(in_home) = 1 ]]; then
-        export PS1="\h:$(get_color $bold $lgreen)[$end\W$(get_color $bold $lgreen)]$end \u\$ "
+        export PS1="\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps \u\$ "
     else
-        export PS1="\h:$(get_color $bold $lred)[$end\W$(get_color $bold $lred)]$end \u\$ "
+        export PS1="\h:$(get_color_ps $bold $lred)[$endps\W$(get_color_ps $bold $lred)]$endps \u\$ "
     fi
 }
 

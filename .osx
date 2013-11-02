@@ -105,7 +105,11 @@ $plist "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
 # Set default Terminal theme to Pro
 defaults write com.apple.Terminal "Startup Window Settings" -string Pro
 
-if [[ $BASH_VERSION = 4* ]] && [[ $(which bash) = /usr/local/bin/bash ]]; then
+if [[ -e /usr/local/bin/bash ]]; then
+    if ! [ $(grep /usr/local/bin/bash /etc/shells) ]; then
+        echo /usr/local/bin/bash | sudo tee -a /etc/shells
+    fi
+
     # Set default Terminal shell
     defaults write com.apple.Terminal Shell -string /usr/local/bin/bash
 
