@@ -94,7 +94,7 @@ function echo_git_stats () {
         if [ $(( $fch + $ins + $del )) -ne 0 ]; then
             echo -e "[$fccolor$fch$end $(get_color $norm $lgreen)+$ins$end $(get_color $norm $lred)-$del$end]"
         else
-            echo -e "[$(get_color $norm $lgreen)0$end]"
+            echo -e "[$(get_color $dim $lgreen)0$end]"
         fi
     fi
 }
@@ -120,7 +120,7 @@ function echo_git_repo_stats () {
     statestring=''
 
     if [[ $(( $behind + $forward )) = 0 ]]; then
-        statestring=$(get_color $norm $lgreen)0$end
+        statestring=$(get_color $dim $lgreen)0$end
     else
         statestring="$(get_color $norm $lgreen)+$forward$end $(get_color $norm $lred)-$behind$end"
 
