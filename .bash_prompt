@@ -39,9 +39,9 @@ function echo_bad_exit () {
     le=$?
 
     if [[ $le = 0 ]]; then
-        echo -e "$(get_color $dim $lgreen)$le$end"
+        echo "$(get_color $dim $lgreen)$le$end"
     else
-        echo -e "$(get_color $norm $lred)$le$end"
+        echo "$(get_color $norm $lred)$le$end"
     fi
 }
 
@@ -92,77 +92,105 @@ function echo_git_stats () {
         fi
 
         if [ $(( $fch + $ins + $del )) -ne 0 ]; then
-            echo -e "[$fccolor$fch$end $(get_color $norm $lgreen)+$ins$end $(get_color $norm $lred)-$del$end]"
+            echo "[$fccolor$fch$end $(get_color $norm $lgreen)+$ins$end $(get_color $norm $lred)-$del$end]"
         else
-            echo -e "[$(get_color $dim $lgreen)0$end]"
+            echo "[$(get_color $dim $lgreen)0$end]"
         fi
     fi
 }
 
 function git_repo_branch () {
-    git rev-parse --abbrev-ref --symbolic-full-name @{u}
+    git rev-parse --abbrev-ref HEAD
 }
 
 function git_repo_behind_count () {
-    git log HEAD..$(git_repo_branch) --oneline | wc -l | sed -E 's/ +([0-9]+)$/\1/'
+    git log HEAD..$1 --oneline | wc -l | sed -E 's/ +([0-9]+)$/\1/'
 }
 
 function git_repo_forward_count () {
-    git log $(git_repo_branch)..HEAD --oneline | wc -l | sed -E 's/ +([0-9]+)$/\1/'
+    git log $1..HEAD --oneline | wc -l | sed -E 's/ +([0-9]+)$/\1/'
 }
 
 function echo_git_repo_stats () {
-    behind=$(git_repo_behind_count)
-    forward=$(git_repo_forward_count)
-    branch=$(git_repo_branch)
+    if [[ $1 = HEAD ]]; then
+        echo "[$(get_color $bold $lred)detached$end]"
+
+        return
+    fi
+
+    behind=$(git_repo_behind_count $1)
+    forward=$(git_repo_forward_count $1)
+    branch=$1
     merge=''
     conflict=''
     statestring=''
 
     if [[ $(( $behind + $forward )) = 0 ]]; then
-        statestring=$(get_color $dim $lgreen)0$end
+        # statestring=$(get_color $dim $lgreen)0$end
+
+        return
     else
         statestring="$(get_color $norm $lgreen)+$forward$end $(get_color $norm $lred)-$behind$end"
 
-        if [[ $behind != 0 ]] && [[ $forward != 0 ]]; then
-            statestring=$statestring" $(get_color $norm $lyellow)"'(merge)'$end
-            merge=1
-        fi
+        # if [[ $behind != 0 ]] && [[ $forward != 0 ]]; then
+        #     statestring=$statestring" $(get_color $norm $lyellow)"'(merge)'$end
+        #     merge=1
+        # fi
 
-        stashed=$(git stash | grep 'No local changes to save')
-        git merge --no-ff $branch > /dev/null 2>&1
+        # stashed=$(git stash | grep 'No local changes to save')
+        # git merge --no-ff $branch > /dev/null 2>&1
 
-        if [[ $? != 0 ]]; then
-            stagestring=stagestring" $(get_color $bold $lred)"'(conflict)'$end
-            conflict=1
-        fi
+        # if [[ $? != 0 ]]; then
+        #     stagestring=stagestring" $(get_color $bold $lred)"'(conflict)'$end
+        #     conflict=1
+        # fi
 
-        git reset --merge > /dev/null 2>&1
+        # git reset --merge > /dev/null 2>&1
 
-        if [ $stashed ]; then
-            git stash pop
-        fi
+        # if [ "$stashed" ]; then
+        #     git stash pop
+        # fi
     fi
 
-    if [[ $conflict = 1 ]]; then
-        branch=$(get_color $bold $lred)$branch$end
-    elif [[ $merge = 1 ]]; then
-        branch=$(get_color $bold $lyellow)$branch$end
+    # if [[ $conflict = 1 ]]; then
+    #     branch=$(get_color $bold $lred)$branch$end
+    # elif [[ $merge = 1 ]]; then
+    #     branch=$(get_color $bold $lyellow)$branch$end
+    # fi
+
+    echo "$branch [$statestring]"
+}
+
+function echo_all_remote_stats () {
+    br=$(git_repo_branch)
+
+    out=''
+
+    if [[ $br = HEAD ]]; then
+        out="$(get_color $bold $lred)detached $(git rev-parse --short HEAD)$end"
+    else
+        brs=$(git branch -a)
+
+        for i in $(git remote); do
+            if [[ -n $(echo $brs | grep remotes/$i/$br) ]]; then
+                out="$out $(echo_git_repo_stats $i/$br)"
+            fi
+        done
     fi
 
-    echo -e "$branch [$statestring]"
+    echo $out
 }
 
 function get_repo_info () {
     case "$(get_repo_type)" in
         "git")
-            echo $(get_repo_type) $(echo_git_stats) $(echo_git_repo_stats)
+            echo $(get_repo_type) $(echo_git_stats) $(echo_all_remote_stats)
         ;;
     esac
 }
 
 function preprompt () {
-    echo $(echo_bad_exit) $(get_repo_info)
+    echo -e $(echo_bad_exit) $(get_repo_info)
 
     if [[ $(in_home) = 1 ]]; then
         export PS1="\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
