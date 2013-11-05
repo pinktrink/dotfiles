@@ -112,15 +112,9 @@ function git_repo_forward_count () {
 }
 
 function echo_git_repo_stats () {
-    if [[ $1 = HEAD ]]; then
-        echo "[$(get_color $bold $lred)detached$end]"
-
-        return
-    fi
-
-    behind=$(git_repo_behind_count $1)
-    forward=$(git_repo_forward_count $1)
-    branch=$1
+    branch="$1/$2"
+    behind=$(git_repo_behind_count $branch)
+    forward=$(git_repo_forward_count $branch)
     merge=''
     conflict=''
     statestring=''
@@ -158,7 +152,7 @@ function echo_git_repo_stats () {
     #     branch=$(get_color $bold $lyellow)$branch$end
     # fi
 
-    echo "$branch [$statestring]"
+    echo "$1 [$statestring]"
 }
 
 function echo_all_remote_stats () {
@@ -173,7 +167,7 @@ function echo_all_remote_stats () {
 
         for i in $(git remote); do
             if [[ -n $(echo $brs | grep remotes/$i/$br) ]]; then
-                out="$out $(echo_git_repo_stats $i/$br)"
+                out="$out $(echo_git_repo_stats $i $br)"
             fi
         done
     fi
