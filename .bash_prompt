@@ -7,7 +7,7 @@ blink=5
 lred=91
 lgreen=92
 lyellow=93
-orange="38;5;208"
+orange="38;5;202"
 
 end="\e[0m"
 endps="\[$end\]"
