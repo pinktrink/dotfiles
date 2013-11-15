@@ -193,6 +193,7 @@ function echo_battery_info () {
 
     blstr=''
     blcolor=''
+    bpcolor=$(get_color $lgreen)
 
     if [ $bat -ne 0 ]; then
         if [ $bat -gt ${battery_warning_threshold[0]} ]; then
@@ -210,7 +211,14 @@ function echo_battery_info () {
         fi
     fi
 
-    echo "$(echo_ws $wsln)"'│'"$blstr"'├'
+    if [[ -n $(ioreg -rc AppleSmartBattery | grep ExternalConnected | grep No) ]]; then
+        bpcolor=$(get_color $lred)
+    fi
+
+    bf=$bpcolor'│'$end
+    be=$bpcolor'├'$end
+
+    echo "$(echo_ws $wsln)"$bf"$blstr"$be
 }
 
 function get_repo_info () {
