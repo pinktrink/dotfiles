@@ -21,6 +21,9 @@ shopt -s extglob
 # Append history rather than overwriting it
 shopt -s histappend
 
+# Nobody needs to see control sequences when they're hit.
+stty -echoctl
+
 # Allow for ** to match multiple levels of directories
 [[ $BASH_VERSION = 4* ]] && shopt -s globstar
 

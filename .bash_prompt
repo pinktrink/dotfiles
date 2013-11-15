@@ -11,6 +11,9 @@ lyellow=93
 end="\e[0m"
 endps="\[$end\]"
 
+files_changed_warning_threshold=5
+battery_warning_threshold=(5 3)
+
 function get_color () {
     ret="\e["
 
@@ -76,18 +79,16 @@ function echo_git_stats () {
         fch=$(git_get_filechanges)
         ins=$(git_get_insertions)
         del=$(git_get_deletions)
-        gss=$(git diff --shortstat | sed -e 's/^ *//g' -e 's/ *$//g')
 
         [ "$fch" ] || fch=0
         [ "$ins" ] || ins=0
         [ "$del" ] || del=0
-        [ "$gss" ] || gss=0
 
         fccolor=$(get_color $bold $lgreen)
 
-        if [[ "$fch" = 4 ]]; then
+        if [[ "$fch" = $files_chaned_warning_threshold ]]; then
             fccolor=$(get_color $bold $lyellow)
-        elif [[ "$fch" -gt 4 ]]; then
+        elif [[ "$fch" -gt $files_changed_warning_threshold ]]; then
             fccolor=$(get_color $bold $lred)
         fi
 
@@ -175,16 +176,60 @@ function echo_all_remote_stats () {
     echo $out
 }
 
+function echo_battery () {
+    echo "scale=1; $(echo "$(ioreg -rc AppleSmartBattery | grep CurrentCapacity | sed -E 's/.+CurrentCapacity.+ ([0-9]+)$/\1/') / $(ioreg -rc AppleSmartBattery | grep MaxCapacity | sed -E 's/.+MaxCapacity.+ ([0-9]+)$/\1/')" | bc -l) * 10" | bc -l | xargs printf "%1.0f"
+}
+
+function echo_ws () {
+    printf "%$(echo $1)s"
+}
+
+function echo_battery_info () {
+    bat=$(echo_battery)
+
+    wsln=$(( $(( $COLUMNS - $1 )) - 12 ))
+
+    blstr=''
+    blcolor=''
+
+    if [ $bat -ne 0 ]; then
+        if [ $bat -gt ${battery_warning_threshold[0]} ]; then
+            blcolor=$(get_color $bold $lgreen)
+        elif [ $bat -le ${battery_warning_threshold[0]} ] && [ $bat -ge ${battery_warning_threshold[1]} ]; then
+            blcolor=$(get_color $bold $lyellow)
+        else
+            blcolor=$(get_color $bold $lred)
+        fi
+
+        blstr="$blcolor$(printf "%$(echo $bat)s" | tr " " "●")$end$(get_color $bold $dim)$(printf "%$(echo $((10 - $bat)))s" | tr " " "●")$end"
+    else
+        if [ $bat -eq 0 ]; then
+            blstr="$(get_color $bold $blink $lred)$(printf "%10s" | tr " " "●")$end"
+        fi
+    fi
+
+    echo "$(echo_ws $wsln)"'│'"$blstr"'├'
+}
+
 function get_repo_info () {
     case "$(get_repo_type)" in
         "git")
-            echo $(get_repo_type) $(echo_git_stats) $(echo_all_remote_stats)
+            echo "git $(git_repo_branch) $(echo_git_stats) $(echo_all_remote_stats)"
         ;;
     esac
 }
 
+function get_sys_info () {
+    ri=$(echo -e "$(echo_bad_exit) $(get_repo_info)")
+    ristripped="$(echo "$ri" | perl -pe 's/\e\[?.*?[\@-~]//g')"
+
+    ln=${#ristripped}
+
+    echo "$ri$(echo_battery_info $ln)"
+}
+
 function preprompt () {
-    echo -e $(echo_bad_exit) $(get_repo_info)
+    echo -e "$(get_sys_info)"
 
     if [[ $(in_home) = 1 ]]; then
         export PS1="\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
