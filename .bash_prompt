@@ -7,6 +7,7 @@ blink=5
 lred=91
 lgreen=92
 lyellow=93
+orange="38;5;208"
 
 end="\e[0m"
 endps="\[$end\]"
@@ -196,7 +197,7 @@ function echo_battery_info () {
         if [ $bat -gt ${battery_warning_threshold[0]} ]; then
             blcolor=$(get_color $bold $lgreen)
         elif [ $bat -le ${battery_warning_threshold[0]} ] && [ $bat -ge ${battery_warning_threshold[1]} ]; then
-            blcolor=$(get_color $bold $lyellow)
+            blcolor=$(get_color $bold $orange)
         else
             blcolor=$(get_color $bold $lred)
         fi
