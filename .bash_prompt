@@ -239,8 +239,7 @@ function get_sys_info () {
 }
 
 function preprompt () {
-    echo
-    echo -e "$(get_sys_info)"
+    echo -e "\n$(get_sys_info)"
 
     if [[ $(in_home) = 1 ]]; then
         export PS1="\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
