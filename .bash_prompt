@@ -178,7 +178,8 @@ function echo_all_remote_stats () {
 }
 
 function echo_battery () {
-    echo "scale=1; $(echo "$(ioreg -rc AppleSmartBattery | grep CurrentCapacity | sed -E 's/.+CurrentCapacity.+ ([0-9]+)$/\1/') / $(ioreg -rc AppleSmartBattery | grep MaxCapacity | sed -E 's/.+MaxCapacity.+ ([0-9]+)$/\1/')" | bc -l) * 10" | bc -l | xargs printf "%1.0f"
+    batlev="$(ioreg -rc AppleSmartBattery)"
+    echo "scale=1; $(echo "$(echo "$batlev" | grep CurrentCapacity | sed -E 's/.+CurrentCapacity.+ ([0-9]+)$/\1/') / $(echo "$batlev" | grep MaxCapacity | sed -E 's/.+MaxCapacity.+ ([0-9]+)$/\1/')" | bc -l) * 10" | bc -l | xargs printf "%1.0f"
 }
 
 function echo_ws () {
