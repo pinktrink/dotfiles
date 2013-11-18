@@ -64,22 +64,23 @@ function is_git_repo () {
 }
 
 function git_get_filechanges () {
-    echo $(git diff --shortstat | grep file | sed -E 's/^.+([0-9]+) f.+$/\1/')
+    echo "$1" | grep file | sed -E 's/^.+([0-9]+) f.+$/\1/'
 }
 
 function git_get_insertions () {
-    echo $(git diff --shortstat | grep insertion | sed -E 's/^.+ ([0-9]+) i.+$/\1/')
+    echo "$1" | grep insertion | sed -E 's/^.+ ([0-9]+) i.+$/\1/'
 }
 
 function git_get_deletions () {
-    echo $(git diff --shortstat | grep deletion | sed -E 's/^.+ ([0-9]+) d.+$/\1/')
+    echo "$1" | grep deletion | sed -E 's/^.+ ([0-9]+) d.+$/\1/'
 }
 
 function echo_git_stats () {
     if [ "$(is_git_repo)" ]; then
-        fch=$(git_get_filechanges)
-        ins=$(git_get_insertions)
-        del=$(git_get_deletions)
+        diffstat="$(git diff --shortstat)"
+        fch=$(git_get_filechanges $diffstat)
+        ins=$(git_get_insertions $diffstat)
+        del=$(git_get_deletions $diffstat)
 
         [ "$fch" ] || fch=0
         [ "$ins" ] || ins=0
@@ -105,73 +106,13 @@ function git_repo_branch () {
     git rev-parse --abbrev-ref HEAD
 }
 
-function git_repo_behind_count () {
-    git log HEAD..$1 --oneline | wc -l | sed -E 's/ +([0-9]+)$/\1/'
-}
-
-function git_repo_forward_count () {
-    git log $1..HEAD --oneline | wc -l | sed -E 's/ +([0-9]+)$/\1/'
-}
-
-function echo_git_repo_stats () {
-    branch="$1/$2"
-    behind=$(git_repo_behind_count $branch)
-    forward=$(git_repo_forward_count $branch)
-    merge=''
-    conflict=''
-    statestring=''
-
-    if [[ $(( $behind + $forward )) = 0 ]]; then
-        # statestring=$(get_color $dim $lgreen)0$end
-
-        return
-    else
-        statestring="$(get_color $norm $lgreen)+$forward$end $(get_color $norm $lred)-$behind$end"
-
-        # if [[ $behind != 0 ]] && [[ $forward != 0 ]]; then
-        #     statestring=$statestring" $(get_color $norm $lyellow)"'(merge)'$end
-        #     merge=1
-        # fi
-
-        # stashed=$(git stash | grep 'No local changes to save')
-        # git merge --no-ff $branch > /dev/null 2>&1
-
-        # if [[ $? != 0 ]]; then
-        #     stagestring=stagestring" $(get_color $bold $lred)"'(conflict)'$end
-        #     conflict=1
-        # fi
-
-        # git reset --merge > /dev/null 2>&1
-
-        # if [ "$stashed" ]; then
-        #     git stash pop
-        # fi
-    fi
-
-    # if [[ $conflict = 1 ]]; then
-    #     branch=$(get_color $bold $lred)$branch$end
-    # elif [[ $merge = 1 ]]; then
-    #     branch=$(get_color $bold $lyellow)$branch$end
-    # fi
-
-    echo "$1 [$statestring]"
-}
-
-function echo_all_remote_stats () {
+function echo_repo_stats () {
     br=$(git_repo_branch)
 
     out=''
 
     if [[ $br = HEAD ]]; then
         out="$(get_color $bold $lred)detached $(git rev-parse --short HEAD)$end"
-    else
-        brs=$(git branch -a)
-
-        for i in $(git remote); do
-            if [[ -n $(echo $brs | grep remotes/$i/$br) ]]; then
-                out="$out $(echo_git_repo_stats $i $br)"
-            fi
-        done
     fi
 
     echo $out
@@ -230,7 +171,7 @@ function echo_battery_info () {
 function get_repo_info () {
     case "$(get_repo_type)" in
         "git")
-            echo "git $(git_repo_branch) $(echo_git_stats) $(echo_all_remote_stats)"
+            echo "git $(git_repo_branch) $(echo_git_stats) $(echo_repo_stats)"
         ;;
     esac
 }
