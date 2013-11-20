@@ -21,6 +21,16 @@ function pman () {
     cache_man_pdf "$@"
 
     if [ $? -eq 0 ]; then
+        open -a Preview "$pmancache/$@.pdf"
+    else
+        return 1
+    fi
+}
+
+function qman () {
+    cache_man_pdf "$@"
+
+    if [ $? -eq 0 ]; then
         ( qlmanage -p "$pmancache/$@.pdf" & ) > /dev/null 2>&1
     else
         return 1
