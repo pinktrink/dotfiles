@@ -4,7 +4,7 @@ smancache=$HOME/.usr/etc/cache/sman
 
 function cache_man_txt () {
     if ! [[ -f "$smancache/$@.txt" ]]; then
-        tmpman="$(MANWIDTH=120 zman $@)"
+        tmpman="$(MANWIDTH=120 man $@)"
 
         if [ $? -eq 0 ]; then
             echo "Caching man page for $@."
