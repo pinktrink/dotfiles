@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Attempt to expand mistyped dirs
+shopt -s dirspell
+
+# Allow for ** to match multiple levels of directories
+shopt -s globstar

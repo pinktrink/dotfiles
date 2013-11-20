@@ -3,9 +3,6 @@
 # Attempt to correct mistyped dirs
 shopt -s cdspell
 
-# Attempt to expand mistyped dirs
-shopt -s dirspell
-
 # Do not attempt to show possibilities for empty lines
 shopt -s no_empty_cmd_completion
 
@@ -23,9 +20,6 @@ shopt -s histappend
 
 # Nobody needs to see control sequences when they're hit.
 stty -echoctl
-
-# Allow for ** to match multiple levels of directories
-[[ $BASH_VERSION = 4* ]] && shopt -s globstar
 
 # Color is nice
 export CLICOLOR=1
@@ -56,6 +50,10 @@ export HISTTIMEFORMAT='%D %r :: '
 
 # Don't allow virtualenv to modify the bash prompt.
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+if [[ $BASH_VERSION = 4* ]]; then
+    source $HOME/.usr/etc/bash4rc
+fi
 
 for inc in $HOME/.usr/etc/bash_funcs/*; do
     if [[ -f $inc ]]; then
