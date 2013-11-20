@@ -130,7 +130,7 @@ function echo_ws () {
 function echo_battery_info () {
     local bat=$(echo_battery)
 
-    local wsln=$(( $(( $COLUMNS - $1 )) - 12 ))
+    local wsln=$(( $(( $(tput cols) - $1 )) - 12 ))
 
     local blstr=''
     local blcolor=''
