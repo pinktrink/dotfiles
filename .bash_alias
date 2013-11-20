@@ -32,9 +32,13 @@ function d(){
     if [[ $1 != '' ]] && [[ $1 != '+' ]] && [[ $1 != '-' ]] && [ $1 -eq $1 ] 2>/dev/null; then
         dr=$(python $HOME/.cmd/pyd.py $@)
 
+        ex=$?
+
         echo $dr
 
-        cd "$dr"
+        if [ $ex -eq 0 ]; then
+            cd "$dr"
+        fi
     else
         python $HOME/.cmd/pyd.py $@
     fi
