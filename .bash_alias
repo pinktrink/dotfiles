@@ -82,3 +82,7 @@ function pmandb () {
         cache_man_pdf "$i" 2> /dev/null
     done
 }
+
+function sman () {
+    man "$@" | col -b | subl
+}
