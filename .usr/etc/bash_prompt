@@ -16,7 +16,7 @@ files_changed_warning_threshold=5
 battery_warning_threshold=(5 3)
 
 function get_color () {
-    ret="\e["
+    local ret="\e["
 
     if [ $1 ]; then
         ret=$ret$1
@@ -40,7 +40,7 @@ function get_color_ps () {
 }
 
 function echo_bad_exit () {
-    le=$?
+    local le=$?
 
     if [[ $le = 0 ]]; then
         echo "$(get_color $dim $lgreen)$le$end"
@@ -77,16 +77,16 @@ function git_get_deletions () {
 
 function echo_git_stats () {
     if [ "$(is_git_repo)" ]; then
-        diffstat="$(git diff --shortstat)"
-        fch=$(git_get_filechanges $diffstat)
-        ins=$(git_get_insertions $diffstat)
-        del=$(git_get_deletions $diffstat)
+        local diffstat="$(git diff --shortstat)"
+        local fch=$(git_get_filechanges $diffstat)
+        local ins=$(git_get_insertions $diffstat)
+        local del=$(git_get_deletions $diffstat)
 
         [ "$fch" ] || fch=0
         [ "$ins" ] || ins=0
         [ "$del" ] || del=0
 
-        fccolor=$(get_color $bold $lgreen)
+        local fccolor=$(get_color $bold $lgreen)
 
         if [[ "$fch" = $files_chaned_warning_threshold ]]; then
             fccolor=$(get_color $bold $lyellow)
@@ -107,9 +107,9 @@ function git_repo_branch () {
 }
 
 function echo_repo_stats () {
-    br=$(git_repo_branch)
+    local br=$(git_repo_branch)
 
-    out=''
+    local out=''
 
     if [[ $br = HEAD ]]; then
         out="$(get_color $bold $lred)detached $(git rev-parse --short HEAD)$end"
@@ -119,7 +119,7 @@ function echo_repo_stats () {
 }
 
 function echo_battery () {
-    batlev="$(ioreg -rc AppleSmartBattery)"
+    local batlev="$(ioreg -rc AppleSmartBattery)"
     echo "scale=1; $(echo "$(echo "$batlev" | grep CurrentCapacity | sed -E 's/.+CurrentCapacity.+ ([0-9]+)$/\1/') / $(echo "$batlev" | grep MaxCapacity | sed -E 's/.+MaxCapacity.+ ([0-9]+)$/\1/')" | bc -l) * 10" | bc -l | xargs printf "%1.0f"
 }
 
@@ -128,13 +128,13 @@ function echo_ws () {
 }
 
 function echo_battery_info () {
-    bat=$(echo_battery)
+    local bat=$(echo_battery)
 
-    wsln=$(( $(( $COLUMNS - $1 )) - 12 ))
+    local wsln=$(( $(( $COLUMNS - $1 )) - 12 ))
 
-    blstr=''
-    blcolor=''
-    bpcolor=$(get_color $bold $orange)
+    local blstr=''
+    local blcolor=''
+    local bpcolor=$(get_color $bold $orange)
 
     if [ $bat -ne 0 ]; then
         if [ $bat -gt ${battery_warning_threshold[0]} ]; then
@@ -152,7 +152,7 @@ function echo_battery_info () {
         fi
     fi
 
-    batlev="$(ioreg -rc AppleSmartBattery)"
+    local batlev="$(ioreg -rc AppleSmartBattery)"
 
     if [[ -n $(echo "$batlev" | grep ExternalConnected | grep No) ]]; then
         bpcolor=$(get_color $bold $lred)
@@ -162,8 +162,8 @@ function echo_battery_info () {
         bpcolor=$(get_color $bold $lgreen)
     fi
 
-    bf=$bpcolor'│'$end
-    be=$bpcolor'├'$end
+    local bf=$bpcolor'│'$end
+    local be=$bpcolor'├'$end
 
     echo "$(echo_ws $wsln)"$bf"$blstr"$be
 }
@@ -177,10 +177,10 @@ function get_repo_info () {
 }
 
 function get_sys_info () {
-    ri=$(echo -e "$(echo_bad_exit) $(get_repo_info)")
-    ristripped="$(echo "$ri" | perl -pe 's/\e\[?.*?[\@-~]//g')"
+    local ri=$(echo -e "$(echo_bad_exit) $(get_repo_info)")
+    local ristripped="$(echo "$ri" | perl -pe 's/\e\[?.*?[\@-~]//g')"
 
-    ln=${#ristripped}
+    local ln=${#ristripped}
 
     echo "$ri$(echo_battery_info $ln)"
 }

@@ -56,11 +56,11 @@ function install_simbl () {
 }
 
 function install_app () {
-    app_name=$1
-    app_url=$2
-    app_check=$3
-    app_retrieve=$4
-    app_install=$5
+    local app_name=$1
+    local app_url=$2
+    local app_check=$3
+    local app_retrieve=$4
+    local app_install=$5
 
     echo -n "Retrieving $app_name..."
 
@@ -75,7 +75,7 @@ function install_app () {
 
             echo -n "Mounting image..."
 
-            volume=$(hdiutil mount "$tmpapp" | tail -n 1 | sed -E 's/.+(\/Volumes\/.+)/\1/')
+            local volume=$(hdiutil mount "$tmpapp" | tail -n 1 | sed -E 's/.+(\/Volumes\/.+)/\1/')
 
             do_status
         else
@@ -87,7 +87,7 @@ function install_app () {
         echo -n "Installing $app_name..."
 
         if [[ $app_install = '-' ]]; then
-            app=$(ls "$volume" | grep \\.app$)
+            local app=$(ls "$volume" | grep \\.app$)
 
             if ! [[ $(ls /Applications | grep "$app") ]]; then
                 cp -R "$volume/$app" /Applications >> "$logfile" 2>&1
@@ -146,23 +146,23 @@ done
 
 iter=0
 while [[ "${osx_apps[iter]}" ]]; do
-    app_name=${osx_apps[iter]}
+    local app_name=${osx_apps[iter]}
 
     iter=$(( $iter + 1 ))
 
-    app_url=${osx_apps[iter]}
+    local app_url=${osx_apps[iter]}
 
     iter=$(( $iter + 1 ))
 
-    app_check=${osx_apps[iter]}
+    local app_check=${osx_apps[iter]}
 
     iter=$(( $iter + 1 ))
 
-    app_retrieve=${osx_apps[iter]}
+    local app_retrieve=${osx_apps[iter]}
 
     iter=$(( $iter + 1 ))
 
-    app_install=${osx_apps[iter]}
+    local app_install=${osx_apps[iter]}
 
     iter=$(( $iter + 1 ))
 

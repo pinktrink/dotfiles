@@ -42,7 +42,7 @@ function pmandb () {
         mkdir -p $pmancache
     fi
 
-    manpages=$(man -k . | perl -pe 's/(.+) - .+/\1/' | perl -pe 's/\(.*?\)(?:, )?/\1\n/g' | egrep -v "^[[:space:]]*$")
+    local manpages=$(man -k . | perl -pe 's/(.+) - .+/\1/' | perl -pe 's/\(.*?\)(?:, )?/\1\n/g' | egrep -v "^[[:space:]]*$")
 
     for i in $manpages; do
         cache_man_pdf "$i" 2> /dev/null

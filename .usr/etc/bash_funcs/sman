@@ -4,7 +4,7 @@ smancache=$HOME/.usr/etc/cache/sman
 
 function cache_man_txt () {
     if ! [[ -f "$smancache/$@.txt" ]]; then
-        tmpman="$(MANWIDTH=120 man $@)"
+        local tmpman="$(MANWIDTH=120 man $@)"
 
         if [ $? -eq 0 ]; then
             echo "Caching man page for $@."
@@ -37,7 +37,7 @@ function smandb () {
         mkdir -p $smancache
     fi
 
-    manpages=$(man -k . | perl -pe 's/(.+) - .+/\1/' | perl -pe 's/\(.*?\)(?:, )?/\1\n/g' | egrep -v "^[[:space:]]*$")
+    local manpages=$(man -k . | perl -pe 's/(.+) - .+/\1/' | perl -pe 's/\(.*?\)(?:, )?/\1\n/g' | egrep -v "^[[:space:]]*$")
 
     for i in $manpages; do
         cache_man_txt "$i" 2> /dev/null
