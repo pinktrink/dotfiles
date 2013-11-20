@@ -20,6 +20,6 @@
 [core]
 	excludesfile = ~/.gitignore_global
 [commit]
-	template = ~/.git_commit_template
+	template = ~/.usr/etc/git_commit_template
 [include]
 	path = ~/.gituser
