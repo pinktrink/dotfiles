@@ -54,5 +54,8 @@ export HISTSIZE=
 # Add a timestamp to the history
 export HISTTIMEFORMAT='%D %r :: '
 
+# Don't allow virtualenv to modify the bash prompt.
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 source $HOME/.bash_alias
 source $HOME/.bash_prompt
