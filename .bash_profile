@@ -61,5 +61,5 @@ for inc in $HOME/.usr/etc/bash_funcs/*; do
     fi
 done
 
-source $HOME/.bash_alias
-source $HOME/.bash_prompt
+source $HOME/.usr/etc/bash_alias
+source $HOME/.usr/etc/bash_prompt
