@@ -1,5 +1,45 @@
 #!/usr/bin/env bash
 
+smancache=$HOME/.usr/etc/cache/sman
+
+function cache_man_txt () {
+    if ! [[ -f "$smancache/$@.txt" ]]; then
+        tmpman="$(MANWIDTH=120 zman $@)"
+
+        if [ $? -eq 0 ]; then
+            echo "Caching man page for $@."
+
+            echo "$tmpman" | col -b > "$smancache/$@.txt"
+        else
+            return 1
+        fi
+    fi
+}
+
 function sman () {
-    man "$@" | col -b | subl
+    cache_man_txt $@
+
+    if [ $? -eq 0 ]; then
+        (
+            chflags uchg "$smancache/$@.txt" &&
+
+            subl -w "$smancache/$@.txt" &&
+
+            chflags nouchg "$smancache/$@.txt" &
+        ) > /dev/null 2>&1
+    else
+        return 1
+    fi
+}
+
+function smandb () {
+    if ! [[ -d $smancache ]]; then
+        mkdir -p $smancache
+    fi
+
+    manpages=$(man -k . | perl -pe 's/(.+) - .+/\1/' | perl -pe 's/\(.*?\)(?:, )?/\1\n/g' | egrep -v "^[[:space:]]*$")
+
+    for i in $manpages; do
+        cache_man_txt "$i" 2> /dev/null
+    done
 }
