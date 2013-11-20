@@ -1,0 +1,339 @@
+.TH osx-defaults 7 "7 Nov 2013" "1.0" "osx defaults man page"
+
+.SH INCOMPLETE
+
+.P
+Some options are listed but simply have \fB???\fP as their description. This is
+either for lack of description or pure laziness.
+
+.SH NSGlobalDomain
+
+.P
+NSGlobalDomain options are written/read to using a command such as
+
+.RS
+.PP
+.B defaults read -g <preference>
+.PP
+or
+.PP
+.B defaults read NSGlobalDomain <preference>
+.RE
+
+.TP
+.I AppleShowScrollBars
+Determines the actions of scrollbars for the user. Available values are:
+
+.RS
+
+.IP \fBAlways\fP
+Always show scrollbars. Note that this option does take a small amount of screen
+real-estate.
+
+.IP \fBWhenScrolling\fP
+Only show scrollbars while scrolling, then hide them after the scrolling is
+finished.
+
+.RE
+
+.TP
+.I NSOverlayScrollerShowOnMouseOver
+???
+
+.TP
+.I NSavPanelExpandedStateForSaveMode
+If \fBtrue\fP, save panels will be expanded by default.
+
+.TP
+.I PMPrintingExpandedStateForPrint
+If \fBtrue\fP, print panels will be expanded by default.
+
+.TP
+.I AppleKeyboardUIMode
+Determines how the keyboard will interact with specific controls within a
+window. Possible values are:
+
+.RS
+
+.IP \fB3\fP
+Enables the ability to use the tab key to switch between a window's controls.
+
+.RE
+
+.TP
+.I ApplePressAndHoldEnabled
+If \fBtrue\fP, pressing and holding a key will display a dialog box which will
+allow the user to select a special character similar to the key they pressed. If
+\fBfalse\fP, pressing and holding a button will cause the key press to repeat
+itself.
+
+.TP
+.I KeyRepeat
+An integer representing the speed a key should repeat if held down. This only
+takes effect if \fIApplePressAndHold\fP is disabled.
+
+.TP
+.I NSAutomaticSpellingCorrectionEnabled
+If \fBtrue\fP, autocorrect will be enabled.
+
+.TP
+.I NSAllowContinuousSpellChecking
+???
+
+.TP
+.I WebContinuousSpellCheckingEnabled
+???
+
+.TP
+.I CheckSpellingWhileTyping
+???
+
+.TP
+.I AppleFontSmoothing
+An integer value representing how font smoothing will be handled. Possible
+values are:
+
+.RS
+
+.IP \fB2\fP
+Enabled
+
+.RE
+
+.TP
+.I com.apple.springing.enabled
+If \fBtrue\fP, directory springing will be enabledc (when dragging a file over
+a directory, it will automatically spring open after a delay specified by
+\fIcom.apple.springing.delay\fP).
+
+.TP
+.I com.apple.springing.delay
+A float value determining the delay before an item that has a file dragged over
+it will spring open.
+
+.TP
+.I AppleShowAllExtensions
+If \fBtrue\fP, file extensions will be shown in the Finder.
+
+.TP
+.I AppleHighlightColor
+A string consisting of 3 space-separated float values from 0 to 1 representing
+the red, green, and blue values of the system highlight color.
+
+.TP
+.I AppleOtherHighlightColor
+???
+
+.TP
+.I AppleEnableMenuBarTransparency
+If \fBfalse\fP, Apple menu transparency will be disabled.
+
+.TP
+.I NSTableViewDefaultSizeMode
+An integer value representing the size of icons in the sidebar.
+
+.TP
+.I NSScrollAnimationEnabled
+If \fBtrue\fP, smooth scrolling will be enabled.
+
+.TP
+.I NSAutomaticWindowAnimationsEnabled
+If \fBfalse\fP, window open/close animations will be disabled.
+
+.TP
+.I NSWindowResizeTime
+A float value respresenting the speed in which Cocoa windows will be resized.
+
+.TP
+.I NSDocumentSaveNewDocumentsToCloud
+If \fBfalse\fP, documents will save to the local disk as opposed to the cloud by
+default.
+
+.TP
+.I NSTextShowsControlCharacters
+If \fBtrue\fP, control characters will be shown using the caret (^) notation in
+standard text views.
+
+.TP
+.I NSQuitAlwaysKeepsWindows
+If \fBfalse\fP, apps will not save their window state upon quitting.
+
+.TP
+.I NSDisableAutomaticTermination
+If \fBtrue\fP, inactive apps will not be automatically terminated.
+
+.TP
+.I NSAutomaticQuoteSubstitutionEnabled
+If \fBfalse\fP, standard quotes will not automatically be substituted for curly
+quotes.
+
+.TP
+.I NSAutomaticDashSubstitutionEnabled
+If \fBfalse\fP, double dashes will not automatically be substituted for
+em-dashes.
+
+.TP
+.I WebAutomaticTextReplacementEnabled
+???
+
+.TP
+.I com.apple.mouse.tapBehavior
+An integer representing what will happen when the mouse is tapped as opposed to
+clicked. Possible values are:
+
+.RS
+
+.IP \fB1\fP
+A tap will act as a click.
+
+.RE
+
+.TP
+.I com.apple.trackpad.trackpadCornerClickBehavior
+???
+
+.TP
+.I com.apple.trackpad.enableSecondaryClick
+???
+
+.TP
+.I com.apple.swipescrolldirection
+If \fBtrue\fP, "natural scrolling" will be enabled (swiping downward will scroll
+up).
+
+.TP
+.I AppleLanguages
+???
+
+.TP
+.I AppleLocale
+???
+
+.TP
+.I AppleMeasurementUnits
+???
+
+.TP
+.I AppleMetricUnits
+???
+
+.TP
+.I WebKitDeveloperExtras
+If \fBtrue\fP, the web inspector will be enabled for web views.
+
+.TP
+.I CGContextHighlight2xScaledImages
+???
+
+.TP
+.I NSScrollViewRubberbanding
+If \fBtrue\fP, scroll rubberbanding (overscrolling bounces slightly out of view,
+then "rubberbands" back in to view) will be enabled.
+
+.TP
+.I NSFullScreenDarkMenu
+If \fBtrue\fP, the Apple menu will be darkened when an app is in fullscreen.
+
+.TP
+.I FXEnableSlowAnimation
+If \fBtrue\fP, holding shift when performing an action that will be animated
+(e.g. window minimization, opening quick look on a file) will cause that
+animation to run slower.
+
+.TP
+.I com.apple.scrollwheel.scaling
+A float representing scrolling speed.
+
+.TP
+.I com.apple.mouse.scaling
+???
+
+.TP
+.I NSNavPanelIconViewIconSizeForOpenMode
+A number representing the icon size in open panels.
+
+.TP
+.I AppleDisplayScaleFactor
+???
+
+.TP
+.I QuartzComposerDefaultMovieHeight
+???
+
+.TP
+.I QuartzComposerDefaultMovieWidth
+???
+
+.TP
+.I QuartzComposerDefaultMovieDuration
+???
+
+.TP
+.I NSUseLeopardWindowValues
+???
+
+.TP
+.I AppleUseCoreUI
+???
+
+.TP
+.I com.apple.mouse.ignoreTrackpadIfMousePresent
+???
+
+.TP
+.I com.apple.mouse.ignoreTypingFilter
+???
+
+.TP
+.I AppleScrollBarVariant
+???
+
+.TP
+.I NSFontPanelPreviewHeight
+???
+
+.TP
+.I AppleScreenAdvanceSizeThreshold
+???
+
+.TP
+.I NSDraggingAutoscrollDelay
+A number representing the delay before scrolling automatically starts while
+dragging.
+
+.TP
+.I NSToolTipsFontSize
+A number representing the font size in tooltips.
+
+.TP
+.I NSToolTipsFont
+A string representing the font in tooltips.
+
+.TP
+.I NSToolTipAutoWrappingDisabled
+If \fBtrue\fP, text inside of tooltips will not wrap.
+
+.TP
+.I NSInitialToolTipDelay
+A number representing the delay before a tooltip opens up.
+
+.TP
+.I NSGrayBackground
+If \fBtrue\fP, apps will use the metallic appearance.
+
+.TP
+.I AppleAntiAliasingThreshold
+A number representing the minimum font size for antialiasing.
+
+.TP
+.I NSRecentDocumentsLimit
+???
+
+.TP
+.I NSDragAndDropTextDelay
+???
+
+.TP
+.I com.apple.sound.beep.feedback
+???
+
