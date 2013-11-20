@@ -82,6 +82,10 @@ if __name__ == '__main__':
                 num = int(sys.argv[1])
 
                 d.go(num)
+            except IndexError:
+                print str(num) + ' is not a valid index.'
+
+                exit(1)
             except:
                 print 'Usage:'
                 print '    d + [dir]:'
