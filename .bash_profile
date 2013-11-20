@@ -44,8 +44,8 @@ export MANPATH=$MANPATH:$HOME/.man
 # Make sure anything installed by Brew takes precedence over defaults
 export PATH=/usr/local/bin:$PATH
 
-# Add ~/.cmd to PATH so that I can use custom commands
-export PATH=$HOME/.cmd:$PATH
+# Add ~/.usr/bin to PATH so that I can use custom commands
+export PATH=$HOME/.usr/bin:$PATH
 
 # Do not truncate the history
 export HISTFILESIZE=
@@ -56,6 +56,12 @@ export HISTTIMEFORMAT='%D %r :: '
 
 # Don't allow virtualenv to modify the bash prompt.
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+for inc in $HOME/.usr/etc/bash_funcs/*; do
+    if [[ -f $inc ]]; then
+        source $inc
+    fi
+done
 
 source $HOME/.bash_alias
 source $HOME/.bash_prompt

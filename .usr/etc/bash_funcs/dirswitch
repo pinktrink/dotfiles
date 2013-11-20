@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# For keeping a list of directories for quick switching
+
+pydloc=$HOME/.usr/etc/bash_funcs/utils/pyd.py
+
+function d(){
+    if [[ $1 != '' ]] && [[ $1 != '+' ]] && [[ $1 != '-' ]] && [ $1 -eq $1 ] 2>/dev/null; then
+        dr=$(python "$pydloc" $@)
+
+        ex=$?
+
+        echo $dr
+
+        if [ $ex -eq 0 ]; then
+            cd "$dr"
+        fi
+    else
+        python "$pydloc" $@
+    fi
+}

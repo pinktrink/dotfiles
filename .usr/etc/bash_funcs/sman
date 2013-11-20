@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+function sman () {
+    man "$@" | col -b | subl
+}

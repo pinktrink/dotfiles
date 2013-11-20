@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+pmancache=$HOME/.usr/etc/cache/pman
+
+function cache_man_pdf () {
+    if ! [[ -f "$pmancache/$@.pdf" ]]; then
+        man -t "$@" > "$pmancache/$@.ps"
+
+        if [ $? -eq 0 ]; then
+            echo "Caching man page for $@."
+            pstopdf "$pmancache/$@.ps" -o "$pmancache/$@.pdf" > /dev/null 2>&1
+        else
+            return 1
+        fi
+
+        rm "$pmancache/$@.ps"
+    fi
+}
+
+function pman () {
+    cache_man_pdf "$@"
+
+    if [ $? -eq 0 ]; then
+        open -a Preview "$pmancache/$@.pdf"
+    else
+        return 1
+    fi
+}
+
+function pmandb () {
+    if ! [[ -d $pmancache ]]; then
+        mkdir -p $pmancache
+    fi
+
+    manpages=$(man -k . | perl -pe 's/(.+) - .+/\1/' | perl -pe 's/\(.*?\)(?:, )?/\1\n/g' | egrep -v "^[[:space:]]*$")
+
+    for i in $manpages; do
+        cache_man_pdf "$i" 2> /dev/null
+    done
+}

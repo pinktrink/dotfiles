@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# For Django: run manage.py in either the project or app level
+function m(){
+    if [ -e manage.py ]; then
+        python manage.py "$@"
+    else
+        if [ -e ../manage.py ]; then
+            python ../manage.py "$@"
+        else
+            echo "Cannot find manage.py."
+        fi
+    fi
+}
