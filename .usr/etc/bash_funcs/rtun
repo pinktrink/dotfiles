@@ -1,0 +1,13 @@
+function rtun {
+    local port=22
+
+    if [[ -n $3 ]]; then
+        port=$3
+    fi
+
+    false
+
+    while [ $? -ne 0 ]; do
+        ssh -R $2:localhost:$port $1 ${@:4}
+    done
+}
