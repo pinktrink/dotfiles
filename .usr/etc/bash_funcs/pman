@@ -8,7 +8,7 @@ function cache_man_pdf () {
 
         if [ $? -eq 0 ]; then
             echo "Caching man page for $@."
-            pstopdf "$pmancache/$@.ps" -o "$pmancache/$@.pdf" > /dev/null 2>&1
+            pstopdf "$pmancache/$@.ps" -o "$pmancache/$@.pdf" &> /dev/null
         else
             return 1
         fi
@@ -31,7 +31,7 @@ function qman () {
     cache_man_pdf "$@"
 
     if [ $? -eq 0 ]; then
-        ( qlmanage -p "$pmancache/$@.pdf" & ) > /dev/null 2>&1
+        ( qlmanage -p "$pmancache/$@.pdf" & ) &> /dev/null
     else
         return 1
     fi
