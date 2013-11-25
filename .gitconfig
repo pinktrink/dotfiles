@@ -23,3 +23,7 @@
 	template = ~/.usr/etc/git_commit_template
 [include]
 	path = ~/.gituser
+[alias]
+	clone = clone --recursive
+	sm = submodule foreach git
+	cache-dir = ! echo '*\\n!.gitignore' > $1/.gitignore && true
