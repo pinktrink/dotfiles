@@ -1,0 +1,15 @@
+function cpkey () {
+    local k=$1
+
+    if [[ -z $@ ]]; then
+        k=id_rsa
+    fi
+
+    local keypath=$HOME/.ssh/$k.pub
+
+    if [[ -e $keypath ]]; then
+        cat $keypath | pbcopy
+    else
+        echo 'Key does not exist.' >&2
+    fi
+}
