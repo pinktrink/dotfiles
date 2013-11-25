@@ -189,9 +189,9 @@ function preprompt () {
     echo -e "\n$(get_sys_info)"
 
     if [[ $(in_home) = 1 ]]; then
-        export PS1="\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
+        export PS1="\!!\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
     else
-        export PS1="\h:$(get_color_ps $bold $lred)[$endps\w$(get_color_ps $bold $lred)]$endps "
+        export PS1="\!!\h:$(get_color_ps $bold $lred)[$endps\w$(get_color_ps $bold $lred)]$endps "
     fi
 
     if [[ $(id -u) = 0 ]]; then
