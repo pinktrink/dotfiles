@@ -29,8 +29,14 @@ export LSCOLORS=GxFxCxDxBxegedabagaced
 export COPY_EXTENDED_ATTRIBUTES_DISABLE=1
 export COPYFILE_DISABLE=1
 
-# Ignore duplicate commands in the command history
-export HISTCONTROL=ignoredups
+# Erase previous duplicates in the history
+export HISTCONTROL=erasedus
+
+# Press ctrl+d twice instead of once to exit the shell
+export IGNOREEOF=2
+
+# Allow entering the job name to resume a stopped job
+export auto_resume=
 
 # Update the manpath for custom man commands.
 export MANPATH=$MANPATH:$HOME/.usr/etc/man
@@ -50,6 +56,9 @@ export HISTTIMEFORMAT='%D %r :: '
 
 # Don't allow virtualenv to modify the bash prompt.
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# Vim is the editor. This is the only choice.
+export EDITOR=$(which vim)
 
 if [[ $BASH_VERSION = 4* ]]; then
     source $HOME/.usr/etc/bash4rc
