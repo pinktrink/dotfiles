@@ -9,14 +9,14 @@ lgreen=92
 lyellow=93
 orange="38;5;202"
 
-end="\e[0m"
+end="\033[0m"
 endps="\[$end\]"
 
 files_changed_warning_threshold=5
 battery_warning_threshold=(5 3)
 
 function get_color () {
-    local ret="\e["
+    local ret="\033["
 
     if [ $1 ]; then
         ret=$ret$1
@@ -178,7 +178,7 @@ function get_repo_info () {
 
 function get_sys_info () {
     local ri=$(echo -e "$(echo_bad_exit) $(get_repo_info)")
-    local ristripped="$(echo "$ri" | perl -pe 's/\e\[?.*?[\@-~]//g')"
+    local ristripped="$(echo "$ri" | perl -pe 's/\033\[?.*?[\@-~]//g')"
 
     local ln=${#ristripped}
 
@@ -189,9 +189,9 @@ function preprompt () {
     echo -e "\n$(get_sys_info)"
 
     if [[ $(in_home) = 1 ]]; then
-        export PS1="\!!\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
+        export PS1="[\l]\!!\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
     else
-        export PS1="\!!\h:$(get_color_ps $bold $lred)[$endps\w$(get_color_ps $bold $lred)]$endps "
+        export PS1="[\l]\!!\h:$(get_color_ps $bold $lred)[$endps\w$(get_color_ps $bold $lred)]$endps "
     fi
 
     if [[ $(id -u) = 0 ]]; then
