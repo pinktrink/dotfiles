@@ -1,204 +1,165 @@
-#!/usr/bin/env bash
 norm=0
 bold=1
 dim=2
 blink=5
 
-lred=91
-lgreen=92
-lyellow=93
+cyan="38;5;45"
+red="38;5;196"
+green=92
+yellow=93
 orange="38;5;202"
 
-end="\033[0m"
-endps="\[$end\]"
+endps="\[\033[0m\]"
 
-files_changed_warning_threshold=5
+files_changed_warning_threshold=(6 4)
 battery_warning_threshold=(5 3)
 
-function get_color () {
+function get_color {
     local ret="\033["
+    local pret=$(printf ";%s" $@)
 
-    if [ $1 ]; then
-        ret=$ret$1
+    pret=${pret:1}
 
-        if [ $2 ]; then
-            ret=$ret';'$2
-
-            if [ $3 ]; then
-                ret=$ret';'$3
-            fi
-        fi
-    else
-        ret=$ret'0'
+    if [[ -z $pret ]]; then
+        pret=0
     fi
 
-    echo $ret'm'
+    echo "\["$ret$pret'm'"\]"
 }
 
-function get_color_ps () {
-    echo "\[$(get_color $1 $2 $3)\]"
-}
-
-function echo_bad_exit () {
+function echo_exit {
     local le=$?
 
-    if [[ $le = 0 ]]; then
-        echo "$(get_color $dim $lgreen)$le$end"
+    if [ $le -eq 0 ]; then
+        echo "$(get_color $norm $green)$le$endps"
     else
-        echo "$(get_color $norm $lred)$le$end"
+        echo "$(get_color $bold $red)$le$endps"
     fi
 }
 
-function in_home () {
+function in_home {
     echo $(pwd | grep -c ^$HOME)
 }
 
-function get_repo_type () {
-    if [ "$(is_git_repo)" ]; then
-        echo 'git'
-    fi
-}
+function echo_repo_stats {
+    local gs
+    gs=$(git diff --shortstat 2> /dev/null)
 
-function is_git_repo () {
-    git status 2> /dev/null
-}
+    if [ $? -eq 0 ]; then
+        local fch=$(echo $gs | sed -E 's/^([0-9]+) f.+$/\1/')
+        local ins=$(echo $gs | sed -E 's/^.+([0-9]+) i.+$/\1/')
+        local del=$(echo $gs | sed -E 's/^.+([0-9]+) d.+$/\1/')
 
-function git_get_filechanges () {
-    echo "$1" | grep file | sed -E 's/^.+([0-9]+) f.+$/\1/'
-}
+        [ $ins ] && ins=" $(get_color $norm $green)+$ins$endps"
+        [ $del ] && del=" $(get_color $norm $red)-$del$endps"
 
-function git_get_insertions () {
-    echo "$1" | grep insertion | sed -E 's/^.+ ([0-9]+) i.+$/\1/'
-}
-
-function git_get_deletions () {
-    echo "$1" | grep deletion | sed -E 's/^.+ ([0-9]+) d.+$/\1/'
-}
-
-function echo_git_stats () {
-    if [ "$(is_git_repo)" ]; then
-        local diffstat="$(git diff --shortstat)"
-        local fch=$(git_get_filechanges $diffstat)
-        local ins=$(git_get_insertions $diffstat)
-        local del=$(git_get_deletions $diffstat)
-
-        [ "$fch" ] || fch=0
-        [ "$ins" ] || ins=0
-        [ "$del" ] || del=0
-
-        local fccolor=$(get_color $bold $lgreen)
-
-        if [[ "$fch" = $files_chaned_warning_threshold ]]; then
-            fccolor=$(get_color $bold $lyellow)
-        elif [[ "$fch" -gt $files_changed_warning_threshold ]]; then
-            fccolor=$(get_color $bold $lred)
+        if [ $fch ]; then
+            if [ $fch -lt ${files_changed_warning_threshold[1]} ]; then
+                fch=" $(get_color $bold $green)~$fch$endps"
+            elif [ $fch  -le ${files_changed_warning_threshold[0]} ]; then
+                fch=" $(get_color $bold $orange)~$fch$endps"
+            else
+                fch=" $(get_color $bold $red)~$fch$endps"
+            fi
         fi
 
-        if [ $(( $fch + $ins + $del )) -ne 0 ]; then
-            echo "[$fccolor$fch$end $(get_color $norm $lgreen)+$ins$end $(get_color $norm $lred)-$del$end]"
-        else
-            echo "[$(get_color $dim $lgreen)0$end]"
-        fi
-    fi
-}
+        local rev=$(git rev-parse --abbrev-ref HEAD)
 
-function git_repo_branch () {
-    git rev-parse --abbrev-ref HEAD
-}
-
-function echo_repo_stats () {
-    local br=$(git_repo_branch)
-
-    local out=''
-
-    if [[ $br = HEAD ]]; then
-        out="$(get_color $bold $lred)detached $(git rev-parse --short HEAD)$end"
-    fi
-
-    echo $out
-}
-
-function echo_battery () {
-    local batlev="$(ioreg -rc AppleSmartBattery)"
-    echo "scale=1; $(echo "$(echo "$batlev" | grep CurrentCapacity | sed -E 's/.+CurrentCapacity.+ ([0-9]+)$/\1/') / $(echo "$batlev" | grep MaxCapacity | sed -E 's/.+MaxCapacity.+ ([0-9]+)$/\1/')" | bc -l) * 10" | bc -l | xargs printf "%1.0f"
-}
-
-function echo_ws () {
-    printf "%$(echo $1)s"
-}
-
-function echo_battery_info () {
-    local bat=$(echo_battery)
-
-    local wsln=$(( $(( $(tput cols) - $1 )) - 12 ))
-
-    local blstr=''
-    local blcolor=''
-    local bpcolor=$(get_color $bold $orange)
-
-    if [ $bat -ne 0 ]; then
-        if [ $bat -gt ${battery_warning_threshold[0]} ]; then
-            blcolor=$(get_color $bold $lgreen)
-        elif [ $bat -le ${battery_warning_threshold[0]} ] && [ $bat -ge ${battery_warning_threshold[1]} ]; then
-            blcolor=$(get_color $bold $orange)
-        else
-            blcolor=$(get_color $bold $lred)
+        if [[ $rev = HEAD ]]; then
+            rev="$(get_color $bold $red)detached $(git rev-parse --short HEAD)$endps"
         fi
 
-        blstr="$blcolor$(printf "%$(echo $bat)s" | tr " " "●")$end$(get_color $bold $dim)$(printf "%$(echo $((10 - $bat)))s" | tr " " "●")$end"
-    else
-        if [ $bat -eq 0 ]; then
-            blstr="$(get_color $bold $blink $lred)$(printf "%10s" | tr " " "●")$end"
-        fi
+        echo "[git $rev$fch$ins$del]"
+
+        return
     fi
-
-    local batlev="$(ioreg -rc AppleSmartBattery)"
-
-    if [[ -n $(echo "$batlev" | grep ExternalConnected | grep No) ]]; then
-        bpcolor=$(get_color $bold $lred)
-    fi
-
-    if [[ -n $(echo "$batlev" | grep FullyCharged | grep Yes) ]]; then
-        bpcolor=$(get_color $bold $lgreen)
-    fi
-
-    local bf=$bpcolor'│'$end
-    local be=$bpcolor'├'$end
-
-    echo "$(echo_ws $wsln)"$bf"$blstr"$be
 }
 
-function get_repo_info () {
-    case "$(get_repo_type)" in
-        "git")
-            echo "git $(git_repo_branch) $(echo_git_stats) $(echo_repo_stats)"
-        ;;
+function echo_battery_level {
+    echo $@ | perl -pe 's/-InternalBattery-0\s+(\d+)%.+/\1/'
+}
+
+function charge_status {
+    local chargestate=$(echo $@ | perl -pe 's/-InternalBattery-0\s+\d+%;\s+(.+?);.+/\1/')
+
+
+}
+
+function echo_charger {
+    echo $(echo $batstat | grep ExternalConnected | grep -c Yes)$(echo $batstat | grep FullyCharged | grep -c Yes)
+}
+
+function echo_battery_info {
+    local btst=$(pmset -g batt | grep Battery-0)
+    local bat=$(printf "%.0f" $(echo "$(echo_battery_level $btst) / 10" | bc -l))
+    local batstr
+    local chst
+
+    case $bat in
+        [$((${battery_warning_threshold[0]} + 1))-9]|10)
+            batstr=$(get_color $bold $green)
+            ;;
+        [${battery_warning_threshold[1]}-${battery_warning_threshold[0]}])
+            batstr=$(get_color $bold $orange)
+            ;;
+        [2-${battery_warning_threshold[1]}])
+            batstr=$(get_color $bold $red)]
+            ;;
+        *)
+            bat=10
+            batstr=$(get_color $blink $red)
+            ;;
     esac
+
+    local bch="$(printf "%$(echo $bat)s" | tr " " "●")"
+
+    batstr=$batstr$bch$endps$(get_color $bold)$(printf "%$(echo $((10 - $bat)))s" | tr " " "●")$endps
+
+    case $(echo $btst | perl -pe 's/-InternalBattery-0\s+\d+%;\s+(.+?);.+/\1/') in
+        discharging)
+            chst=$(get_color $bold $red)
+            ;;
+        charging)
+            chst=$(get_color $bold $orange)
+            ;;
+        charged)
+            chst=$(get_color $bold $green)
+            ;;
+        'AC attached')
+            chst=$(get_color $bold $cyan)
+            ;;
+    esac
+
+    echo -e $chst'\u2502'$endps$batstr$chst'\u251c'$endps
 }
 
-function get_sys_info () {
-    local ri=$(echo -e "$(echo_bad_exit) $(get_repo_info)")
-    local ristripped="$(echo "$ri" | perl -pe 's/\033\[?.*?[\@-~]//g')"
+function get_info {
+    local mytty=$(basename $(tty))
 
-    local ln=${#ristripped}
+    local bstr="$(echo_exit) <$(($(history | tail -n 1 | sed -E 's/([0-9]+).+/\1/') + 1))$(get_color $bold)-$endps${mytty#tty}> $(echo_repo_stats)"
+    local istripped="$(echo "$bstr" | perl -pe 's/\\\[\\033\[.*?m\\\]//g')"
 
-    echo "$ri$(echo_battery_info $ln)"
+    echo "\n"$bstr"$(printf "%$(echo $(($(tput cols) - ${#istripped} - 12)))s")"$(echo_battery_info)
 }
 
-function preprompt () {
-    echo -e "\n$(get_sys_info)"
+function preprompt {
+    xps1="$(echo "$(get_info)")\n\h:"
 
-    if [[ $(in_home) = 1 ]]; then
-        export PS1="[\l]\!!\h:$(get_color_ps $bold $lgreen)[$endps\W$(get_color_ps $bold $lgreen)]$endps "
+    if [ $(in_home) -eq 1 ]; then
+        xps1=$xps1"$(get_color $bold $green)[$endps\W$(get_color $bold $green)"
     else
-        export PS1="[\l]\!!\h:$(get_color_ps $bold $lred)[$endps\w$(get_color_ps $bold $lred)]$endps "
+        xps1=$xps1"$(get_color $bold $red)[$endps\W$(get_color $bold $red)"
     fi
 
-    if [[ $(id -u) = 0 ]]; then
-        export PS1=$PS1$(get_color_ps $blink $lred)'\u'$endps$(get_color_ps $bold $lred)'\$'$endps' '
+    xps1=$xps1"]$endps "
+
+    if [ $(id -u) -ne 0 ]; then
+        xps1=$xps1$(get_color $norm $green)'\u'$endps$(get_color $bold $green)'\$'
     else
-        export PS1=$PS1$(get_color_ps $norm $lgreen)'\u'$endps$(get_color_ps $bold $lgreen)'\$'$endps' '
+        xps1=$xps1$(get_color $blink $red)'\u'$endps$(get_color $bold $red)'\$'
     fi
+
+    export PS1=$xps1$endps' '
 }
 
 export PROMPT_COMMAND=preprompt
