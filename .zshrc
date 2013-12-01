@@ -6,4 +6,5 @@ for inc in $HOME/.usr/etc/bash_funcs/*; do
     fi
 done
 
+source $HOME/.usr/etc/zalias
 source $HOME/.usr/etc/zprompt
