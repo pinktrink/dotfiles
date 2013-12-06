@@ -2,7 +2,7 @@
 
 # For keeping a list of directories for quick switching
 
-pydloc=$HOME/.dotfiles/all.sh/uncs/utils/pyd.py
+pydloc=$HOME/.dotfiles/all.sh/funcs/utils/pyd.py
 
 function d(){
     if [[ $1 != '' ]] && [[ $1 != '+' ]] && [[ $1 != '-' ]] && [ $1 -eq $1 ] 2>/dev/null; then
