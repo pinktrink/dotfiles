@@ -1,2 +1,0 @@
-# Quick and easy redirects to /dev/null
-alias -g dn='/dev/null'

@@ -1,0 +1,5 @@
+# Assigns a variable set for use
+
+function use {
+    source "$HOME/.dotfiles/all.sh/funcs/varsets/$@"
+}

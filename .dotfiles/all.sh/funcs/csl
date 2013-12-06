@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+function csl {
+    local newshl
+
+    if [[ -z "$@" ]]; then
+        select newshl in $(cat /etc/shells | grep -v "^#"); do
+            if [[ -n $newshl ]]; then
+                echo "Changing shell to $newshl."
+
+                sudo chsh -s "$newshl" $USER &> /dev/null
+
+                return
+            fi
+
+            echo "Invalid selection."
+        done
+    else
+        newshl=$(cat /etc/shells | grep -v "^#" | grep "$@"$ | tail -n 1)
+
+        if [[ -n $newshl ]]; then
+            echo "Changing shell to $newshl."
+
+            sudo chsh -s "$newshl" $USER &> /dev/null
+        else
+            echo "Invalid selection."
+        fi
+    fi
+}

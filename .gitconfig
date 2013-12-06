@@ -20,7 +20,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 [commit]
-	template = ~/.usr/etc/git_commit_template
+	template = ~/.dotfiles/etc/git_commit_template
 [include]
 	path = ~/.gituser
 [alias]

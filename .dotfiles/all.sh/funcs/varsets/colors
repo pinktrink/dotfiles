@@ -1,0 +1,14 @@
+norm=0
+bold=1
+dim=2
+blink=5
+
+red='38;5;196'
+orange='38;5;202'
+yellow='38;5;11'
+green='38;5;10'
+blue='38;5;4'
+purple='38;5;14'
+
+cyan='38;5;45'
+pink='38;5;206'

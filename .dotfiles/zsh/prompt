@@ -1,0 +1,63 @@
+source "$HOME/.dotfiles/all.sh/prompt"
+
+endps=$'%{\e[0m%}'
+
+PR_ZLMODE='--VIINS--'
+
+function get_color {
+    local wrap=1
+
+    if [[ $1 = nowrap ]]; then
+        wrap=0
+
+        shift
+    fi
+
+    local ret=$'\e['
+    local pret=$(printf ";%s" $(echo $@))
+
+    pret=${pret:1}
+
+    if [[ -z $pret ]]; then
+        pret=0
+    fi
+
+    if let $wrap; then
+        echo '%{'$ret$pret'm%}'
+    else
+        echo $(echo -E '\e['$pret'm')
+    fi
+}
+
+function zle-keymap-select {
+    case $KEYMAP in
+        vicmd)
+            PR_ZLMODE='--VICMD--'
+            ;;
+        viins)
+            PR_ZLMODE='--VIINS--'
+            ;;
+        main)
+            PR_ZLMODE='--MAIN---'
+            ;;
+        emacs)
+            PR_ZLMODE='--EMACS--'
+            ;;
+    esac
+
+    zle reset-prompt
+}
+
+zle -N zle-keymap-select
+
+setopt prompt_subst
+
+PS1=$'\n'"%(0?.$(get_color "$PROMPT_EXIT_ZERO").$(get_color "$PROMPT_EXIT_NONZERO"))%?$endps "
+PS1+='$PR_ZLMODE '
+PS1+="<%!$(get_color $bold)-$endps%l>"
+PS1+='$PR_RSTATS'
+PS1+='$PR_VIRENV'
+PS1+=$'\n%m:%{$PR_DIRCLR%}['"$endps"'%c%{$PR_DIRCLR%}]'"$endps"' '
+PS1+="%(!.$(get_color "$PROMPT_USER_ROOT")%n$endps$(get_color "$PROMPT_PROMPT_ROOT")#.$(get_color "$PROMPT_USER_NORMAL")%n$endps$(get_color "$PROMPT_PROMPT_NORMAL")%%)$endps "
+
+RPS1='$PR_CHRGST'

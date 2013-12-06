@@ -1,0 +1,72 @@
+source "$HOME/.dotfiles/all.sh/prompt"
+
+endps="\e[0m"
+
+PR_LSEXIT=''
+PR_WHTSPC=''
+PR_UPRMPT=''
+
+mytty=$(basename $(tty))
+mytty=${mytty#tty}
+
+function get_color {
+    if [[ $1 = nowrap ]]; then
+        shift
+    fi
+
+    local ret="\e["
+    local pret=$(printf ";%s" $@)
+
+    pret=${pret:1}
+
+    if [[ -z $pret ]]; then
+        pret=0
+    fi
+
+    echo $ret$pret'm'
+}
+
+function get_exit {
+    local le=$?
+
+    if [ $le -eq 0 ]; then
+        PR_LSEXIT=$(echo -e "$(get_color $PROMPT_EXIT_ZERO)$le$endps")
+    else
+        PR_LSEXIT=$(echo -e "$(get_color $PROMPT_EXIT_NONZERO)$le$endps")
+    fi
+}
+
+function get_user_prompt {
+    if [ $(id -u) -ne 0 ]; then
+        PR_USRCLR=$(get_color $PROMPT_USER_NORMAL)
+        PR_PROMPT=$(get_color $PROMPT_PROMPT_NORMAL)
+    else
+        PR_USRCLR=$(get_color $PROMPT_USER_ROOT)
+        PR_PROMPT=$(get_color $PROMPT_PROMPT_ROOT)
+    fi
+}
+
+function preprompt {
+    precmd
+    get_exit
+    get_user_prompt
+
+    PR_DIRCLR=$(echo -e $PR_DIRCLR)
+    PR_USRCLR=$(echo -e $PR_USRCLR)
+    PR_PROMPT=$(echo -e $PR_PROMPT)
+    PR_RSTATS=$(echo -e $PR_RSTATS)
+
+    if [[ -n $PR_RSTATS ]]; then
+        PR_RSTATS=" $PR_RSTATS"
+    fi
+}
+
+PS1='\n$PR_LSEXIT '
+PS1+='<\!\['$(get_color $bold)'\]-\['$endps'\]'$mytty'>'
+PS1+='$PR_RSTATS'
+PS1+='$PR_VIRENV'
+PS1+=' $PR_CHRGST'
+PS1+='\n\h:\[$PR_DIRCLR\][\['$endps'\]\W\[$PR_DIRCLR\]]\['$endps'\] '
+PS1+='\[$PR_USRCLR\]\u\['$endps'\]\[$PR_PROMPT\]\$\['$endps'\] '
+
+PROMPT_COMMAND=preprompt

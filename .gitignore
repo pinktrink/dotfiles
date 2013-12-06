@@ -1,1 +1,5 @@
 /.vim/.netrwhist
+/.virtualenv/py/*
+/.virtualenv/cpython/**/*
+!/.virtualenv/cpython/.hg
+

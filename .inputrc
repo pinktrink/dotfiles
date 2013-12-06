@@ -30,3 +30,15 @@ set bell-stype visible
 
 # Show hidden files in completion
 set match-hidden-files
+
+# As a command-line junkie that uses vi(m) a lot, after much use, I do prefer vi
+# mode. You will probably want to delete this line, as it _definitely_ requires
+# some getting used to.
+set editing-mode vi
+
+# Meta+ctrl+u to kill the whole line
+"\e\C-u": kill-whole-line
+
+# Macros
+# Ctrl+s to kill the whole line amd run git status
+"\e\C-n":"\e\C-ugit status\C-m"

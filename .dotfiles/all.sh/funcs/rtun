@@ -1,0 +1,29 @@
+function rtun_loop {
+    local tsct=()
+
+    false
+
+    while [ $? -ne 0 ]; do
+        local curts=$(date +%s)
+
+        if [[ ${tsct[$curts]} = 3 ]]; then
+            echo "Failed 3 times within 1 second, quitting loop."
+
+            break;
+        fi
+
+        let tsct[$curts]=${tsct[$curts]}+1
+
+        ssh -R $2:localhost:$port $1 ${@:4}
+    done
+}
+
+function rtun {
+    local port=22
+
+    if [[ -n $3 ]]; then
+        port=$3
+    fi
+
+    rtun_loop $@ &
+}

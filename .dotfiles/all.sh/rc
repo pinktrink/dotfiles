@@ -1,0 +1,106 @@
+for inc in $HOME/.dotfiles/all.sh/funcs/*; do
+    if [[ -f $inc ]]; then
+        source $inc
+    fi
+done
+
+use colors
+
+# Nobody needs to see control sequences when they're hit.
+stty -echoctl
+
+# Color is nice
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
+# We don't need .DS_Store files in our tar archives
+export COPY_EXTENDED_ATTRIBUTES_DISABLE=1
+export COPYFILE_DISABLE=1
+
+# Update the manpath for custom man commands.
+export MANPATH=$MANPATH:$HOME/.dotfiles/etc/man
+
+# Make sure anything installed by Brew takes precedence over defaults
+export PATH=/usr/local/bin:$PATH
+
+# Add ~/.dotfiles/bin to PATH so that I can use custom commands
+export PATH=$HOME/.dotfiles/bin:$PATH
+
+# Set the history size to 10000
+export HISTSIZE=10000
+
+# Don't allow virtualenv to modify the bash prompt.
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# Vim is the editor. This is the only choice.
+export EDITOR=$(which vim)
+
+
+
+# The colors for the username in the prompt
+PROMPT_USER_NORMAL="$green"
+PROMPT_USER_ROOT="$blink $red"
+
+# The colors for the brackets around the directory
+PROMPT_DIR_INHOME="$bold $green"
+PROMPT_DIR_OUTSIDE="$bold $red"
+
+# The colors for the actual $/#/% in the prompt
+PROMPT_PROMPT_NORMAL="$bold $green"
+PROMPT_PROMPT_ROOT="$bold $red"
+
+# The colors for the last return status
+PROMPT_EXIT_ZERO="$green"
+PROMPT_EXIT_NONZERO="$bold $red"
+
+# Whether or not to include repo stats
+PROMPT_REPO=1
+
+# Where the warning starts and ends for the number of files changed
+PROMPT_REPO_FILECHANGE_WARN_START=4
+PROMPT_REPO_FILECHANGE_WARN_END=6
+
+# The colors for different parts of the repo stats
+PROMPT_REPO_FILECHANGE_GOOD="$bold $green"
+PROMPT_REPO_FILECHANGE_WARN="$bold $orange"
+PROMPT_REPO_FILECHANGE_BAD="$bold $red"
+PROMPT_REPO_INSERTION="$green"
+PROMPT_REPO_DELETION="$red"
+PROMPT_REPO_NO_CHANGE="$dim $green"
+PROMPT_REPO_DETACHED="$bold $red"
+
+# Whether or not to include virtualenv environment info
+PROMPT_VIRTUALENV=1
+
+# Whether or not to include rbenv environment info
+PROMPT_RBENV=
+
+# Whether or not to show a battery meter
+PROMPT_BATTERY=1
+
+# Where the warning starts and ends for the charge (1-10)
+PROMPT_BATTERY_WARN_START=3
+PROMPT_BATTERY_WARN_END=5
+
+# The colors for the battery meter
+PROMPT_BATTERY_GOOD="$bold $green"
+PROMPT_BATTERY_WARN="$bold $orange"
+PROMPT_BATTERY_BAD="$bold $red"
+PROMPT_BATTERY_ALMOST_DEAD="$blink $red"
+PROMPT_BATTERY_DISCHARGING="$bold $red"
+PROMPT_BATTERY_CHARGING="$bold $orange"
+PROMPT_BATTERY_CHARGED="$bold $green"
+PROMPT_BATTERY_OTHER="$bold $cyan"
+
+
+
+# Pink.
+PROMPT_USER_NORMAL="$pink"
+PROMPT_DIR_INHOME="$bold $pink"
+PROMPT_PROMPT_NORMAL="$bold $pink"
+PROMPT_EXIT_ZERO="$pink"
+PROMPT_REPO_FILECHANGE_GOOD="$bold $pink"
+PROMPT_REPO_INSERTION="$pink"
+PROMPT_REPO_NO_CHANGE="$dim $pink"
+PROMPT_BATTERY_GOOD="$bold $pink"
+PROMPT_BATTERY_CHARGED="$bold $pink"

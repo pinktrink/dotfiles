@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+source $HOME/.dotfiles/all.sh/rc
+
+for inc in $HOME/.dotfiles/bash/funcs/*; do
+    if [[ -f $inc ]]; then
+        source $inc
+    fi
+done
+
 # Attempt to correct mistyped dirs
 shopt -s cdspell
 
@@ -18,57 +26,36 @@ shopt -s extglob
 # Append history rather than overwriting it
 shopt -s histappend
 
-# Nobody needs to see control sequences when they're hit.
-stty -echoctl
-
-# Color is nice
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
-
-# We don't need .DS_Store files in our tar archives
-export COPY_EXTENDED_ATTRIBUTES_DISABLE=1
-export COPYFILE_DISABLE=1
-
 # Erase previous duplicates in the history
-export HISTCONTROL=erasedus
+export HISTCONTROL=erasedups
 
 # Press ctrl+d twice instead of once to exit the shell
 export IGNOREEOF=2
 
 # Allow entering the job name to resume a stopped job
-export auto_resume=
+export auto_resume=1
 
-# Update the manpath for custom man commands.
-export MANPATH=$MANPATH:$HOME/.usr/etc/man
-
-# Make sure anything installed by Brew takes precedence over defaults
-export PATH=/usr/local/bin:$PATH
-
-# Add ~/.usr/bin to PATH so that I can use custom commands
-export PATH=$HOME/.usr/bin:$PATH
-
-# Do not truncate the history
-export HISTFILESIZE=
-export HISTSIZE=
+# Set the history size to 10000
+export HISTFILESIZE=10000
 
 # Add a timestamp to the history
 export HISTTIMEFORMAT='%D %r :: '
 
-# Don't allow virtualenv to modify the bash prompt.
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-# Vim is the editor. This is the only choice.
-export EDITOR=$(which vim)
-
 if [[ $BASH_VERSION = 4* ]]; then
-    source $HOME/.usr/etc/bash4rc
+    source $HOME/.dotfiles/bash/bash4rc
 fi
 
-for inc in $HOME/.usr/etc/bash_funcs/*; do
-    if [[ -f $inc ]]; then
-        source $inc
-    fi
-done
+use colors
 
-source $HOME/.usr/etc/bash_alias
-source $HOME/.usr/etc/bash_prompt
+PROMPT_USER_NORMAL="$pink"
+PROMPT_DIR_INHOME="$bold $pink"
+PROMPT_PROMPT_NORMAL="$bold $pink"
+PROMPT_EXIT_ZERO="$pink"
+PROMPT_REPO_FILECHANGE_GOOD="$bold $pink"
+PROMPT_REPO_INSERTION="$pink"
+PROMPT_REPO_NO_CHANGE="$dim $pink"
+PROMPT_BATTERY_GOOD="$bold $pink"
+PROMPT_BATTERY_CHARGED="$bold $pink"
+
+source $HOME/.dotfiles/bash/alias
+source $HOME/.dotfiles/bash/prompt

@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+function v(){
+    case $(echo $1 | tr 'A-Z' 'a-z') in
+        create)
+            local psw=''
+
+            if [[ "${3:0:3}" = '-p=' ]]; then
+                local pyv="${3:3}"
+                local isgood=0
+
+                if ! [[ $pyv =~ / ]]; then
+                    if ! [[ -d $HOME/.virtualenv/py/$pyv ]]; then
+                        (
+                            cd $HOME/.virtualenv/cpython
+
+                            hg up 0 &> /dev/null
+                            rm -r * &> /dev/null
+                            yes c | hg checkout $pyv &> /dev/null
+
+                            if [ $? -eq 0 ]; then
+                                ./configure --prefix $HOME/.virtualenv/py/$pyv &> /dev/null
+                                make &> /dev/null
+                                make install &> /dev/null
+
+                                hg up 0 &> /dev/null
+                                rm -r * &> /dev/null
+                            else
+                                exit 1
+                            fi
+                        )
+
+                        if [ $? -eq 0 ]; then
+                            isgood=1
+                            pyv=$HOME/.virtualenv/py/$pyv
+                        fi
+                    else
+                        isgood=1
+                        pyv=$HOME/.virtualenv/py/$pyv
+                    fi
+                else
+                    isgood=1
+                fi
+
+                if let isgood; then
+                    if [[ -e $pyv/bin/python ]]; then
+                        psw="-p $pyv/bin/python"
+                    else
+                        psw="-p $pyv/bin/python3"
+                    fi
+                else
+                    echo "Invalid Python version."
+
+                    return 1
+                fi
+            fi
+
+            if ! [[ -d "$HOME/.virtualenv/envs/$2" ]]; then
+                virtualenv $psw "$HOME/.virtualenv/envs/$2"
+            else
+                echo "$2 already exists."
+            fi
+            ;&
+
+        use)
+            source "$HOME/.virtualenv/envs/$2/bin/activate"
+            ;;
+
+        *)
+            echo 'Usage:'
+            echo '    v use <env>'
+            echo '    v create <env> [<python>]'
+            ;;
+    esac
+}

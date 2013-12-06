@@ -1,0 +1,134 @@
+files_changed_warning_threshold=($PROMPT_REPO_FILECHANGE_END $PROMPT_REPO_FILECHANGE_START)
+battery_warning_threshold=($PROMPT_BATTERY_WARN_END $PROMPT_BATTERY_WARN_START)
+
+PR_DIRCLR=''
+PR_RSTATS=''
+PR_CHRGST=''
+PR_VIRENV=''
+
+function get_dir_color {
+    local dclr="$PROMPT_DIR_INHOME"
+
+    if [ "$(pwd | grep -c "^$HOME")" -eq 0 ]; then
+        dclr="$PROMPT_DIR_OUTSIDE"
+    fi
+
+    PR_DIRCLR=$(get_color nowrap $dclr)
+}
+
+function repo_stats {
+    PR_RSTATS=''
+
+    if [[ -z $PROMPT_REPO ]]; then
+        return
+    fi
+
+    local gs
+    gs=$(git diff --shortstat 2> /dev/null)
+
+    if [ $? -eq 0 ]; then
+        local fch="$(echo "$gs" | grep changed | sed -E 's/^ ([0-9]+) f.+$/\1/')"
+        local ins="$(echo "$gs" | grep insertion | sed -E 's/^.+ ([0-9]+) i.+$/\1/')"
+        local del="$(echo "$gs" | grep deletion | sed -E 's/^.+ ([0-9]+) d.+$/\1/')"
+
+        [ $ins ] && ins=" $(get_color "$PROMPT_REPO_INSERTION")+$ins$endps"
+        [ $del ] && del=" $(get_color "$PROMPT_REPO_DELETION")-$del$endps"
+
+        if [ $fch ]; then
+            if [[ $fch -lt ${files_changed_warning_threshold[1]} ]]; then
+                fch=" $(get_color "$PROMPT_REPO_FILECHANGE_GOOD")~$fch$endps"
+            elif [[ $fch -le ${files_changed_warning_threshold[0]} ]]; then
+                fch=" $(get_color "$PROMPT_REPO_FILECHANGE_WARN")~$fch$endps"
+            else
+                fch=" $(get_color "$PROMPT_REPO_FILECHANGE_BAD")~$fch$endps"
+            fi
+        fi
+
+        local rev=$(git rev-parse --abbrev-ref HEAD)
+
+        if [[ $rev = HEAD ]]; then
+            rev="$(get_color "$PROMPT_REPO_DETACHED")detached $(git rev-parse --short HEAD)$endps"
+        fi
+
+        if [ -z "$fch$ins$del" ]; then
+            fch="$(get_color "$PROMPT_REPO_NO_CHANGE")0$endps"
+        fi
+
+        PR_RSTATS=" [git $rev $fch$ins$del]"
+    fi
+}
+
+function get_battery_level {
+    echo $@ | perl -pe 's/-InternalBattery-0\s+(\d+)%.+/\1/'
+}
+
+function get_battery_info {
+    PR_CHRGST=''
+
+    if [[ -z $PROMPT_BATTERY ]]; then
+        return
+    fi
+
+    local btst="$(pmset -g batt | grep Battery-0)"
+    local bat=$(printf "%.0f" $(echo "$(get_battery_level $btst) / 10" | bc -l))
+    local batstr
+    local chst
+    local chclr="$PROMPT_BATTERY_OTHER"
+
+    case $bat in
+        [$((${battery_warning_threshold[0]} + 1))-9]|10)
+            batstr=$(get_color "$PROMPT_BATTERY_GOOD")
+            ;;
+        [${battery_warning_threshold[1]}-${battery_warning_threshold[0]}])
+            batstr=$(get_color "$PROMPT_BATTERY_WARN")
+            ;;
+        [2-${battery_warning_threshold[1]}])
+            batstr=$(get_color "$PROMPT_BATTERY_BAD")
+            ;;
+        *)
+            bat=10
+            batstr=$(get_color "$PROMPT_BATTERY_ALMOST_DEAD")
+            ;;
+    esac
+
+    local bch="$(printf "%$(echo $bat)s" | tr " " "●")"
+
+    batstr=$batstr$bch$endps$(get_color $bold)$(printf "%$(echo $((10 - $bat)))s" | tr " " "●")$endps
+
+    case "$(echo $btst | perl -pe 's/\s*-InternalBattery-0\s+\d+%;\s+(.+?);.+/\1/')" in
+        discharging)
+            chclr="$PROMPT_BATTERY_DISCHARGING"
+            ;;
+        charging)
+            chclr="$PROMPT_BATTERY_CHARGING"
+            ;;
+        charged)
+            chclr="$PROMPT_BATTERY_CHARGED"
+            ;;
+    esac
+
+    chst=$(get_color $chclr)
+
+    PR_CHRGST=$(echo -e $chst'\u2502'$endps$batstr$chst'\u251c'$endps)
+}
+
+function get_venv_info {
+    PR_VIRENV=''
+
+    if [[ -z $PROMPT_VIRTUALENV ]]; then
+        return
+    fi
+
+    local ven="${VIRTUAL_ENV##*/}"
+
+    if [[ -n $ven ]]; then
+        PR_VIRENV=" [pyenv $ven]"
+    fi
+}
+
+function precmd {
+    get_dir_color
+    repo_stats
+    get_battery_info
+    get_venv_info
+}
