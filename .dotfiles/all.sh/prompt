@@ -36,11 +36,11 @@ function repo_stats {
 
         if [ $fch ]; then
             if [[ $fch -lt ${files_changed_warning_threshold[1]} ]]; then
-                fch=" $(get_color "$PROMPT_REPO_FILECHANGE_GOOD")~$fch$endps"
+                fch="$(get_color "$PROMPT_REPO_FILECHANGE_GOOD")~$fch$endps"
             elif [[ $fch -le ${files_changed_warning_threshold[0]} ]]; then
-                fch=" $(get_color "$PROMPT_REPO_FILECHANGE_WARN")~$fch$endps"
+                fch="$(get_color "$PROMPT_REPO_FILECHANGE_WARN")~$fch$endps"
             else
-                fch=" $(get_color "$PROMPT_REPO_FILECHANGE_BAD")~$fch$endps"
+                fch="$(get_color "$PROMPT_REPO_FILECHANGE_BAD")~$fch$endps"
             fi
         fi
 
