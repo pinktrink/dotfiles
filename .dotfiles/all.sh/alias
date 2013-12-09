@@ -2,3 +2,11 @@
 
 # Just a nice little alias so I can open chrome with switches easily
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+
+# Easy up to parent
+alias ..='cd ..'
+
+# ..x for going up x levels, up to 5
+for i in {2..5}; do
+    alias "..$i"="cd $(printf "../%.0s" $(seq 1 $i))"
+done
