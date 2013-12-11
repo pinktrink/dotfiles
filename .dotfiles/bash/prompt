@@ -47,8 +47,8 @@ function get_user_prompt {
 }
 
 function preprompt {
-    precmd
     get_exit
+    precmd
     get_user_prompt
 
     PR_DIRCLR=$(echo -e $PR_DIRCLR)
