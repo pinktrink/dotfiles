@@ -38,7 +38,3 @@ set editing-mode vi
 
 # Meta+ctrl+u to kill the whole line
 "\e\C-u": kill-whole-line
-
-# Macros
-# Ctrl+s to kill the whole line amd run git status
-"\e\C-n":"\e\C-ugit status\C-m"

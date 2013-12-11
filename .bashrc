@@ -41,6 +41,10 @@ export HISTFILESIZE=10000
 # Add a timestamp to the history
 export HISTTIMEFORMAT='%D %r :: '
 
+# Macros
+# ctrl+g to run git status
+bind -x '"\C-g":"git status"'
+
 if [[ $BASH_VERSION = 4* ]]; then
     source $HOME/.dotfiles/bash/bash4rc
 fi
