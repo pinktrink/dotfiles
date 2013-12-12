@@ -25,7 +25,7 @@ This folder contains any shell functions for the given shell. Those will be expl
 This file contains aliases for the given shell. Those will be explained under the [**aliases**](#aliases) section below.
 
 ###.dotfiles/&lt;shell&gt;/prompt
-This file contains shell-specific prompt information. More information on the prompt can be found in the [**prompt**](#aliases) section below.
+This file contains shell-specific prompt information. More information on the prompt can be found in the [**prompt**](#prompt) section below.
 
 ###.dotfiles/&lt;shell&gt;/*rc
 This file contains any rc/profile information for a given shell. `.dotfiles/all.sh/rc` contains setup directives that work for both zsh and rsh, and `.dotfiles/bash/bash4rc` contains setup directives specific to bash 4.
