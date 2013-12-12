@@ -50,24 +50,24 @@ A folder containing templates for different things I commonly work on. More info
 ##[.vim](.vim)
 A folder containing vim configuration, including plugins. I also have language-specific configurations for the following languages:
 
-* Python
+* [Python](.vim/ftplugin/python.vim)
 
-##.bash_profile
+##[.bash_profile](.bash_profile)
 Simply sources [`.bashrc`](.bashrc)
 
-##.bashrc
+##[.bashrc](.bashrc)
 Standard shell configuration. It enables some options in bash and exports some environment variables.
 
-##.gitconfig
+##[.gitconfig](.gitconfig)
 My git configuration. It attemtps to include a file, `~/.gituser`, which will contain the user-specific configuration, e.g. name and email.
 
-##.gitignore_global
+##[.gitignore_global](.gitignore_global)
 A list of files for git to ignore for all repos on the machine.
 
-##.inputrc
+##[.inputrc](.inputrc)
 Readline configuration that maps some keys and sets up the config for terminal input.
 
-##.vimrc
+##[.vimrc](.vimrc)
 Vim configuration across all files.
 
 ---
