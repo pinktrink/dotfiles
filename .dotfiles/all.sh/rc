@@ -73,14 +73,14 @@ PROMPT_REPO_DETACHED="$bold $red"
 PROMPT_VIRTUALENV=1
 
 # Whether or not to include rbenv environment info
-PROMPT_RBENV=
+PROMPT_RBENV=1
 
 # Whether or not to show a battery meter
 PROMPT_BATTERY=1
 
 # Where the warning starts and ends for the charge (1-10)
-PROMPT_BATTERY_WARN_START=3
-PROMPT_BATTERY_WARN_END=5
+PROMPT_BATTERY_WARN_START=5
+PROMPT_BATTERY_WARN_END=3
 
 # The colors for the battery meter
 PROMPT_BATTERY_GOOD="$bold $green"
