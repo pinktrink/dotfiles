@@ -10,3 +10,12 @@ alias ..='cd ..'
 for i in {2..5}; do
     alias "..$i"="cd $(printf "../%.0s" $(seq 1 $i))"
 done
+
+# Easily reinstall my IE VMs if the trial period ends
+alias getievms='curl -s https://raw.github.com/xdissent/ievms/master/ievms.sh | env INSTALL_PATH="$IEVMS_INSTALL_PATH" IEVMS_VERSIONS="8 9 10 11" bash'
+
+# View recently created processes
+alias rp="watch -n 0 -t 'ps -u "'$USER | tail -n $(tput lines) | cut -c1-$(tput cols)'"'"
+
+# Sublime Text 3 subl alias
+alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
