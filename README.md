@@ -9,12 +9,12 @@ The structure is as follows:
 
 ---
 
-##.dotfiles
+##[.dotfiles](/pinktrink/dotfiles/blob/master/.dotfiles)
 This contains most of anything my dotfiles use. It contains a few folders:
 
-* `all.sh`: Scripts that work for both zsh and bash
-* `bash`: Scripts that are for bash only
-* `zsh`: Scripts that are for zsh only
+* [`all.sh`](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh): Scripts that work for both zsh and bash
+* [`bash`](/pinktrink/dotfiles/blob/master/.dotfiles/bash): Scripts that are for bash only
+* [`zsh`](/pinktrink/dotfiles/blob/master/.dotfiles/zsh): Scripts that are for zsh only
 
 Those folders have the following structure:
 
@@ -28,32 +28,32 @@ This file contains aliases for the given shell. Those will be explained under th
 This file contains shell-specific prompt information. More information on the prompt can be found in the [**prompt**](#prompt) section below.
 
 ###.dotfiles/&lt;shell&gt;/*rc
-This file contains any rc/profile information for a given shell. `.dotfiles/all.sh/rc` contains setup directives that work for both zsh and rsh, and `.dotfiles/bash/bash4rc` contains setup directives specific to bash 4.
+This file contains any rc/profile information for a given shell. [`.dotfiles/all.sh/rc`](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/rc) contains setup directives that work for both zsh and rsh, and [`.dotfiles/bash/bash4rc`](/pinktrink/dotfiles/blob/master/.dotfiles/bash/bash4rc) contains setup directives specific to bash 4.
 
-###.dotfiles/bin
+###[.dotfiles/bin](/pinktrink/dotfiles/blob/master/.dotfiles/bin)
 This folder contains any executables or the likes I've created. More information can be found in the [**executables**](#executables) section below.
 
-###.dotfiles/etc/cache
+###[.dotfiles/etc/cache](/pinktrink/dotfiles/blob/master/.dotfiles/etc/cache)
 Just a simple cache folder.
 
-###.dotfiles/etc/man
-Manpages that I've created. As `MANPATH` is updated in `.dotfiles/all.sh/rc`, these are callable via simply using `man <manpage>`. More information on my manpages can be found in the [**manpages**](#manpages) section below.
+###[.dotfiles/etc/man](/pinktrink/dotfiles/blob/master/.dotfiles/etc/man)
+Manpages that I've created. As `MANPATH` is updated in [`.dotfiles/all.sh/rc`](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/rc), these are callable via simply using `man <manpage>`. More information on my manpages can be found in the [**manpages**](#manpages) section below.
 
-###.dotfiles/etc/setup
+###[.dotfiles/etc/setup](/pinktrink/dotfiles/blob/master/.dotfiles/etc/setup)
 A folder containing setup for new systems, dotfiles, etc.
 
-###.dotfiles/etc/templates
+###[.dotfiles/etc/templates](/pinktrink/dotfiles/blob/master/.dotfiles/etc/templates)
 A folder containing templates for different things I commonly work on. More info can be found in the [**templates**](#templates) section below.
 
 ---
 
-##.vim
+##[.vim](/pinktrink/dotfiles/blob/master/.vim)
 A folder containing vim configuration, including plugins. I also have language-specific configurations for the following languages:
 
 * Python
 
 ##.bash_profile
-Simply sources `.bashrc`
+Simply sources [`.bashrc`](/pinktrink/dotfiles/blob/master/.bashrc)
 
 ##.bashrc
 Standard shell configuration. It enables some options in bash and exports some environment variables.
@@ -76,34 +76,34 @@ Vim configuration across all files.
 I've created some functions to make life easier while in the CLI. They are as follows:
 
 ##Both bash and zsh
-* `cpkey [<keyname>]`: Copies the public key in `~/.ssh/<keyname>.pub` to the clipboard. If `<keyname>` is not specified, it assumes `id_rsa`.
-* `csl [<shell>]`: Changes `$USER`'s default shell to `<shell>`, where `<shell>` is just the basename of the shell (e.g. `zsh`, `bash`). If shell is given, it takes the *last* entry in `/etc/shells` whose basename is `<shell>` and changes the shell to that. If `<shell>` is not given, It reads `/etc/shells` and presents a list of shells to choose from.
-* **dirswitch** `d [+ | - [<number>] | <number>]`: An easy way to switch between commonly used directories, similar to the directory stack in bash and zsh. `d +` will add the current directory to the end of the list. `d -` will remove the last directory from the list, unless `<number>` is given, in which case it will delete the entry whose index is `<number>` from the list. `d <number>` will change the current directory to the entry whose index is `<number>`. If no argument is given, it will print out the list.
-* **django-manage** `m`: Just a shorter way of calling `python manage.py`, and can be called from either the project or app level.
-* **git-cloners**:
+* [**cpkey**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/cpkey) `cpkey [<keyname>]`: Copies the public key in `~/.ssh/<keyname>.pub` to the clipboard. If `<keyname>` is not specified, it assumes `id_rsa`.
+* [**csl**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/csl) `csl [<shell>]`: Changes `$USER`'s default shell to `<shell>`, where `<shell>` is just the basename of the shell (e.g. `zsh`, `bash`). If shell is given, it takes the *last* entry in `/etc/shells` whose basename is `<shell>` and changes the shell to that. If `<shell>` is not given, It reads `/etc/shells` and presents a list of shells to choose from.
+* [**dirswitch**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/dirswitch) `d [+ | - [<number>] | <number>]`: An easy way to switch between commonly used directories, similar to the directory stack in bash and zsh. `d +` will add the current directory to the end of the list. `d -` will remove the last directory from the list, unless `<number>` is given, in which case it will delete the entry whose index is `<number>` from the list. `d <number>` will change the current directory to the entry whose index is `<number>`. If no argument is given, it will print out the list.
+* [**django-manage**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/django-manage) `m`: Just a shorter way of calling `python manage.py`, and can be called from either the project or app level.
+* [**git-cloners**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/git-cloners):
 	* `gh-clone <user> <repository> [<clone-to>]`: Simply runs `git clone git@github.com:<user>/<repository>.git <clone-to>`. If `<clone-to>` is not specified, it performs the default `git clone` action. Note that `<repository>` should not have `.git` on the end.
 	* `bb-clone <user> <repository> [<clone-to>]`: Exact same as `gh-clone`, except it clones from BitBucket instead of GitHub.
-* `mcd <dir>`: Creates the directory `<dir>` then changes the current working directory to it.
-* **pman**:
+* [**mcd**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/mcd) `mcd <dir>`: Creates the directory `<dir>` then changes the current working directory to it.
+* [**pman**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/pman):
 	* `pman <entry>`: Caches (unless already cached) then opens the PDF version of `<entry>`'s manpage with Preview.
 	* `qman <entry>`: Caches (unless already cached) then opens the PDF version of `<entry>`'s manpage with Quick Look.
 	* `pmandb`: Goes through all available manpages and caches the PDF versions. **WARNING**: This takes well over a GB of hard drive space.
-* **sman**:
+* [**sman**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/sman):
 	* `sman <entry>`: Caches (unless already cached) then opens the text version of `<entry>`'s manpage with Sublime Text in read-only mode.
 	* `smandb`: Goes through all available manpages and caches the text versions.
-* `use <varset>`: Sets a number of variables for use. Currenlty, the available `<varset>`s are:
-	* `colors`: Check `.dotfiles/all.sh/funcs/varsets/colors`. Note that these are only the representation of the 256 color versions of the color. They do not include the leading `\e`, nor the trailing `m`.
-* **venv-helper**:
+* [**use**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/use) `use <varset>`: Sets a number of variables for use. Currenlty, the available [`<varset>`](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/varsets)s are:
+	* [`colors`](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/varsets/colors): Note that these are only the representation of the 256 color versions of the color. They do not include the leading `\e`, nor the trailing `m`.
+* [**venv-helper**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/venv-helper):
 	* `v create <name> [-p=<version_or_path>]`: Creates a virtualenv Python environment under the name `<name>`. If `-p=<version_or_path>` is specified and is a path, it uses that Python executable. If `-p=<version_or_path>` is a version, it will install that version on the local system (unless already installed) then use that version. Note, `-p=<version_or_path>` must be specified *after* `<name>` and must contain either a path to a Python executable, or a valid tag in the Python Mercurial repository.
 	* `v use <name>`: Start using the Python virtualenv environment `<name>`.
-* `warn`: Exact same as `echo`, but instead it echoes to `stderr`.
+* [**warn**](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/funcs/warn) `warn`: Exact same as `echo`, but instead it echoes to `stderr`.
 
 ---
 
 #Aliases
 A few aliases. They are as follows:
 
-##Both bash and zsh
+##[Both bash and zsh](/pinktrink/dotfiles/blob/master/.dotfiles/all.sh/alias)
 * `chrome`: An alias to the Google Chrome executable, in case I want to open Chrome with any flags.
 * `..`: Change to the parent directory.
 * `..2`: Change to 2 parent directories above the current.
@@ -112,13 +112,13 @@ A few aliases. They are as follows:
 * `rp`: Outputs the `tail` of `$USER`'s processes, one per line, on the terminal, every 0.1 seconds. `watch` is required for this (`brew install watch`).
 * `subl`: An alias to the subl executable included with Sublime Text (points to ST3).
 
-##Zsh only
+##[Zsh only](/pinktrink/dotfiles/blob/master/.dotfiles/zsh/alias)
 * **global** `dn`: `/dev/null`
 
 ---
 
 #Executables
-* `mountramdisk`: If the system has over 8 GB of RAM, it mounts a 500MB RAMdisk.
+* [**mountramdisk**](/pinktrink/dotfiles/blob/master/.dotfiles/bin/mountramdisk) `mountramdisk`: If the system has over 8 GB of RAM, it mounts a 500MB RAMdisk.
 
 ---
 
