@@ -19,31 +19,31 @@ This contains most of anything my dotfiles use. It contains a few folders:
 Those folders have the following structure:
 
 ###.dotfiles/&lt;shell&gt;/funcs
-This folder contains any shell functions for the given shell. Those will be explained under the **functions** section below.
+This folder contains any shell functions for the given shell. Those will be explained under the [**functions**](#functions) section below.
 
 ###.dotfiles/&lt;shell&gt;/alias
-This file contains aliases for the given shell. Those will be explained under the **aliases** section below.
+This file contains aliases for the given shell. Those will be explained under the [**aliases**](#aliases) section below.
 
 ###.dotfiles/&lt;shell&gt;/prompt
-This file contains shell-specific prompt information. More information on the prompt can be found in the **prompt** section below.
+This file contains shell-specific prompt information. More information on the prompt can be found in the [**prompt**](#aliases) section below.
 
 ###.dotfiles/&lt;shell&gt;/*rc
 This file contains any rc/profile information for a given shell. `.dotfiles/all.sh/rc` contains setup directives that work for both zsh and rsh, and `.dotfiles/bash/bash4rc` contains setup directives specific to bash 4.
 
 ###.dotfiles/bin
-This folder contains any executables or the likes I've created. More information can be found in the **executables** section below.
+This folder contains any executables or the likes I've created. More information can be found in the [**executables**](#executables) section below.
 
 ###.dotfiles/etc/cache
 Just a simple cache folder.
 
 ###.dotfiles/etc/man
-Manpages that I've created. As `MANPATH` is updated in `.dotfiles/all.sh/rc`, these are callable via simply using `man <manpage>`. More information on my manpages can be found in the **manpages** section below.
+Manpages that I've created. As `MANPATH` is updated in `.dotfiles/all.sh/rc`, these are callable via simply using `man <manpage>`. More information on my manpages can be found in the [**manpages**](#manpages) section below.
 
 ###.dotfiles/etc/setup
 A folder containing setup for new systems, dotfiles, etc.
 
 ###.dotfiles/etc/templates
-A folder containing templates for different things I commonly work on. More info can be found in the **templates** section below.
+A folder containing templates for different things I commonly work on. More info can be found in the [**templates**](#templates) section below.
 
 ---
 
