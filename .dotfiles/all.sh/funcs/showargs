@@ -1,0 +1,10 @@
+function showargs {
+    local iter=1
+    while [[ -n $1 ]]; do
+        echo '$'"$iter: $1"
+
+        shift
+
+        let iter++
+    done
+}
