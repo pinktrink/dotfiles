@@ -56,7 +56,7 @@ A folder containing vim configuration, including plugins. I also have language-s
 Simply sources [`.bashrc`](.bashrc)
 
 ##[.bashrc](.bashrc)
-Standard shell configuration. It enables some options in bash and exports some environment variables.
+Standard bash configuration. It enables some options in bash and exports some environment variables.
 
 ##[.gitconfig](.gitconfig)
 My git configuration. It attemtps to include a file, `~/.gituser`, which will contain the user-specific configuration, e.g. name and email.
@@ -69,6 +69,15 @@ Readline configuration that maps some keys and sets up the config for terminal i
 
 ##[.vimrc](.vimrc)
 Vim configuration across all files.
+
+##[.ssh/config](.ssh/config)
+The default configuration for ssh.
+
+##[.osx](.osx)
+A file containing various preferences for OS X.
+
+##[.zshrc](.zshrc)
+Standard zsh configuration.
 
 ---
 
@@ -88,6 +97,8 @@ I've created some functions to make life easier while in the CLI. They are as fo
 	* `pman <entry>`: Caches (unless already cached) then opens the PDF version of `<entry>`'s manpage with Preview.
 	* `qman <entry>`: Caches (unless already cached) then opens the PDF version of `<entry>`'s manpage with Quick Look.
 	* `pmandb`: Goes through all available manpages and caches the PDF versions. **WARNING**: This takes well over a GB of hard drive space.
+* [**showargs**](.dotfiles/all.sh/funcs/showargs):
+	* `showargs [arg1 arg2 arg3 ...]`: Displays the arguments provided to the function.
 * [**sman**](.dotfiles/all.sh/funcs/sman):
 	* `sman <entry>`: Caches (unless already cached) then opens the text version of `<entry>`'s manpage with Sublime Text in read-only mode.
 	* `smandb`: Goes through all available manpages and caches the text versions.
