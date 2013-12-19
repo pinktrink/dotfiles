@@ -63,3 +63,5 @@ PROMPT_BATTERY_CHARGED="$bold $pink"
 
 source $HOME/.dotfiles/bash/alias
 source $HOME/.dotfiles/bash/prompt
+
+source $HOME/.dotfiles/bash/afterrc

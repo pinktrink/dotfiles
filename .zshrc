@@ -34,3 +34,5 @@ export HISTFILE="$HOME/.zsh_history"
 
 source $HOME/.dotfiles/zsh/alias
 source $HOME/.dotfiles/zsh/prompt
+
+source $HOME/.dotfiles/zsh/afterrc

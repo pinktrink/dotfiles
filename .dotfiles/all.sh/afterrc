@@ -1,0 +1,3 @@
+# Nobody messes with CD. (Seriously, RVM does this. I personally don't use RVM,
+# but if I'm on a system that does, it royally pisses me off)
+unset -f cd
