@@ -77,3 +77,6 @@ nnoremap <silent> <C-Down> <C-W><Down>
 " Add a ruler at 80
 set colorcolumn=80
 
+" Use Molokai for the default colorscheme
+colorscheme molokai
+
