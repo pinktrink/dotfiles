@@ -78,5 +78,6 @@ nnoremap <silent> <C-Down> <C-W><Down>
 set colorcolumn=80
 
 " Use Molokai for the default colorscheme
+set t_Co=256
 colorscheme molokai
 
