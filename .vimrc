@@ -73,3 +73,7 @@ nnoremap <silent> <C-Right> <C-W><Right>
 nnoremap <silent> <C-Left> <C-W><Left>
 nnoremap <silent> <C-Up> <C-W><Up>
 nnoremap <silent> <C-Down> <C-W><Down>
+
+" Add a ruler at 80
+set colorcolumn=80
+

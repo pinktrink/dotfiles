@@ -122,6 +122,7 @@ A few aliases. They are as follows:
 * `getievms`: Either installs or reinstalls the VirtualBox IE VMs.
 * `rp`: Outputs the `tail` of `$USER`'s processes, one per line, on the terminal, every 0.1 seconds. `watch` is required for this (`brew install watch`).
 * `subl`: An alias to the subl executable included with Sublime Text (points to ST3).
+* `dj`: An alias to django-admin.py.
 
 ##[Zsh only](.dotfiles/zsh/alias)
 * **global** `dn`: `/dev/null`

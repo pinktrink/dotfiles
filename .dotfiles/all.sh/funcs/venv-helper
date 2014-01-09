@@ -66,10 +66,14 @@ function v(){
             source "$HOME/.virtualenv/envs/$2/bin/activate"
             ;;
 
+        #list)
+            #find
+
         *)
             echo 'Usage:'
+            echo '    v list'
             echo '    v use <env>'
-            echo '    v create <env> [<python>]'
+            echo '    v create <env> [-p=<python>]'
             ;;
     esac
 }

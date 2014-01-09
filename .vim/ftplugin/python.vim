@@ -30,4 +30,3 @@ call matchadd('LongLine', '\%>80v.\+')
 highlight TabsAreBad guibg=blue ctermbg=blue
 call matchadd('TabsAreBad', '\t')
 
-+

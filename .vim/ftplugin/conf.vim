@@ -1,0 +1,2 @@
+highlight Comment ctermfg=cyan
+

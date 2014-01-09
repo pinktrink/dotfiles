@@ -19,3 +19,22 @@ alias rp="watch -n 0 -t 'ps -u "'$USER | tail -n $(tput lines) | cut -c1-$(tput 
 
 # Sublime Text 3 subl alias
 alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
+
+# Easy alias for django-admin.py
+alias dj='django-admin.py'
+
+# Copy files to the pasteboard easily
+alias pb='pbcopy < '
+
+# Tools for opening files in different browsers
+# Chrome
+alias chr='open -a Google\ Chrome'
+
+# Firefox
+alias ffx='open -a Firefox'
+
+# Safari
+alias saf='open -a Safari'
+
+# Opera
+alias opr='open -a Opera'
