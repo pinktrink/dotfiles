@@ -63,10 +63,10 @@ set winheight=999
 set winwidth=999
 
 " Fix arrow key maps
-map <ESC>[5C <C-Right>
-map <ESC>[5D <C-Left>
-map <ESC>[5A <C-Up>
-map <ESC>[5B <C-Down>
+map <ESC>[0C <C-Right>
+map <ESC>[0D <C-Left>
+map <ESC>[0A <C-Up>
+map <ESC>[0B <C-Down>
 
 " Navigate split windows with ctrl+<direction>
 nnoremap <silent> <C-Right> <C-W><Right>

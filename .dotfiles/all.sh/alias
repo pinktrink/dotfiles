@@ -23,6 +23,14 @@ alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
 # Easy alias for django-admin.py
 alias dj='django-admin.py'
 
+# Some functions fail inside of tmux, this fixes it.
+reattach=(pbcopy pbpaste)
+if [[ -n $TMUX ]]; then
+    for rt in "${reattach[@]}"; do
+        alias $rt="reattach-to-user-namespace $rt"
+    done
+fi
+
 # Copy files to the pasteboard easily
 alias pb='pbcopy < '
 
@@ -38,3 +46,4 @@ alias saf='open -a Safari'
 
 # Opera
 alias opr='open -a Opera'
+
