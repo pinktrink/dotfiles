@@ -8,8 +8,7 @@ for inc in $HOME/.dotfiles/zsh/funcs/*; do
     fi
 done
 
-# Vi mode.
-bindkey -v
+bindkey -e
 
 # Automatically push the directory on top of the stack and ignore duplicates
 setopt autopushd

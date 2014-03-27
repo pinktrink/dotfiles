@@ -93,7 +93,7 @@ function get_battery_info {
 
     local bch="$(printf "%$(echo $bat)s" | tr " " "●")"
 
-    batstr=$batstr$bch$endps$(get_color $bold)$(printf "%$(echo $((10 - $bat)))s" | tr " " "●")$endps
+    batstr=$batstr$bch$(printf "%$(echo $((10 - $bat)))s" | tr " " "◦")$endps
 
     case "$(echo $btst | perl -pe 's/\s*-InternalBattery-0\s+\d+%;\s+(.+?);.+/\1/')" in
         discharging)

@@ -2,7 +2,7 @@ source "$HOME/.dotfiles/all.sh/prompt"
 
 endps=$'%{\e[0m%}'
 
-PR_ZLMODE='--VIINS--'
+PR_ZLMODE='--MAIN-- '
 
 function get_color {
     local wrap=1
@@ -38,7 +38,7 @@ function zle-keymap-select {
             PR_ZLMODE='--VIINS--'
             ;;
         main)
-            PR_ZLMODE='--MAIN---'
+            PR_ZLMODE='--MAIN-- '
             ;;
         emacs)
             PR_ZLMODE='--EMACS--'
