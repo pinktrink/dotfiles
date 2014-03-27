@@ -1,2 +1,23 @@
-bat=$(printf "%.0f" $(echo "$(pmset -g batt | grep Battery-0 | perl -pe 's/-InternalBattery-0\s+(\d+)%.+/\1/') / 10" | bc -l))
-echo '│'$(printf "%$(echo $bat)s" | tr " " "●")"$(printf "%$(echo $((10-$bat)))s" | tr " " "◦")"'├'
+#!/usr/bin/env bash
+
+btst="$(pmset -g batt | grep Battery-0)"
+
+bat=$(printf "%.0f" $(echo "$(echo $btst | perl -pe 's/-InternalBattery-0\s+(\d+)%.+/\1/') / 10" | bc -l))
+
+stat="?"
+
+case "$(echo $btst | perl -pe 's/\s*-InternalBattery-0\s+\d+%;\s+(.+?);.+/\1/')" in
+    discharging)
+        stat="-"
+        ;;
+
+    charging)
+        stat="+"
+        ;;
+
+    charged)
+        stat="~"
+        ;;
+esac
+
+echo $stat'│'$(printf "%$(echo $bat)s" | tr " " "●")"$(printf "%$(echo $((10-$bat)))s" | tr " " "◦")"'├'
