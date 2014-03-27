@@ -98,9 +98,9 @@ defaults write com.apple.finder QuitMenuItem -bool true
 defaults write -g AppleShowAllExtensions -bool true
 
 # Enable grid snapping for icons
-$plist "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" $finderplist
-$plist "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
-$plist "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
+#$plist "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" $finderplist
+#$plist "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
+#$plist "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" $finderplist
 
 # Set default Terminal theme to Pro
 defaults write com.apple.Terminal "Startup Window Settings" -string Pro
@@ -148,7 +148,7 @@ tokill=(Dock Finder Twitter "Disk Utility" Safari Terminal)
 # Only kill/reopen apps that are currently open
 iter=0
 while [[ ! -z "${tokill[iter]}" ]]; do
-    if [[ $(pgrep ${tokill[iter]}) ]]; then
+    if [[ -n $(pgrep ${tokill[iter]}) ]]; then
         killall "${tokill[iter]}"
 
         open -a "${tokill[iter]}"
