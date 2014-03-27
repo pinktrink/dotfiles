@@ -42,3 +42,30 @@ alias opr='open -a Opera'
 # Fix tmux 256 colors
 alias tmux='tmux -2'
 
+# Keep the system alive and screen on.
+alias stayup='caffeinate -dimsut 999999999999'
+
+# Quick alias for git
+alias g='git'
+
+function build_git_aliases {
+    local al
+    local cm
+
+    while read -r line; do
+        al=$(echo $line | cut -d ' ' -f 1)
+        cm=$(echo $line | cut -d ' ' -f 2-)
+
+        if [[ ${cm:0:1} != '!' ]]; then
+            cm="git $cm"
+        else
+            cm=$(echo $cm | sed -E 's/^! *//')
+        fi
+
+        if ! which $al &> /dev/null; then
+          alias "g${al#alias.}"="$cm"
+        fi
+    done < <(git config --global --get-regexp '^alias\.')
+}
+
+build_git_aliases
