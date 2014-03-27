@@ -1,0 +1,2 @@
+bat=$(printf "%.0f" $(echo "$(pmset -g batt | grep Battery-0 | perl -pe 's/-InternalBattery-0\s+(\d+)%.+/\1/') / 10" | bc -l))
+echo '│'$(printf "%$(echo $bat)s" | tr " " "●")"$(printf "%$(echo $((10-$bat)))s" | tr " " "◦")"'├'
