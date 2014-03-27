@@ -56,12 +56,6 @@ set updatetime=1000
 set mouse=a
 set ttymouse=xterm2
 
-" Auto-maximize the current window if in a split
-set winminwidth=0
-set winminheight=0
-set winheight=999
-set winwidth=999
-
 " Fix arrow key maps
 map <ESC>[0C <C-Right>
 map <ESC>[0D <C-Left>
@@ -74,8 +68,16 @@ nnoremap <silent> <C-Left> <C-W><Left>
 nnoremap <silent> <C-Up> <C-W><Up>
 nnoremap <silent> <C-Down> <C-W><Down>
 
-" Add a ruler at 80
-set colorcolumn=80
+" Add a ruler at 81
+set colorcolumn=81
+
+" Move lines up or down with M-k or M-j, respectively
+nnoremap <Esc>j :m+<CR>==
+nnoremap <Esc>k :m-2<CR>==
+inoremap <Esc>j <Esc>:m+<CR>==gi
+inoremap <Esc>k <Esc>:m-2<CR>==gi
+vnoremap <Esc>j :m '>+<CR>gv=gv
+vnoremap <Esc>k :m '<-2<CR>gv=gv
 
 " Use Molokai for the default colorscheme
 set t_Co=256
