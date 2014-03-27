@@ -43,7 +43,10 @@ export HISTTIMEFORMAT='%D %r :: '
 
 # Macros
 # ctrl+g to run git status
-bind -x '"\C-g":"git status"'
+bind -x '"\C-g":"git status"' 2> /dev/null
+
+# ctrl+o to reload .bashrc
+bind -x '"\e\C-r":"bash ~/.bashrc"' 2> /dev/null
 
 if [[ $BASH_VERSION = 4* ]]; then
     source $HOME/.dotfiles/bash/bash4rc
