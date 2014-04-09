@@ -9,6 +9,10 @@ stat="?"
 case "$(echo $btst | perl -pe 's/\s*-InternalBattery-0\s+\d+%;\s+(.+?);.+/\1/')" in
     discharging)
         stat="-"
+
+        if [[ $bat -lt 2 ]]; then
+            stat="!"
+        fi
         ;;
 
     charging)
