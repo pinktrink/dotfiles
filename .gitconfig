@@ -35,7 +35,7 @@
 	f = fetch
 	m = merge
 	r = reset
-	b = bisect
+	bi = bisect
 	cf = config
 	cfg = config --global
 	cfs = config --system
@@ -61,3 +61,4 @@
         la = ! git config --list | grep '^alias\\.' | perl -pe 's/^alias\\.(.+?)=(.+)$/\\1: \\2/'
 	dt = difftool
 	h = help
+	b = blame
