@@ -1,0 +1,121 @@
+set nocompatible
+
+" Load Pathogen
+call pathogen#infect()
+
+" Remap ; to : and use , as a leader
+nnoremap ; :
+let mapleader=","
+let g:mapleader=","
+
+" Turn on syntax highlighting
+syntax on
+
+" Load Pathogen plugins
+filetype plugin indent on
+
+" Turn on autoindent
+set cindent
+set smartindent
+set autoindent
+set expandtab
+set softtabstop=4
+set shiftwidth=4
+
+" Turn on code folding
+set foldmethod=indent
+set foldnestmax=12
+set nofoldenable
+set foldlevel=1
+
+set backspace=indent,eol,start
+
+" Turn on line numbers
+set number
+
+" Turn on the ruler
+set ruler
+
+" Highlight the current line and column
+set cursorline
+set cursorcolumn
+
+" Highlight trailing whitespace
+highlight WhitespaceEOL ctermbg=88 guibg=88
+call matchadd('WhitespaceEOL', '\s\+$')
+" autocmd ColorScheme * highlight WhitespaceEOL ctermbg=89 guibg=89
+
+" Change a few colors
+" Gutter
+highlight SignColumn ctermbg=0 guibg=0
+highlight LineNr ctermfg=244 guibg=244
+highlight CursorLineNr ctermfg=45 guibg=45
+
+" Yes we want swap files, no we don't want swap files all over. Let's organize
+set directory=$HOME/.swp
+
+" Set the updatetime to 250 instead of 4000 (for gitgutter)
+set updatetime=1000
+
+" I'd love to scroll and click
+set mouse=a
+set ttymouse=xterm2
+
+" Visual bell
+set visualbell
+
+" Larger command window height
+set cmdheight=2
+
+" Don't redraw while running macros
+set lazyredraw
+
+" Show command info
+set showcmd
+
+" Automatically change to the directory of the file being edited
+set autochdir
+
+" Show matching brackets
+set showmatch
+
+" Fast terminal
+set ttyfast
+
+" Ignore case when searching unless there is a capital letter
+set ignorecase
+set smartcase
+
+" Add a ruler at 81
+set colorcolumn=81
+highlight ColorColumn ctermbg=206 guibg=206
+
+" Move lines up or down with C-k or C-j
+nnoremap <C-j> :m+<CR>==
+nnoremap <C-k> :m-2<CR>==
+inoremap <C-j> <Esc>:m+<CR>==gi
+inoremap <C-k> <Esc>:m-2<CR>==gi
+vnoremap <C-j> :m '>+<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+
+" Navigate between windows with <leader>h|j|k|l and <leader>Up|Down|Left|Right
+nnoremap <leader>h <C-w>h
+nnoremap <leader><Left> <C-w><Left>
+
+nnoremap <leader>j <C-w>j
+nnoremap <leader><Down> <C-w><Down>
+
+nnoremap <leader>k <C-w>k
+nnoremap <leader><Up> <C-w><Up>
+
+nnoremap <leader>l <C-w>l
+nnoremap <leader><Right> <C-w><Right>
+
+" Set up status line
+set laststatus=2
+set statusline=\ %F%=[0x%B]\ %l(/%L),%c\ [%p%%]\ 
+
+" Jump to the same place as you were when you closed the file
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
