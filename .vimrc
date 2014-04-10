@@ -1,5 +1,21 @@
-" Initial settings
+" Vundle
 set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+Plugin 'gmarik/vundle'
+
+" Plugins
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-haml'
+Plugin 'tpope/vim-markdown'
+
+
+
+" Initial settings
+filetype on
 set cindent                     " Turn on autoindent
 set smartindent
 set autoindent
@@ -35,13 +51,6 @@ syntax on  " Turn on syntax highlighting
 
 let g:mapleader=","
 let mapleader=","    ", for the leader
-
-
-
-" Pathogen
-call pathogen#infect()  " Load Pathogen
-
-filetype plugin indent on  " Load pathogen plugins
 
 
 
