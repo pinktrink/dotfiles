@@ -1,3 +1,6 @@
+" Hello everyone. Seriously, for your .vimrc, PLEASE USE FULL NAMES FOR
+" OPTIONS. Not many people understand what `s ci ai et xr ba fj wl ei kw` means.
+
 " Vundle
 set nocompatible
 filetype off
@@ -15,7 +18,7 @@ Plugin 'tpope/vim-markdown'
 
 
 " Initial settings
-filetype on
+filetype plugin indent on
 set cindent                     " Turn on autoindent
 set smartindent
 set autoindent
@@ -32,7 +35,7 @@ set ruler                       " Turn on the ruler
 set cursorline                  " Highlight the current line
 set cursorcolumn                " Highlight the current column
 set directory=$HOME/.swp        " Swapfiles to $HOME/.swp
-set mouse=a                    " Enable the mouse
+set mouse=a                     " Enable the mouse
 set ttymouse=xterm2
 set visualbell                  " Visual bell
 set cmdheight=2                 " Larger command window height
@@ -45,12 +48,17 @@ set smartcase
 set colorcolumn=81              " Add a column marker at 81
 set laststatus=2                " Enable the status line
 
-set statusline=\ %F%=[0x%B\ %l(/%L),%c\ [%p%%]\ 
+set statusline=\ %F%=[0x%B]\ %l\|%c\ %L\ [%p%%]\ 
 
 syntax on  " Turn on syntax highlighting
 
 let g:mapleader=","
-let mapleader=","    ", for the leader
+let mapleader=","    " , for the leader
+
+let g:netrw_liststyle=4  " Prefer tree view for browsing
+
+" Remap ; to :
+nnoremap ; :
 
 
 
@@ -93,6 +101,21 @@ nnoremap <leader>k <C-w>k
 nnoremap <leader><Up> <C-w>k
 nnoremap <leader>l <C-w>l
 nnoremap <leader><Right> <C-w>l
+
+" <leader>/ to comment or uncomment (requires vim-commentary)
+nmap <leader>/ gcc
+vmap <leader>/ gcgv
+
+" <leader><leader>w to write
+nnoremap <leader><leader>w :w<CR>
+
+" <leader><leader>r to reload vim config
+nnoremap <leader><leader>r :source $MYVIMRC<CR>
+
+" <leader><leader>e to reload current file
+nnoremap <leader><leader>e :e<CR>
+
+nnoremap <C-e> :vsp<CR>:E<CR>
 
 
 
