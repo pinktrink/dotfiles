@@ -2,13 +2,20 @@
 
 # For Django: run manage.py in either the project or app level
 function m(){
-    if [ -e manage.py ]; then
-        python manage.py "$@"
-    else
-        if [ -e ../manage.py ]; then
-            python ../manage.py "$@"
-        else
-            echo "Cannot find manage.py."
-        fi
-    fi
+    (
+        while true; do
+            if [[ -f manage.py ]]; then
+                python manage.py "$@"
+
+                return 0
+            else
+                if [[ $(pwd) = '/' ]]; then
+                    echo "Cannot find manage.py."
+                    return 1
+                fi
+                
+                cd ..
+            fi
+        done
+    )
 }
