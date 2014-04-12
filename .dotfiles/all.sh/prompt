@@ -119,7 +119,7 @@ function get_venv_info {
         return
     fi
 
-    local ven="${VIRTUAL_ENV##$HOME/.virtualenv/envs/}"
+    local ven="${VIRTUAL_ENV_NAME:-$VIRTUAL_ENV}"
 
     if [[ -n $ven ]]; then
         PR_VIRENV=" [pyenv $ven]"
