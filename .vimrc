@@ -14,6 +14,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-markdown'
+Plugin 'pinktrink/localvimrc'
 
 
 
@@ -47,6 +48,8 @@ set ignorecase                  " Ignore case when searching unless there is a c
 set smartcase
 set colorcolumn=81              " Add a column marker at 81
 set laststatus=2                " Enable the status line
+set background=dark             " Dark background for lighter foreground colors
+set autochdir                   " Automatically change directory to the current file
 
 set statusline=\ %F%=[0x%B]\ %l\|%c\ %L\ [%p%%]\ 
 
@@ -55,7 +58,7 @@ syntax on  " Turn on syntax highlighting
 let g:mapleader=","
 let mapleader=","    " , for the leader
 
-let g:netrw_liststyle=4  " Prefer tree view for browsing
+let g:netrw_liststyle=3  " Prefer tree view for browsing
 
 " Remap ; to :
 nnoremap ; :
@@ -121,4 +124,3 @@ nnoremap <C-e> :vsp<CR>:E<CR>
 
 " Jump to the same place as you were when you closed the file
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
