@@ -69,3 +69,13 @@ function build_git_aliases {
 }
 
 build_git_aliases
+
+function vim {
+    if [[ -z $@ ]]; then
+        $(which vim) .
+    else
+        $(which vim) $@
+    fi
+}
+
+alias vi='vim'

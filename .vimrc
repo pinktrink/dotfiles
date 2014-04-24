@@ -58,7 +58,12 @@ syntax on  " Turn on syntax highlighting
 let g:mapleader=","
 let mapleader=","    " , for the leader
 
-let g:netrw_liststyle=3  " Prefer tree view for browsing
+let g:netrw_liststyle=3   " Prefer tree view for browsing
+let g:netrw_fastbrowse=2  " Cache all directory listing buffers
+let g:netrw_preview=1     " Open previews in a vertical split
+let g:netrw_winsize=20    " Make the directory listing 30 columns when a preview is open
+let g:netrw_keepdir=0     " Track directory changes when traversing the filesystem
+let g:netrw_altv=1        " Keep the explore window open when editing files
 
 " Remap ; to :
 nnoremap ; :
@@ -95,6 +100,10 @@ inoremap <C-k> <Esc>:m-2<CR>==gi
 vnoremap <C-j> :m '>+<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
+" Move characters left or right with C-h or C-l, respectively
+nnoremap <C-h> xhhp
+nnoremap <C-l> xp
+
 " Navigate between windows with <leader>h|j|k|l and <leader>Up|Down|Left|Right
 nnoremap <leader>h <C-w>h
 nnoremap <leader><Left> <C-w>h
@@ -104,6 +113,15 @@ nnoremap <leader>k <C-w>k
 nnoremap <leader><Up> <C-w>k
 nnoremap <leader>l <C-w>l
 nnoremap <leader><Right> <C-w>l
+
+" Close the preview window with <leader>z
+nnoremap <leader>z <C-w>z
+
+" <leader>r to toggle relative line numbers
+nnoremap <leader>r :set relativenumber!<CR>
+
+" <leader>f to toggle folding
+nnoremap <leader>f za
 
 " <leader>/ to comment or uncomment (requires vim-commentary)
 nmap <leader>/ gcc
@@ -118,9 +136,17 @@ nnoremap <leader><leader>r :source $MYVIMRC<CR>
 " <leader><leader>e to reload current file
 nnoremap <leader><leader>e :e<CR>
 
-nnoremap <C-e> :vsp<CR>:E<CR>
+" <leader><leader>q to close the current window
+nnoremap <leader><leader>q :q<CR>
+
+" <leader><leader>x to pull up the explore window in a vertical split
+nnoremap <leader><leader>x :Vexplore<CR>
 
 
 
 " Jump to the same place as you were when you closed the file
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" Only show numbers for the current window
+autocmd WinEnter * :setlocal number
+autocmd WinLeave * :setlocal nonumber
