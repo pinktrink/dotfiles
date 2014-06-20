@@ -51,6 +51,9 @@ A folder containing templates for different things I commonly work on. More info
 A folder containing vim configuration, including plugins. I also have language-specific configurations for the following languages:
 
 * [Python](.vim/ftplugin/python.vim)
+* [PHP](.vim/ftplugin/php.vim)
+* [JavaScript](.vim/ftplugin/javascript.vi)
+* [Git Commit](.vim/ftplugin/gitcommit.vim)
 
 ##[.bash_profile](.bash_profile)
 Simply sources [`.bashrc`](.bashrc)
@@ -69,6 +72,9 @@ Readline configuration that maps some keys and sets up the config for terminal i
 
 ##[.vimrc](.vimrc)
 Vim configuration across all files.
+
+##[.gvimrc](.gvimrc)
+GUI Vim configuration across all files.
 
 ##[.ssh/config](.ssh/config)
 The default configuration for ssh.
