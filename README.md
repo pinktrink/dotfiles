@@ -62,7 +62,7 @@ Simply sources [`.bashrc`](.bashrc)
 Standard bash configuration. It enables some options in bash and exports some environment variables.
 
 ##[.gitconfig](.gitconfig)
-My git configuration. It attemtps to include a file, `~/.gituser`, which will contain the user-specific configuration, e.g. name and email.
+My git configuration. It attemtps to include a file, `~/.gituser`, which will contain the user-specific configuration, e.g. name and email. Also includes a ton of [**git aliases**](#git-aliases).
 
 ##[.gitignore_global](.gitignore_global)
 A list of files for git to ignore for all repos on the machine.
@@ -129,9 +129,56 @@ A few aliases. They are as follows:
 * `rp`: Outputs the `tail` of `$USER`'s processes, one per line, on the terminal, every 0.1 seconds. `watch` is required for this (`brew install watch`).
 * `subl`: An alias to the subl executable included with Sublime Text (points to ST3).
 * `dj`: An alias to django-admin.py.
+* `g`: An alias for `git`.
 
 ##[Zsh only](.dotfiles/zsh/alias)
 * **global** `dn`: `/dev/null`
+
+---
+
+#Git Aliases
+Aliases for git.
+
+* `clone`: `clone --recursive`
+* `sm`: `submodule foreach git`
+* `cache-dir`: `! echo '*\n!.gitignore' > $1/.gitignore && true`
+* `c`: `commit`
+* `co`: `checkout`
+* `pr`: `pull --rebase`
+* `pl`: `pull`
+* `p`: `push`
+* `f`: `fetch`
+* `m`: `merge`
+* `r`: `reset`
+* `bi`: `bisect`
+* `cf`: `config`
+* `cft`: `config --global`
+* `cfs`: `config --system`
+* `cff`: `config --file`
+* `s`: `status`
+* `a`: `add`
+* `d`: `diff`
+* `ap`: `add -p`
+* `cl`: `clone`
+* `mt`: `mergetool`
+* `st`: `stash`
+* `pop`: `stash pop`
+* `app`: `stash apply`
+* `ls`: `ls-files`
+* `lsm`: `ls-files -m`
+* `rb`: `rebase`
+* `t`: `tag`
+* `l`: `log`
+* `rl`: `reflog`
+* `re`: `remote`
+* `i`: `init`
+* `l1`: `log --oneline`
+* `la`: `! git config --list | grep '^alias\.' | perl -pe 's/^alias\.(.+?)=(.+)$/\1: \2/'` lists current git aliases.
+* `dt`: `difftool`
+* `h`: `help`
+* `b`: `blame`
+
+As well, multiple bash aliases are created with the prefix `g`, that can be used. They will not overwrite existing commands. Examples are `gsm`, `gc`, `grb`, etc. It will create one for every alias it finds, unless that alias is local to a given repository.
 
 ---
 
