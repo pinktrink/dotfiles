@@ -20,7 +20,7 @@
 [mergetool]
 	prompt = false
 [core]
-	excludesfile = ~/.config/git/ignore
+	excludesfile = ~/.config/git/exclude
 [commit]
 	template = ~/.dotfiles/etc/git_commit_template
 [include]
