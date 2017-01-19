@@ -53,7 +53,7 @@ class Calc():
     the string that is input and generate a result.
     """
 
-    op_order = ['^', '*', '/', '+', '-']
+    op_order = ['^', 'x', '*', '/', '+', '-']
 
     def evaluate(self, stack, op_index=0):
         """
@@ -94,7 +94,7 @@ class Calc():
 
         if stack[1] == '^':
             return [stack[0] ** stack[2]]
-        elif stack[1] == '*':
+        elif stack[1] == '*' or stack[1] == 'x':
             return [stack[0] * stack[2]]
         elif stack[1] == '/':
             return [stack[0] / stack[2]]
