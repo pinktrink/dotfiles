@@ -6,7 +6,8 @@ pydloc=$HOME/.dotfiles/all.sh/funcs/utils/pyd.py
 
 function d(){
     if [[ $1 != '' ]] && [[ $1 != '+' ]] && [[ $1 != '-' ]] && [ $1 -eq $1 ] 2>/dev/null; then
-        local dr="$(python "$pydloc" $@)"
+        local dr
+        dr="$(python "$pydloc" $@)"
 
         local ex=$?
 

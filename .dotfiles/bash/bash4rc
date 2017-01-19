@@ -5,3 +5,8 @@ shopt -s dirspell
 
 # Allow for ** to match multiple levels of directories
 shopt -s globstar
+
+command_not_found_handle () {
+    echo "$@ is bullshit"
+    return 127
+}

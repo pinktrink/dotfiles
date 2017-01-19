@@ -39,11 +39,6 @@ vnoremap <M-Left> dlp
 vnoremap <M-l> xp
 vnoremap <M-Right> xp
 
-" Delete to the black hole
-nnoremap <M-d> "_d
-nnoremap <M-x> "_x
-nnoremap <M--> "_
-
 " C-M-a and C-M-x to increment or decrement by whatever b:minc is, respectively
 let b:minc = 10
 

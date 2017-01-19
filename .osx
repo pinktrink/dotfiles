@@ -140,8 +140,8 @@ defaults write -g AppleHighlightColor -string "1.000000 0.400000 1.000000"
 defaults write com.apple.dock persistent-apps -array
 
 # Do show an applications list in Dock
-defaults write com.apple.dock persistent-others -array
-defaults write com.apple.dock persistent-others -array-add '{tile-data={arrangement=1; displayas=0; file-data={_CFURLString="file:///Applications/"; _CFURLStringType=15; _CFURLAliasData=<00000000 00940003 00010000 cb69ed6f 0000482b 00000000 00000002 04c70d78 0000cdc1 84210000 00000920 fffe0000 00000000 0000ffff ffff0001 0000000e 001a000c 00410070 0070006c 00690063 00610074 0069006f 006e0073 000f001a 000c004d 00610063 0069006e 0074006f 00730068 00200048 00440012 000c4170 706c6963 6174696f 6e730013 00012f00 ffff0000>;}; file-label="Applications"; file-type=2; preferreditemsize=-1; showas=0;}; tile-type="directory-tile";}'
+#defaults write com.apple.dock persistent-others -array
+#defaults write com.apple.dock persistent-others -array-add '{tile-data={arrangement=1; displayas=0; file-data={_CFURLString="file:///Applications/"; _CFURLStringType=15; _CFURLAliasData=<00000000 00940003 00010000 cb69ed6f 0000482b 00000000 00000002 04c70d78 0000cdc1 84210000 00000920 fffe0000 00000000 0000ffff ffff0001 0000000e 001a000c 00410070 0070006c 00690063 00610074 0069006f 006e0073 000f001a 000c004d 00610063 0069006e 0074006f 00730068 00200048 00440012 000c4170 706c6963 6174696f 6e730013 00012f00 ffff0000>;}; file-label="Applications"; file-type=2; preferreditemsize=-1; showas=0;}; tile-type="directory-tile";}'
 
 tokill=(Dock Finder Twitter "Disk Utility" Safari Terminal)
 

@@ -1,5 +1,17 @@
 #!/usr/bin/env sh
 
+# The most important alias ever
+alias fucking=sudo
+
+# Copy an emoji
+alias e='emoji $(jot -r 1 1 852) | tr -d "\n" | pbcopy'
+
+# Copy an insult
+alias i='insult | tr -d "\n" | pbcopy'
+
+# Copy an insult in all caps
+alias I='insult | tr -d "\n" | tr "[a-z]" "[A-Z]" | pbcopy'
+
 # Just a nice little alias so I can open chrome with switches easily
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
@@ -10,6 +22,8 @@ alias ..='cd ..'
 for i in {2..5}; do
     alias "..$i"="cd $(printf "../%.0s" $(seq 1 $i))"
 done
+
+alias pjson='python -m json.tool'
 
 # Easily reinstall my IE VMs if the trial period ends
 alias getievms='curl -s https://raw.github.com/xdissent/ievms/master/ievms.sh | env INSTALL_PATH="$IEVMS_INSTALL_PATH" IEVMS_VERSIONS="8 9 10 11" bash'
@@ -45,6 +59,24 @@ alias tmux='tmux -2'
 # Keep the system alive and screen on.
 alias stayup='caffeinate -dimsut 999999999999'
 
+# Seriously docker-machine is annoying to type out every time.
+alias dm='docker-machine'
+
+# Easier virtualenv activation
+function vact {
+    . "${1:-venv}/bin/activate"
+}
+
+# Easy pull requests
+function pr {
+    open "http://$(git remote -v | grep origin | grep '(fetch)$' | cut -d '	' -f2 | cut -d@ -f2 | cut -d' ' -f1 | sed 's/\.git$//' | tr : /)/compare/$(git rev-parse --abbrev-ref HEAD)?expand=1"
+}
+
+# Easy to make gource videos
+function mkgource {
+    gource -1280x720 --git-branch ${1:-master} --stop-at-end --hide progress --user-image-dir .git/avatar/ -o - | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -crf 1 -threads 0 -bf 0 gource.mp4
+}
+
 # Quick alias for git
 alias g='git'
 
@@ -54,6 +86,7 @@ function build_git_aliases {
 
     while read -r line; do
         al=$(echo $line | cut -d ' ' -f 1)
+        al=${al#alias.}
         cm=$(echo $line | cut -d ' ' -f 2-)
 
         if [[ ${cm:0:1} != '!' ]]; then
@@ -62,20 +95,20 @@ function build_git_aliases {
             cm=$(echo $cm | sed -E 's/^! *//')
         fi
 
-        if ! which $al &> /dev/null; then
-          alias "g${al#alias.}"="$cm"
+        if ! type "g$al" &> /dev/null; then
+          alias "g$al"="$cm"
         fi
+
+        if ! type $al &> /dev/null; then
+            alias "$al"="$cm"
+        fi
+
     done < <(git config --global --get-regexp '^alias\.')
 }
 
 build_git_aliases
 
-function vim {
-    if [[ -z $@ ]]; then
-        $(which vim) .
-    else
-        $(which vim) $@
-    fi
-}
-
 alias vi='vim'
+
+alias ':q'='exit'
+alias ':q!'='exit'

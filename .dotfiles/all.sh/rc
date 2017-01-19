@@ -69,6 +69,8 @@ PROMPT_REPO_INSERTION="$green"
 PROMPT_REPO_DELETION="$red"
 PROMPT_REPO_NO_CHANGE="$dim $green"
 PROMPT_REPO_DETACHED="$bold $red"
+PROMPT_REPO_EMPTY="$bold $orange"
+PROMPT_REPO_INFO="$cyan"
 
 # Whether or not to include virtualenv environment info
 PROMPT_VIRTUALENV=1

@@ -16,6 +16,9 @@ set softtabstop=4
 " Use auto-indent
 set autoindent
 
+" Add a column marker at 73 and 81
+set colorcolumn=73,80,100,120
+
 " Better syntax highlighting
 let python_highlight_all=1
 
@@ -24,7 +27,7 @@ set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 
 " Highlight characters after 80 characters on a line
 highlight LongLine guibg=red ctermbg=red
-call matchadd('LongLine', '\%>80v.\+')
+call matchadd('LongLine', '\%>79v.\+')
 
 " Highlight tabs
 highlight TabsAreBad guibg=blue ctermbg=blue

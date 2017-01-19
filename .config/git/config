@@ -1,0 +1,92 @@
+[push]
+	default = simple
+[merge]
+	tool = opendiff
+	conflictstyle = diff3
+[diff]
+	tool = opendiff
+[help]
+	autocorrect = 1
+[color]
+	ui = true
+[color "diff"]
+	whitespace = red reverse
+[column]
+	ui = auto
+[grep]
+	lineNumber = true
+[difftool]
+	prompt = false
+[mergetool]
+	prompt = false
+[core]
+	excludesfile = ~/.config/git/ignore
+[commit]
+	template = ~/.dotfiles/etc/git_commit_template
+[include]
+	path = ~/.gituser
+[alias]
+	clone = clone --recursive
+	sm = showmerge
+	c = commit
+	co = checkout
+	pr = pull --rebase
+	pl = pull
+	p = push
+	f = fetch
+	m = merge
+	r = reset
+	bi = bisect
+	cf = config
+	cfg = config --global
+	cfs = config --system
+	cff = config --file
+	s = status
+	a = add
+	d = diff
+	ap = add -p
+	cl = clone
+	mt = mergetool
+	st = stash
+	pop = stash pop
+	app = stash apply
+	ls = ls-files
+	lsm = ls-files -m
+	rb = rebase
+	t = tag
+	l = log
+	rl = reflog
+	re = remote
+	i = init
+	l1 = log --oneline
+        la = !git config --list | grep '^alias\\.' | perl -pe 's/^alias\\.(.+?)=(.+)$/\\1: \\2/'
+	dt = difftool
+	h = help
+	b = blame
+	rba = rebase --abort
+	rbc = rebase --continue
+	rbs = rebase --skip
+        cp = cherry-pick
+	cop = checkout --patch
+	sh = show
+	br = branch
+	ca = commit --amend
+	pf = push -f
+	big = bisect good
+	bib = bisect bad
+	bir = bisect reset
+    go = "!f() { local AL_GIT_REMOTE=$(git config --get branch.$(git rev-parse --abbrev-ref HEAD).remote); git push ${AL_GIT_REMOTE:-origin} $(git rev-parse --abbrev-ref HEAD); }; f"
+	gof = "!f() { local AL_GIT_REMOTE=$(git config --get branch.$(git rev-parse --abbrev-ref HEAD).remote); git push -f ${AL_GIT_REMOTE:-origin} $(git rev-parse --abbrev-ref HEAD); }; f"
+	get = !git pull --rebase origin $(git rev-parse --abbrev-ref HEAD)
+	showmerge = !git show $(git show $1 | grep \"^Merge:\" | cut -d\" \" -f2)..$(git show $1 | grep \"^Merge:\" | cut -d\" \" -f3)
+	create-pull-request = !sh -c 'stash pull-request $0'
+	rv = revert
+	rbi = "!f() { git rebase -i HEAD~${1:-10}; }; f"
+[pull]
+	rebase = true
+[rebase]
+	autoSquash = true
+[init]
+	templatedir = ~/.config/git/template
+[custom]
+	globalhooks = ~/.config/git/hooks

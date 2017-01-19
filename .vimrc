@@ -20,7 +20,13 @@ Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-surround'
 Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'altercation/vim-colors-solarized'  " Okay you broke me, I'll use Solarized
+Plugin 'scrooloose/syntastic'
+Plugin 'isRuslan/vim-es6'
+Plugin 'vim-scripts/argtextobj.vim'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'pinktrink/localvimrc'
+Plugin 'hynek/vim-python-pep8-indent'
 
 
 " Initial settings
@@ -41,7 +47,9 @@ set cursorline                  " Highlight the current line
 set cursorcolumn                " Highlight the current column
 set noswapfile                  " No swapfiles
 set mouse=a                     " Enable the mouse
-set ttymouse=xterm2
+if !has('nvim')
+    set ttymouse=xterm2
+endif
 set visualbell                  " Visual bell
 set cmdheight=2                 " Larger command window height
 set lazyredraw                  " Don't redraw while running macros
@@ -50,19 +58,27 @@ set showmatch                   " Show matching brackets
 set ttyfast                     " Fast terminal
 set ignorecase                  " Ignore case when searching unless there is a capital letter
 set smartcase
-set colorcolumn=81,121          " Add a column marker at 81 and 121
+set colorcolumn=80,100,120      " Add a column marker at 80, 100, and 120
 set laststatus=2                " Enable the status line
 set background=dark             " Dark background for lighter foreground colors
 set autochdir                   " Automatically change directory to the current file
 set nrformats=alpha,hex         " Increment letters and hex
 set report=0                    " Report all actions that occur
 set spell                       " Turn on spell checking. Too many programmers have deplorable spelling skills
+set undofile                    " Persistent undos
+set undodir=$HOME/.vim/undo     " Persistent undos stored in $HOME/.vim/undo
+set listchars=eol:$,tab:>~,extends:>,precedes:<
+set list                        " Show whitespace characters
+set tags=tags;                  " Ctags yo
+set termguicolors
 
-set statusline=\ %#StatusLineSection#\ %F\ %*\ %=\ %#StatusLineSection#\ [0x%B]\ %*\ %#StatusLineSection#\ %l\|%c(%v)\ %*\ %#StatusLineSection#\ %L\ %*\ %#StatusLineSection#\ [%p%%]\ %*\ 
+set statusline=\ %#StatusLineSection#\ %m\ %*\ %#StatusLineSection#\ %F\ %*\ %=\ %#StatusLineSection#\ [0x%B]\ %*\ %#StatusLineSection#\ %l\|%c(%v)\ %*\ %#StatusLineSection#\ %L\ %*\ %#StatusLineSection#\ [%p%%]\ %*\ 
 
 syntax on  " Turn on syntax highlighting
 
-" Serious question here: Who the hell uses , and ;?
+" Replace , and ; with left and right
+nnoremap <Left> ,
+nnoremap <Right> ;
 
 let g:mapleader=","
 let mapleader=","    " , for the leader
@@ -74,16 +90,46 @@ let g:netrw_winsize=20    " Make the directory listing 30 columns when a preview
 let g:netrw_keepdir=0     " Track directory changes when traversing the filesystem
 let g:netrw_altv=1        " Keep the explore window open when editing files
 
+let g:python3_host_prog="/usr/local/bin/python3"
+let g:python_host_prog="/usr/local/bin/python"
+
 " Remap ; to :
 nnoremap ; :
 
-" Set up solarized for the terminal
-let g:solarized_termcolors=256
-colorscheme solarized
+
+
+function! SetUpHighlightingBecauseColorschemeFucksEverythingUp()
+    " Status line colors
+    highlight StatusLineSection ctermbg=206 guibg=#ff5fd7 ctermfg=0 guifg=#000000
+    highlight StatusLine ctermfg=45 guifg=#00d7ff
+
+    " Highlight trailing whitespace
+    highlight WhitespaceEOL ctermbg=88 guibg=#870000
+
+    " Gutter color
+    highlight SignColumn ctermbg=234 guibg=#1c1c1c
+
+    " Line number color
+    highlight LineNr ctermfg=250 guifg=#bcbcbc
+
+    " Color for the cursor's line
+    highlight CursorLineNr ctermfg=45 guifg=#00d7ff
+
+    highlight NonText ctermfg=199 guifg=#ff00af
+    highlight SpecialKey ctermbg=88 guibg=#870000
+
+    highlight ColorColumn ctermbg=237 guibg=#3a3a3a
+    highlight LineNr ctermbg=235 guibg=#262626
+
+    call matchadd('WhitespaceEOL', '\s\+$')
+endfunction
 
 " Fix colors
 autocmd ColorScheme * call SetUpHighlightingBecauseColorschemeFucksEverythingUp()
 
+" Set up solarized for the terminal
+let g:solarized_termcolors=256
+colorscheme solarized
 
 
 " Mappings
@@ -98,22 +144,26 @@ if has("mac")
         vnoremap ˚ :m '<-2<CR>gv=gv
 
         " Move characters left or right with A-h or A-l, respectively
-        nnoremap ˙ dlhP
-        nnoremap ¬ dlp
-        inoremap ˙ dlhP
-        inoremap ¬ dlp
-        vnoremap ˙ dlhP
-        vnoremap ¬ dlp
+        nnoremap ˙ xP
+        nnoremap ¬ xp
+        inoremap ˙ xP
+        inoremap ¬ xp
+        vnoremap ˙ xP
+        vnoremap ¬ xp
 
         " Delete to the black hole with A-d and A-x
         nnoremap ∂ "_d
         nnoremap ≈ "_x
+        nnoremap – "_
     endif
 endif
 
-" Display results for searches in the middle of the page
+" Center results when navigating
 nnoremap n nzz
 nnoremap N Nzz
+
+" gG to go to the middle of the document
+nnoremap gG 50%
 
 " Navigate between windows with <leader>h|j|k|l and <leader>Up|Down|Left|Right
 nnoremap <leader>h <C-w>h
@@ -133,6 +183,9 @@ nnoremap <leader>r :set relativenumber!<CR>
 
 " <leader>s to toggle invisibles
 nnoremap <leader>s :set list!<CR>
+
+" <leader>e to toggle movement mode
+nnoremap <leader>e :call ToggleMovementMode()<CR>
 
 " <leader>c to toggle colorcolumn
 nnoremap <leader>c :call ToggleColorColumn()<CR>
@@ -176,22 +229,21 @@ function! ToggleColorColumn()
     endif
 endfunction
 
-function! SetUpHighlightingBecauseColorschemeFucksEverythingUp()
-    " Status line colors
-    highlight StatusLineSection ctermbg=206 guibg=#ff5fd7 ctermfg=0 guifg=#000000
-    highlight StatusLine ctermfg=45 guifg=#00d7ff
+let movementmode=''
+function! ToggleMovementMode()
+    if movementmode == ''
+        nnoremap j gj
+        nnoremap k gk
 
-    " Highlight trailing whitespace
-    highlight WhitespaceEOL ctermbg=88 guibg=#870000
+        let movementmode='g'
+    else
+        nnoremap j j
+        nnoremap k k
 
-    " Gutter color
-    highlight SignColumn ctermbg=234 guibg=#1c1c1c
-
-    " Line number color
-    highlight LineNr ctermfg=250 guifg=#bcbcbc
-
-    " Color for the cursor's line
-    highlight CursorLineNr ctermfg=45 guifg=#00d7ff
-
-    call matchadd('WhitespaceEOL', '\s\+$')
+        let movementmode=''
+    endif
 endfunction
+
+
+
+source ~/.ideavimrc

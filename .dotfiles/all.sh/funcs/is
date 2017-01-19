@@ -1,0 +1,7 @@
+function is {
+    if [[ -e $@ ]]; then
+        echo yes
+    else
+        echo no
+    fi
+}

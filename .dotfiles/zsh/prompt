@@ -57,6 +57,7 @@ PS1+='$PR_ZLMODE '
 PS1+="<%!$(get_color $bold)-$endps%l>"
 PS1+='$PR_RSTATS'
 PS1+='$PR_VIRENV'
+PS1+=' $PR_DATESTR'
 PS1+=$'\n%m:%{$PR_DIRCLR%}['"$endps"'%c%{$PR_DIRCLR%}]'"$endps"' '
 PS1+="%(!.$(get_color "$PROMPT_USER_ROOT")%n$endps$(get_color "$PROMPT_PROMPT_ROOT")#.$(get_color "$PROMPT_USER_NORMAL")%n$endps$(get_color "$PROMPT_PROMPT_NORMAL")%%)$endps "
 

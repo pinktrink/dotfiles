@@ -1,3 +1,5 @@
+set editing-mode vi
+
 # Cycle completions instead of listing with tab or ctrl+right
 TAB: menu-complete
 "\e[5C": menu-complete
@@ -26,7 +28,7 @@ set skip-completed-text on
 "\e[B": history-search-forward
 
 # Visible bell, quit making noise
-set bell-stype visible
+set bell-style visible
 
 # Show hidden files in completion
 set match-hidden-files

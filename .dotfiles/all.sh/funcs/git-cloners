@@ -7,5 +7,5 @@ function gh-clone(){
 
 # Easily clone BitBucket repos: bb-clone <user> <repo> [<clone-path>]
 function bb-clone(){
-    git clone "git@bitbucket.com:$1/$2.git" $3
+    git clone "git@bitbucket.org:$1/$2.git" $3
 }

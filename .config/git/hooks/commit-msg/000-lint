@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+errs = []
+
+clean = True
+
+all_err = bool(os.environ.get('GIT_HOOK_GLOBAL_COMMIT_MSG_LINT_ALWAYS_ERROR'))
+warn_pre = ('ERROR:' if all_err else 'WARNING:') + ' '
+
+with open(sys.argv[1], 'r') as f:
+    lno = 0
+
+    for line in f:
+        line = line.strip()
+        if line[0] == '#':
+            continue
+
+        lno += 1
+
+        if lno == 1:
+            if len(line) > 50:
+                errs.append(
+                    warn_pre + 'Commit title is longer than 50 characters.'
+                )
+
+                if all_err:
+                    clean &= False
+
+            if not line:
+                errs.append('ERROR: The commit title must exist.')
+                clean &= False
+        elif lno == 2:
+            if len(line) > 0:
+                errs.append(
+                    'ERROR: The second line of a commit message must be empty.'
+                )
+                clean &= False
+        else:
+            if len(line) > 72:
+                errs.append(
+                    warn_pre +
+                        'Line ' +
+                        str(lno) +
+                        ' is longer than 72 characters.'
+                )
+
+                if all_err:
+                    clean &= False
+
+    if lno == 0:
+        errs.append('ERROR: Empty commit message.')
+        clean &= False
+
+print('\n'.join(errs), file=sys.stdout)
+sys.exit(int(not clean))

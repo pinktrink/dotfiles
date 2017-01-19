@@ -30,6 +30,7 @@ function repo_stats {
         local fch="$(echo "$gs" | grep changed | sed -E 's/^ ([0-9]+) f.+$/\1/')"
         local ins="$(echo "$gs" | grep insertion | sed -E 's/^.+ ([0-9]+) i.+$/\1/')"
         local del="$(echo "$gs" | grep deletion | sed -E 's/^.+ ([0-9]+) d.+$/\1/')"
+        local inf
 
         [ $ins ] && ins=" $(get_color "$PROMPT_REPO_INSERTION")+$ins$endps"
         [ $del ] && del=" $(get_color "$PROMPT_REPO_DELETION")-$del$endps"
@@ -44,22 +45,34 @@ function repo_stats {
             fi
         fi
 
-        local rev=$(git rev-parse --abbrev-ref HEAD)
+        local rev=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
 
         if [[ $rev = HEAD ]]; then
-            rev="$(get_color "$PROMPT_REPO_DETACHED")detached $(git rev-parse --short HEAD)$endps"
+            if git rev-parse --short HEAD &> /dev/null; then
+                rev="$(get_color "$PROMPT_REPO_DETACHED")detached $(git rev-parse --short HEAD)$endps"
+            else
+                rev="$(get_color "$PROMPT_REPO_EMPTY")empty$endps"
+            fi
         fi
 
         if [ -z "$fch$ins$del" ]; then
             fch="$(get_color "$PROMPT_REPO_NO_CHANGE")0$endps"
         fi
 
-        PR_RSTATS=" [git $rev $fch$ins$del]"
+        if ls $(git rev-parse --git-dir) | grep rebase &> /dev/null; then
+            inf=" $(get_color "$PROMPT_REPO_INFO")r$endps"
+        fi
+
+        if [[ -f $(git rev-parse --git-dir)/BISECT_LOG ]]; then
+            inf=" $(get_color "$PROMPT_REPO_INFO")b$endps"
+        fi
+
+        PR_RSTATS=" [git $rev $fch$ins$del$inf]"
     fi
 }
 
 function get_battery_level {
-    echo $@ | perl -pe 's/-InternalBattery-0\s+(\d+)%.+/\1/'
+    echo $@ | perl -pe 's/\s*-InternalBattery-0\s+\(.*?\)\s+(\d+)%.+/\1/'
 }
 
 function get_battery_info {
@@ -95,7 +108,7 @@ function get_battery_info {
 
     batstr=$batstr$bch$(printf "%$(echo $((10 - $bat)))s" | tr " " "◦")$endps
 
-    case "$(echo $btst | perl -pe 's/\s*-InternalBattery-0\s+\d+%;\s+(.+?);.+/\1/')" in
+    case "$(echo $btst | perl -pe 's/\s*-InternalBattery-0\s+\(.*?\)\s+\d+%;\s+(.+?);.+/\1/')" in
         discharging)
             chclr="$PROMPT_BATTERY_DISCHARGING"
             ;;
@@ -119,11 +132,15 @@ function get_venv_info {
         return
     fi
 
-    local ven="${VIRTUAL_ENV_NAME:-$VIRTUAL_ENV}"
+    local ven="$(echo ${VIRTUAL_ENV_NAME:-$VIRTUAL_ENV} | perl -pe 's/.*\///')"
 
     if [[ -n $ven ]]; then
-        PR_VIRENV=" [pyenv $ven]"
+        PR_VIRENV=" [venv ${ven#*/}]"
     fi
+}
+
+function get_time {
+    PR_DATESTR=$(date +"%F %r" | tr -d '.')
 }
 
 function precmd {
@@ -131,4 +148,5 @@ function precmd {
     repo_stats
     get_battery_info
     get_venv_info
+    get_time
 }

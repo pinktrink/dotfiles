@@ -1,0 +1,11 @@
+function port {
+    local desc=$(cat /etc/services | grep " $1\/" | head -n 1 | cut -d' ' -f1)
+
+    if [[ $desc = '#' ]]; then
+        echo 'unassigned'
+    elif [[ -z $desc ]]; then
+        echo 'unknown'
+    else
+        echo $desc
+    fi
+}

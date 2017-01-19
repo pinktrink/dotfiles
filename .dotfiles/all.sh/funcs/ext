@@ -1,0 +1,3 @@
+function ext {
+    mv $2 ${2%.*}.$1
+}

@@ -1,0 +1,3 @@
+function s {
+    find "$1" -type f | parallel --no-notice -j200% -n1000 -m grep -s -n -r "$2"
+}
