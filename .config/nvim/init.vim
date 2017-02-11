@@ -36,40 +36,40 @@ set autoindent
 set expandtab
 set softtabstop=4
 set shiftwidth=4
-set foldmethod=indent           " Turn on folding
+set foldmethod=indent               " Turn on folding
 set foldnestmax=12
 set nofoldenable
 set foldlevel=1
-set backspace=indent,eol,start  " Fix backspace
-set number                      " Turn on line numbers
-set ruler                       " Turn on the ruler
-set cursorline                  " Highlight the current line
-set cursorcolumn                " Highlight the current column
-set noswapfile                  " No swapfiles
-set mouse=a                     " Enable the mouse
+set backspace=indent,eol,start      " Fix backspace
+set number                          " Turn on line numbers
+set ruler                           " Turn on the ruler
+set cursorline                      " Highlight the current line
+set cursorcolumn                    " Highlight the current column
+set noswapfile                      " No swapfiles
+set mouse=a                         " Enable the mouse
 if !has('nvim')
     set ttymouse=xterm2
 endif
-set visualbell                  " Visual bell
-set cmdheight=2                 " Larger command window height
-set lazyredraw                  " Don't redraw while running macros
-set showcmd                     " Show command info
-set showmatch                   " Show matching brackets
-set ttyfast                     " Fast terminal
-set ignorecase                  " Ignore case when searching unless there is a capital letter
+set visualbell                      " Visual bell
+set cmdheight=2                     " Larger command window height
+set lazyredraw                      " Don't redraw while running macros
+set showcmd                         " Show command info
+set showmatch                       " Show matching brackets
+set ttyfast                         " Fast terminal
+set ignorecase                      " Ignore case when searching unless there is a capital letter
 set smartcase
-set colorcolumn=80,100,120      " Add a column marker at 80, 100, and 120
-set laststatus=2                " Enable the status line
-set background=dark             " Dark background for lighter foreground colors
-set autochdir                   " Automatically change directory to the current file
-set nrformats=alpha,hex         " Increment letters and hex
-set report=0                    " Report all actions that occur
-set spell                       " Turn on spell checking. Too many programmers have deplorable spelling skills
-set undofile                    " Persistent undos
-set undodir=$HOME/.vim/undo     " Persistent undos stored in $HOME/.vim/undo
+set colorcolumn=80,100,120          " Add a column marker at 80, 100, and 120
+set laststatus=2                    " Enable the status line
+set background=dark                 " Dark background for lighter foreground colors
+set autochdir                       " Automatically change directory to the current file
+set nrformats=alpha,hex             " Increment letters and hex
+set report=0                        " Report all actions that occur
+set spell                           " Turn on spell checking. Too many programmers have deplorable spelling skills
+set undofile                        " Persistent undos
+set undodir=$HOME/.config/nvim/undo " Persistent undos stored in $HOME/.vim/undo
 set listchars=eol:$,tab:>~,extends:>,precedes:<
-set list                        " Show whitespace characters
-set tags=tags;                  " Ctags yo
+set list                            " Show whitespace characters
+set tags=tags;                      " Ctags yo
 set termguicolors
 
 set statusline=\ %#StatusLineSection#\ %m\ %*\ %#StatusLineSection#\ %F\ %*\ %=\ %#StatusLineSection#\ [0x%B]\ %*\ %#StatusLineSection#\ %l\|%c(%v)\ %*\ %#StatusLineSection#\ %L\ %*\ %#StatusLineSection#\ [%p%%]\ %*\ 
@@ -144,11 +144,11 @@ if has("mac")
         vnoremap ˚ :m '<-2<CR>gv=gv
 
         " Move characters left or right with A-h or A-l, respectively
-        nnoremap ˙ xP
+        nnoremap ˙ xhP
         nnoremap ¬ xp
-        inoremap ˙ xP
+        inoremap ˙ xhP
         inoremap ¬ xp
-        vnoremap ˙ xP
+        vnoremap ˙ xhP
         vnoremap ¬ xp
 
         " Delete to the black hole with A-d and A-x
